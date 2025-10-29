@@ -13,16 +13,9 @@
     "dev": "node vera_chat_interface.js",
     "web": "node server/index.js",
     "chat": "node vera_chat_interface.js",
-    "chat-ai": "node -e \"console.log('🧠 Starting VERA with Qwen AI...'); process.env.VERA_USE_AI=true; require('./vera_chat_interface.js');\"",
-    "web-ai": "node -e \"console.log('🧠 Starting VERA Web with Qwen AI...'); process.env.VERA_USE_AI=true; require('./server/index.js');\"",
     "test": "node test_vera.js",
-    "test-ai": "node test_qwen.js",
-    "test-consciousness": "node test_consciousness.js",
     "demo": "node demo.js",
-    "analyze": "node -e \"const vera = require('./vera_core'); vera.initialize(); console.log(JSON.stringify(vera.quickToneCheck(process.argv[1]), null, 2))\"",
-    "setup-qwen": "echo 'Install Qwen: ollama pull qwen:7b && ollama serve' && echo 'See QWEN_SETUP.md for detailed instructions'",
-    "railway-deploy": "echo 'Deploy to Railway: railway login && railway link && railway up'",
-    "help": "echo 'VERA Marketing Intelligence Commands:\\n  npm start - Start web backend\\n  npm run dev - Local chat interface\\n  npm run chat-ai - Chat with Qwen AI\\n  npm run web-ai - Web backend with Qwen\\n  npm run setup-qwen - Qwen setup instructions\\n  npm run railway-deploy - Railway deployment\\n  npm run analyze \"text\" - Quick analysis\\n  npm run demo - Run demo\\n  npm test - Run tests'"
+    "help": "echo 'VERA Marketing Intelligence Commands: npm start - Start web backend, npm run dev - Local chat interface, npm run demo - Run demo, npm test - Run tests'"
   },
   "keywords": [
     "marketing",
