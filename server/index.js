@@ -17,12 +17,12 @@ app.use(express.json());
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, '../public')));
 
-// Health check endpoint
+// Health check endpoint (ES module fix deployed)
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'healthy', 
     timestamp: new Date().toISOString(),
-    version: '1.0.0'
+    version: '1.0.1-es-module-fix'
   });
 });
 
