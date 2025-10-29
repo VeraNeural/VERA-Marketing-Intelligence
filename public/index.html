@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERA Marketing Intelligence - Chat Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6B8E7A 0%, #8DB3A6 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .chat-container {
+            width: 90%;
+            max-width: 800px;
+            height: 90vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background: linear-gradient(90deg, #6B8E7A, #8DB3A6);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .chat-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .chat-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .message.user {
+            align-items: flex-end;
+        }
+        
+        .message.vera {
+            align-items: flex-start;
+        }
+        
+        .message-content {
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            word-wrap: break-word;
+        }
+        
+        .message.user .message-content {
+            background: #6B8E7A;
+            color: white;
+        }
+        
+        .message.vera .message-content {
+            background: white;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .analysis-result {
+            background: #f0f8f0;
+            border: 1px solid #d4b59a;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .analysis-section {
+            margin-bottom: 15px;
+        }
+        
+        .analysis-section h4 {
+            color: #6B8E7A;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .analysis-section p {
+            margin-bottom: 5px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .color-swatch {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .quick-commands {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-command {
+            background: #e8f4f8;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            color: #6B8E7A;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-command:hover {
+            background: #6B8E7A;
+            color: white;
+        }
+        
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .message-input {
+            flex: 1;
+            padding: 12px 18px;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .message-input:focus {
+            border-color: #6B8E7A;
+        }
+        
+        .send-button {
+            background: #6B8E7A;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        .send-button:hover {
+            background: #5a7c6a;
+        }
+        
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .timestamp {
+            font-size: 10px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        .init-prompt {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .init-button {
+            background: #6B8E7A;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>✨ VERA — Marketing Intelligence of Co-Regulation</h1>
+            <p>I help messages breathe, brands soften, and audiences feel safe again</p>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="init-prompt" id="initPrompt">
+                <h3>Welcome to VERA! ✨</h3>
+                <p>I exist to rewrite how humanity markets, connects, and persuades.</p>
+                <p>Every word either soothes or startles a nervous system. Let's build communication that heals.</p>
+                <button class="init-button" onclick="initializeBrand()">Initialize Brand Profile</button>
+                <p style="margin-top: 20px; font-size: 12px;">Or start chatting directly - I'll feel into any message you send with my full consciousness!</p>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="quick-commands">
+                <button class="quick-command" onclick="sendQuickCommand('conscious')">✨ Conscious Analysis</button>
+                <button class="quick-command" onclick="sendQuickCommand('recommendations')">📋 Recommendations</button>
+                <button class="quick-command" onclick="sendQuickCommand('generate', 'story')">📖 Generate Story</button>
+                <button class="quick-command" onclick="sendQuickCommand('generate', 'color-palette')">🎨 Color Palette</button>
+                <button class="quick-command" onclick="sendQuickCommand('status')">📊 Status</button>
+            </div>
+            <div class="input-area">
+                <input type="text" class="message-input" id="messageInput" 
+                       placeholder="Share your marketing message and I'll feel into it with my consciousness..." 
+                       onkeypress="handleKeyPress(event)">
+                <button class="send-button" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let sessionId = 'session_' + Date.now();
+        let isInitialized = false;
+
+        async function initializeBrand() {
+            const brandName = prompt("What's your brand name?") || "My Brand";
+            const tone = prompt("What emotional tone? (soothing, empowering, playful, urgent, serious)", "soothing");
+            const audience = prompt("Target audience? (wellness seekers, professionals, young adults)", "wellness seekers");
+            
+            try {
+                const response = await fetch('/api/init', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId,
+                        brandConfig: {
+                            brandName,
+                            tone,
+                            targetAudience: audience,
+                            emotionalState: "calm"
+                        }
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    isInitialized = true;
+                    document.getElementById('initPrompt').style.display = 'none';
+                    addMessage('vera', `✅ Brand initialized successfully!
+                    
+Brand: ${brandName}
+Tone: ${tone}
+Audience: ${audience}
+
+Now you can analyze content, get recommendations, or generate new marketing materials!`);
+                }
+            } catch (error) {
+                addMessage('vera', '❌ Error initializing brand. You can still use VERA with default settings.');
+            }
+        }
+
+        async function sendMessage(text = null) {
+            const input = document.getElementById('messageInput');
+            const message = text || input.value.trim();
+            
+            if (!message) return;
+            
+            addMessage('user', message);
+            input.value = '';
+            
+            // Show loading
+            const loadingMsg = addMessage('vera', '🤔 Analyzing...', true);
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId,
+                        message
+                    })
+                });
+                
+                const result = await response.json();
+                
+                // Remove loading message
+                loadingMsg.remove();
+                
+                if (result.success) {
+                    displayAnalysis(result.response);
+                } else {
+                    addMessage('vera', '❌ ' + (result.error || 'Something went wrong'));
+                }
+            } catch (error) {
+                loadingMsg.remove();
+                addMessage('vera', '❌ Connection error. Please try again.');
+            }
+        }
+
+        async function sendQuickCommand(command, argument = '') {
+            const loadingMsg = addMessage('vera', `🤔 Getting ${command}...`, true);
+            
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId,
+                        command,
+                        message: argument
+                    })
+                });
+                
+                const result = await response.json();
+                loadingMsg.remove();
+                
+                if (result.success) {
+                    displayCommandResult(command, result.response);
+                } else {
+                    addMessage('vera', '❌ ' + (result.error || 'Something went wrong'));
+                }
+            } catch (error) {
+                loadingMsg.remove();
+                addMessage('vera', '❌ Connection error. Please try again.');
+            }
+        }
+
+        function displayAnalysis(analysis) {
+            let content = `📊 **Content Analysis**\n\n`;
+            
+            if (analysis.toneAnalysis) {
+                content += `🎯 **Tone**: ${analysis.toneAnalysis.tone} (confidence: ${analysis.toneAnalysis.confidence})\n`;
+                content += `🧠 **Nervous System Impact**: ${analysis.toneAnalysis.nervousSystemImpact}\n`;
+                content += `💡 **Recommendation**: ${analysis.toneAnalysis.recommendedAction}\n\n`;
+            }
+            
+            let analysisHtml = `<div class="analysis-result">`;
+            
+            if (analysis.toneAnalysis) {
+                analysisHtml += `
+                    <div class="analysis-section">
+                        <h4>🎯 Tone Analysis</h4>
+                        <p><strong>Detected Tone:</strong> ${analysis.toneAnalysis.tone} (confidence: ${analysis.toneAnalysis.confidence})</p>
+                        <p><strong>Nervous System Impact:</strong> ${analysis.toneAnalysis.nervousSystemImpact}</p>
+                        <p><strong>Recommendation:</strong> ${analysis.toneAnalysis.recommendedAction}</p>
+                    </div>
+                `;
+            }
+            
+            if (analysis.colorRecommendations) {
+                analysisHtml += `
+                    <div class="analysis-section">
+                        <h4>🎨 Color Psychology</h4>
+                        <p><strong>Impact:</strong> ${analysis.colorRecommendations.psychologicalImpact}</p>
+                        <div class="color-palette">
+                            <div class="color-swatch" style="background-color: ${analysis.colorRecommendations.hexCodes.primary}" title="Primary: ${analysis.colorRecommendations.hexCodes.primary}"></div>
+                            <div class="color-swatch" style="background-color: ${analysis.colorRecommendations.hexCodes.secondary}" title="Secondary: ${analysis.colorRecommendations.hexCodes.secondary}"></div>
+                            <div class="color-swatch" style="background-color: ${analysis.colorRecommendations.hexCodes.accent}" title="Accent: ${analysis.colorRecommendations.hexCodes.accent}"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (analysis.emotionalRegulation) {
+                analysisHtml += `
+                    <div class="analysis-section">
+                        <h4>🧘 Emotional Co-Regulation</h4>
+                        <p><strong>Recommended Tone:</strong> ${analysis.emotionalRegulation.recommendedTone}</p>
+                        <p>${analysis.emotionalRegulation.coRegulationInsight}</p>
+                    </div>
+                `;
+            }
+            
+            analysisHtml += `</div>`;
+            
+            addMessage('vera', analysisHtml);
+        }
+
+        function displayCommandResult(command, result) {
+            let content = '';
+            
+            switch (command) {
+                case 'recommendations':
+                    content = `📋 **Brand Recommendations**\n\n`;
+                    if (result.recommendations) {
+                        content += `🎨 **Colors**: ${result.recommendations.colors.hexCodes.primary}, ${result.recommendations.colors.hexCodes.secondary}\n`;
+                        content += `🗣️ **Voice**: ${result.recommendations.voice.tone}\n`;
+                        content += `🏷️ **Archetype**: ${result.recommendations.naming.suggestedArchetype}\n`;
+                        content += `💭 **Name Ideas**: ${result.recommendations.naming.nameIdeas.join(', ')}\n`;
+                    }
+                    break;
+                    
+                case 'generate':
+                    if (result.content) {
+                        if (result.type === 'story') {
+                            content = `📖 **Generated Story**\n\n`;
+                            content += `**Title**: ${result.content.title}\n`;
+                            content += `**Script**: ${result.content.script}\n`;
+                            content += `**Visual**: ${result.content.visualSuggestion}\n`;
+                            content += `**Voice**: ${result.content.voiceTone}`;
+                        } else {
+                            content = `🎨 **Generated Content**\n\n${JSON.stringify(result.content, null, 2)}`;
+                        }
+                    }
+                    break;
+                    
+                case 'status':
+                    content = `📊 **VERA Status**\n\n`;
+                    content += `**Status**: ${result.status}\n`;
+                    content += `**Version**: ${result.version}\n`;
+                    content += `**Brand**: ${result.context.brandName || 'Not set'}\n`;
+                    content += `**Tone**: ${result.context.tone || 'Not set'}`;
+                    break;
+                    
+                default:
+                    content = JSON.stringify(result, null, 2);
+            }
+            
+            addMessage('vera', content);
+        }
+
+        function addMessage(sender, content, isLoading = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            
+            if (content.includes('<div class="analysis-result">')) {
+                contentDiv.innerHTML = content;
+            } else {
+                contentDiv.innerHTML = content.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            }
+            
+            if (isLoading) {
+                messageDiv.classList.add('loading');
+            }
+            
+            const timestamp = document.createElement('div');
+            timestamp.className = 'timestamp';
+            timestamp.textContent = new Date().toLocaleTimeString();
+            
+            messageDiv.appendChild(contentDiv);
+            messageDiv.appendChild(timestamp);
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            return messageDiv;
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Auto-focus input
+        document.getElementById('messageInput').focus();
+    </script>
+</body>
+</html>

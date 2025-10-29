@@ -1,0 +1,1 @@
+web: node vera_web_server.js

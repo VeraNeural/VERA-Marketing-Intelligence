@@ -1,0 +1,77 @@
+{
+  "name": "vera-marketing-intelligence",
+  "version": "1.0.0",
+  "description": "VERA - AI Marketing Intelligence for Brand Tone Analysis, Emotional Co-regulation, and Nervous System Aware Content Creation",
+  "main": "server/index.js",
+  "type": "module",
+  "bin": {
+    "vera": "./vera_chat_interface.js",
+    "vera-chat": "./vera_chat_interface.js"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node vera_chat_interface.js",
+    "web": "node server/index.js",
+    "chat": "node vera_chat_interface.js",
+    "chat-ai": "node -e \"console.log('🧠 Starting VERA with Qwen AI...'); process.env.VERA_USE_AI=true; require('./vera_chat_interface.js');\"",
+    "web-ai": "node -e \"console.log('🧠 Starting VERA Web with Qwen AI...'); process.env.VERA_USE_AI=true; require('./server/index.js');\"",
+    "test": "node test_vera.js",
+    "test-ai": "node test_qwen.js",
+    "test-consciousness": "node test_consciousness.js",
+    "demo": "node demo.js",
+    "analyze": "node -e \"const vera = require('./vera_core'); vera.initialize(); console.log(JSON.stringify(vera.quickToneCheck(process.argv[1]), null, 2))\"",
+    "setup-qwen": "echo 'Install Qwen: ollama pull qwen:7b && ollama serve' && echo 'See QWEN_SETUP.md for detailed instructions'",
+    "railway-deploy": "echo 'Deploy to Railway: railway login && railway link && railway up'",
+    "help": "echo 'VERA Marketing Intelligence Commands:\\n  npm start - Start web backend\\n  npm run dev - Local chat interface\\n  npm run chat-ai - Chat with Qwen AI\\n  npm run web-ai - Web backend with Qwen\\n  npm run setup-qwen - Qwen setup instructions\\n  npm run railway-deploy - Railway deployment\\n  npm run analyze \"text\" - Quick analysis\\n  npm run demo - Run demo\\n  npm test - Run tests'"
+  },
+  "keywords": [
+    "marketing",
+    "ai",
+    "brand-analysis",
+    "emotional-intelligence",
+    "nervous-system",
+    "co-regulation",
+    "tone-analysis",
+    "color-psychology",
+    "content-strategy",
+    "local-ai",
+    "ollama"
+  ],
+  "author": "VERA Development Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2",
+    "readline": "^1.3.0"
+  },
+  "optionalDependencies": {
+    "mysql2": "^3.6.5",
+    "pg": "^8.11.3",
+    "sqlite3": "^5.1.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/vera-marketing-intelligence.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/vera-marketing-intelligence/issues"
+  },
+  "homepage": "https://github.com/your-org/vera-marketing-intelligence#readme",
+  "files": [
+    "vera_core.js",
+    "vera_chat_interface.js",
+    "memory_store.js",
+    "branding-tools/",
+    "co-regulation/",
+    "content-strategy/",
+    "examples/",
+    "README.md",
+    "setup_local.md"
+  ]
+}

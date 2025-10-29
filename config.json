@@ -1,0 +1,18 @@
+{
+  "ai": {
+    "provider": "ollama",
+    "model": "qwen:7b",
+    "baseUrl": "http://localhost:11434",
+    "enabled": false
+  },
+  "fallback": {
+    "useBasicAnalysis": true,
+    "showAIErrors": false
+  },
+  "personality": {
+    "warmth": "high",
+    "scientificDepth": "medium",
+    "directness": "gentle",
+    "nervousSystemFocus": true
+  }
+}
