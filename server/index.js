@@ -1,12 +1,12 @@
 // server/index.js
+import dotenv from "dotenv";
+dotenv.config(); // Load environment variables first
+
 import express from "express";
 import fetch from "node-fetch";
 import { VERA_MARKETING, VERA_BRANDING, VERA_COPY } from "../lib/system_prompts.js";
-import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
-
-dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -130,42 +130,12 @@ app.post("/api/marketing", async (req, res) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('API Error:', response.status, errorText);
+      console.error('🚨 VERA_API_URL CONNECTION FAILED:', process.env.VERA_API_URL);
+      console.error('📋 Status:', response.status, response.statusText);
+      console.error('📄 Error Response:', errorText);
       
-      // If Qwen API is down, provide a fallback response
-      if (response.status >= 500 || response.status === 404) {
-        return res.json({
-          message,
-          mode,
-          response: {
-            message: {
-              content: `🧠 **VERA Analysis (Fallback Mode)**
-
-I notice the external AI service is currently unavailable, but I can still provide you with nervous system-aware guidance:
-
-**For "${message.substring(0, 100)}${message.length > 100 ? '...' : ''}"**
-
-This content should be evaluated for:
-- **Nervous System Impact**: Does it soothe or startle?
-- **Emotional Tone**: What feeling state does it create?
-- **Brand Resonance**: Does it align with your authentic voice?
-- **Co-Regulation**: Does it help people feel safe and seen?
-
-**Quick VERA Recommendations:**
-- Use warm, inclusive language
-- Avoid urgency/scarcity tactics
-- Lead with empathy and understanding
-- Create psychological safety for your audience
-
-*Note: Full AI analysis will return when the service is restored. This guidance follows VERA's core nervous system principles.*`
-            }
-          },
-          timestamp: new Date().toISOString(),
-          fallback: true
-        });
-      }
-      
-      throw new Error(`API request failed: ${response.status} - ${errorText}`);
+      // Don't fall back silently - throw clear error
+      throw new Error(`VERA_API_URL failed: ${response.status} ${response.statusText} - ${errorText}`);
     }
 
     const data = await response.json();
@@ -198,6 +168,10 @@ app.get("/api/modes", (req, res) => {
   });
 });
 
-app.listen(8080, () => console.log("VERA Marketing Intelligence API running on port 8080"));
+app.listen(8080, () => {
+  console.log("🧠 VERA Marketing Intelligence API running on port 8080");
+  console.log("🔗 VERA_API_URL:", process.env.VERA_API_URL || 'NOT SET');
+  console.log("🤖 QWEN_MODEL:", process.env.QWEN_MODEL || 'NOT SET');
+});
 
 export default app;
