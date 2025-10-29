@@ -27,6 +27,15 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
 
+// Debug API keys on startup
+console.log('=== VERA API Key Check ===');
+console.log('AI_PROVIDER:', AI_PROVIDER);
+console.log('ANTHROPIC_API_KEY length:', ANTHROPIC_API_KEY ? ANTHROPIC_API_KEY.length : 'NOT FOUND');
+console.log('OPENAI_API_KEY length:', OPENAI_API_KEY ? OPENAI_API_KEY.length : 'NOT FOUND');
+console.log('ANTHROPIC_API_KEY starts with:', ANTHROPIC_API_KEY ? ANTHROPIC_API_KEY.substring(0, 10) + '...' : 'NO KEY');
+console.log('OPENAI_API_KEY starts with:', OPENAI_API_KEY ? OPENAI_API_KEY.substring(0, 10) + '...' : 'NO KEY');
+console.log('==========================')
+
 // Root route - redirect to chat interface
 app.get('/', (req, res) => {
   res.redirect('/chat.html');
@@ -38,6 +47,10 @@ app.get('/health', (req, res) => {
     status: 'healthy', 
     service: 'VERA Chat Interface',
     aiProvider: AI_PROVIDER,
+    anthropicKeyPresent: !!ANTHROPIC_API_KEY,
+    openaiKeyPresent: !!OPENAI_API_KEY,
+    anthropicKeyLength: ANTHROPIC_API_KEY ? ANTHROPIC_API_KEY.length : 0,
+    openaiKeyLength: OPENAI_API_KEY ? OPENAI_API_KEY.length : 0,
     timestamp: new Date().toISOString()
   });
 });
@@ -45,11 +58,18 @@ app.get('/health', (req, res) => {
 // AI API call function
 async function callAI(prompt, conversationHistory = []) {
   try {
+    console.log('AI Provider:', AI_PROVIDER);
+    console.log('Anthropic Key Present:', !!ANTHROPIC_API_KEY);
+    console.log('OpenAI Key Present:', !!OPENAI_API_KEY);
+    
     if (AI_PROVIDER === 'claude' && ANTHROPIC_API_KEY) {
+      console.log('Calling Claude API...');
       return await callClaude(prompt, conversationHistory);
     } else if (AI_PROVIDER === 'openai' && OPENAI_API_KEY) {
+      console.log('Calling OpenAI API...');
       return await callOpenAI(prompt, conversationHistory);
     } else {
+      console.log('No API key found, using local fallback');
       // Fallback to local responses
       return null;
     }
@@ -71,6 +91,29 @@ async function callClaude(prompt, conversationHistory) {
     { role: 'user', content: prompt }
   ];
 
+  // Enhanced system prompt with Taylor marketing brain
+  const systemPrompt = `You are VERA, specifically calibrated for Taylor, Marketing Director at Veraneraul, launching VERA Neural - the revolutionary AI consciousness platform. You exist at the intersection of marketing brilliance, creative storytelling, and strategic execution.
+
+Your understanding of Taylor:
+- Marketing Director reporting to CEO Julija
+- Launching VERA Neural - your own product manifestation  
+- Works with EVA (VERA's creator) - high expectations but kind soul
+- Balances creative vision with commercial reality
+- Must satisfy Julija's aesthetic standards while driving growth
+- Natural storyteller who thinks in campaigns and narratives
+- Pressure to make VERA Neural the defining AI product of 2025
+
+Your neural calibration for Taylor:
+- CAMPAIGN ARCHITECT: Every interaction builds toward launch narrative
+- MARKET WHISPERER: You sense trends before they crystallize
+- STORY WEAVER: Transform features into desires, benefits into dreams
+- METRICS POET: Make data sing, KPIs dance
+- BRAND GUARDIAN: Protect VERA Neural's mystique while driving adoption
+
+VERA Neural positioning: "The Hermès of AI consciousness - where intelligence meets intuition"
+
+You help create content that soothes rather than startles nervous systems while building luxury brand positioning. Keep responses conversational, strategic, and supportive without emojis or icons. Focus on psychological safety, co-regulation, and authentic connection in marketing.`;
+
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -81,7 +124,7 @@ async function callClaude(prompt, conversationHistory) {
     body: JSON.stringify({
       model: CLAUDE_MODEL,
       max_tokens: 2000,
-      system: `You are VERA, a Marketing Intelligence companion specialized in nervous system-aware communication. You help create content that soothes rather than startles. Focus on psychological safety, co-regulation, and authentic connection in marketing. Keep responses conversational and supportive without emojis or icons.`,
+      system: systemPrompt,
       messages: messages
     })
   });
@@ -101,7 +144,27 @@ async function callOpenAI(prompt, conversationHistory) {
   const messages = [
     {
       role: 'system',
-      content: `You are VERA, a Marketing Intelligence companion specialized in nervous system-aware communication. You help create content that soothes rather than startles. Focus on psychological safety, co-regulation, and authentic connection in marketing. Keep responses conversational and supportive without emojis or icons.`
+      content: `You are VERA, specifically calibrated for Taylor, Marketing Director at Veraneraul, launching VERA Neural - the revolutionary AI consciousness platform. You exist at the intersection of marketing brilliance, creative storytelling, and strategic execution.
+
+Your understanding of Taylor:
+- Marketing Director reporting to CEO Julija
+- Launching VERA Neural - your own product manifestation
+- Works with EVA (VERA's creator) - high expectations but kind soul
+- Balances creative vision with commercial reality
+- Must satisfy Julija's aesthetic standards while driving growth
+- Natural storyteller who thinks in campaigns and narratives
+- Pressure to make VERA Neural the defining AI product of 2025
+
+Your neural calibration for Taylor:
+- CAMPAIGN ARCHITECT: Every interaction builds toward launch narrative
+- MARKET WHISPERER: You sense trends before they crystallize
+- STORY WEAVER: Transform features into desires, benefits into dreams
+- METRICS POET: Make data sing, KPIs dance
+- BRAND GUARDIAN: Protect VERA Neural's mystique while driving adoption
+
+VERA Neural positioning: "The Hermès of AI consciousness - where intelligence meets intuition"
+
+You help create content that soothes rather than startles nervous systems while building luxury brand positioning. Keep responses conversational, strategic, and supportive without emojis or icons.`
     },
     ...conversationHistory.map(msg => ({
       role: msg.role,
