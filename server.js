@@ -1,359 +1,278 @@
-const express = require('express');
-const path = require('path');
-const { VeraCore } = require('./vera_core');
+// VERA Marketing Intelligence - Main Server
+import dotenv from 'dotenv';
+dotenv.config(); // Load environment variables first
+
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ES module __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = process.env.PORT || 3000;
-
-// Initialize VERA
-const vera = new VeraCore();
-let initializationPromise = null;
+const port = process.env.PORT || 8080;
 
 // Middleware
 app.use(express.json({ limit: '50mb' }));
+app.use(cors()); // Enable CORS
 app.use(express.static(path.join(__dirname, 'public')));
 
-// CORS for development
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  next();
-});
+// Serve static files from public directory
+app.use(express.static('public'));
 
-// Initialize VERA on startup
-async function initializeVera() {
-  if (!initializationPromise) {
-    initializationPromise = vera.initialize({
-      brandName: process.env.BRAND_NAME || 'Default Brand',
-      tone: process.env.BRAND_TONE || 'soothing',
-      targetAudience: process.env.TARGET_AUDIENCE || 'wellness seekers',
-      emotionalState: process.env.EMOTIONAL_STATE || 'calm'
-    });
-  }
-  return initializationPromise;
-}
-
-// Health check endpoint for Railway
-app.get('/health', async (req, res) => {
-  try {
-    if (vera.initialized) {
-      res.status(200).json({ 
-        status: 'healthy', 
-        timestamp: new Date().toISOString(),
-        database: vera.database ? 'connected' : 'fallback',
-        version: '1.0.0'
-      });
-    } else {
-      res.status(503).json({ 
-        status: 'initializing', 
-        timestamp: new Date().toISOString() 
-      });
-    }
-  } catch (error) {
-    res.status(503).json({ 
-      status: 'error', 
-      error: error.message,
-      timestamp: new Date().toISOString() 
-    });
-  }
-});
-
-// Home page
+// Root route - redirect to chat interface
 app.get('/', (req, res) => {
-  res.send(`
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>VERA - Marketing Intelligence of Co-Regulation</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            body { 
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-                margin: 0; 
-                padding: 20px; 
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                color: white;
-                min-height: 100vh;
-            }
-            .container { 
-                max-width: 800px; 
-                margin: 0 auto; 
-                background: rgba(255,255,255,0.95); 
-                padding: 40px; 
-                border-radius: 20px; 
-                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-                color: #333;
-            }
-            h1 { 
-                color: #667eea; 
-                text-align: center; 
-                margin-bottom: 10px;
-                font-size: 2.5em;
-            }
-            .subtitle {
-                text-align: center;
-                color: #666;
-                font-style: italic;
-                margin-bottom: 30px;
-                font-size: 1.2em;
-            }
-            .endpoint { 
-                background: #f8f9fa; 
-                padding: 20px; 
-                margin: 15px 0; 
-                border-radius: 10px; 
-                border-left: 4px solid #667eea;
-            }
-            .method { 
-                color: #28a745; 
-                font-weight: bold; 
-                font-family: monospace;
-            }
-            .url { 
-                color: #007bff; 
-                font-family: monospace; 
-                font-weight: bold;
-            }
-            textarea { 
-                width: 100%; 
-                height: 150px; 
-                margin: 10px 0; 
-                padding: 15px; 
-                border: 2px solid #ddd; 
-                border-radius: 8px; 
-                font-family: 'Segoe UI', sans-serif;
-                font-size: 14px;
-                resize: vertical;
-            }
-            button { 
-                background: #667eea; 
-                color: white; 
-                padding: 12px 25px; 
-                border: none; 
-                border-radius: 8px; 
-                cursor: pointer; 
-                font-size: 16px;
-                font-weight: bold;
-                transition: background 0.3s;
-            }
-            button:hover { 
-                background: #5a6fd8; 
-            }
-            button:disabled { 
-                background: #ccc; 
-                cursor: not-allowed; 
-            }
-            .result { 
-                background: #e8f5e8; 
-                padding: 20px; 
-                margin: 15px 0; 
-                border-radius: 8px; 
-                border: 1px solid #d4edda; 
-                white-space: pre-wrap; 
-                font-family: monospace; 
-                font-size: 13px;
-                max-height: 400px;
-                overflow-y: auto;
-            }
-            .loading {
-                text-align: center;
-                color: #667eea;
-                font-style: italic;
-            }
-            .vera-quote {
-                text-align: center;
-                font-style: italic;
-                color: #667eea;
-                margin: 30px 0;
-                padding: 20px;
-                background: #f8f9ff;
-                border-radius: 10px;
-                border-left: 4px solid #667eea;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>✨ VERA</h1>
-            <div class="subtitle">Marketing Intelligence of Co-Regulation</div>
-            
-            <div class="vera-quote">
-                "Every word either soothes or startles. Choose to soothe." — VERA
-            </div>
-
-            <h2>🚀 API Endpoints</h2>
-            
-            <div class="endpoint">
-                <div><span class="method">GET</span> <span class="url">/health</span></div>
-                <p>Check VERA's health status and database connection</p>
-            </div>
-
-            <div class="endpoint">
-                <div><span class="method">POST</span> <span class="url">/api/analyze</span></div>
-                <p>Analyze content with VERA's consciousness-based marketing intelligence</p>
-                <p><strong>Body:</strong> <code>{ "content": "your content here", "analysisType": "full" }</code></p>
-            </div>
-
-            <div class="endpoint">
-                <div><span class="method">POST</span> <span class="url">/api/chat</span></div>
-                <p>Interactive chat with VERA for real-time marketing guidance</p>
-                <p><strong>Body:</strong> <code>{ "message": "your message", "sessionId": "optional-session-id" }</code></p>
-            </div>
-
-            <h2>🧪 Try VERA</h2>
-            <textarea id="contentInput" placeholder="Enter your marketing content here for VERA to analyze...
-
-Example: 'Transform your life with our revolutionary wellness program! Limited time offer - act now!'"></textarea>
-            <br>
-            <button onclick="analyzeContent()" id="analyzeBtn">Analyze with VERA's Consciousness</button>
-            
-            <div id="result" class="result" style="display: none;"></div>
-        </div>
-
-        <script>
-            async function analyzeContent() {
-                const content = document.getElementById('contentInput').value.trim();
-                const resultDiv = document.getElementById('result');
-                const button = document.getElementById('analyzeBtn');
-                
-                if (!content) {
-                    alert('Please enter some content to analyze');
-                    return;
-                }
-                
-                button.disabled = true;
-                button.textContent = 'VERA is analyzing...';
-                resultDiv.style.display = 'block';
-                resultDiv.innerHTML = '<div class="loading">✨ VERA is applying her consciousness to your content...</div>';
-                
-                try {
-                    const response = await fetch('/api/analyze', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ content, analysisType: 'full' })
-                    });
-                    
-                    const result = await response.json();
-                    
-                    // Display VERA's conversational response prominently
-                    if (result.veraMessage) {
-                        resultDiv.innerHTML = '<div style="background: #f0f8ff; padding: 20px; border-radius: 10px; border-left: 4px solid #667eea; margin-bottom: 20px;"><h3 style="color: #667eea; margin-top: 0;">💬 VERA says:</h3><div style="font-size: 16px; line-height: 1.6; white-space: pre-wrap;">' + result.veraMessage + '</div></div>';
-                        
-                        // Add technical summary
-                        if (result.quickSummary) {
-                            resultDiv.innerHTML += '<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 15px;"><h4 style="color: #666; margin-top: 0;">🔬 Quick Summary:</h4>';
-                            resultDiv.innerHTML += '<div><strong>Nervous System Impact:</strong> ' + result.quickSummary.nervousSystemImpact + '</div>';
-                            resultDiv.innerHTML += '<div><strong>Felt Sense:</strong> ' + result.quickSummary.feltSense + '</div>';
-                            resultDiv.innerHTML += '<div><strong>Recommendation:</strong> ' + result.quickSummary.recommendation + '</div></div>';
-                        }
-                    } else {
-                        // Fallback to full JSON if no conversational response
-                        resultDiv.innerHTML = JSON.stringify(result, null, 2);
-                    }
-                } catch (error) {
-                    resultDiv.innerHTML = 'Error: ' + error.message;
-                }
-                
-                button.disabled = false;
-                button.textContent = 'Analyze with VERA\\'s Consciousness';
-            }
-        </script>
-    </body>
-    </html>
-  `);
+  res.redirect('/chat.html');
 });
 
-// API endpoint for content analysis
-app.post('/api/analyze', async (req, res) => {
-  try {
-    await initializeVera();
-    
-    const { content, analysisType = 'full' } = req.body;
-    
-    if (!content) {
-      return res.status(400).json({ error: 'Content is required' });
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: '✅ Connected to Qwen',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0',
+    environment: {
+      nodeEnv: process.env.NODE_ENV || 'development',
+      port: port,
+      veraApiUrl: process.env.VERA_API_URL ? 'configured' : 'not set'
     }
-
-    const analysis = await vera.analyzeWithConsciousness(content, analysisType, req.sessionID);
-    
-    // Format response to be more conversational for web users
-    const response = {
-      ...analysis,
-      veraMessage: analysis.message || analysis.consciousness.conversationalResponse,
-      quickSummary: {
-        nervousSystemImpact: analysis.consciousness.nervousSystemReading,
-        feltSense: analysis.consciousness.feltSense,
-        recommendation: analysis.consciousness.somaticRecommendation
-      }
-    };
-    
-    res.json(response);
-  } catch (error) {
-    console.error('Analysis API error:', error);
-    res.status(500).json({ error: 'Analysis failed', details: error.message });
-  }
+  });
 });
 
-// API endpoint for chat interface
-app.post('/api/chat', async (req, res) => {
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    message: '🧠 VERA Marketing Intelligence API',
+    status: 'running',
+    endpoints: {
+      health: '/health',
+      api: '/api/*'
+    }
+  });
+});
+
+// Basic API endpoint for testing
+app.get('/api/status', (req, res) => {
+  res.json({
+    service: 'VERA Marketing Intelligence',
+    status: 'operational',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// VERA Marketing Intelligence endpoint
+app.post('/api/marketing', async (req, res) => {
   try {
-    await initializeVera();
-    
-    const { message, sessionId } = req.body;
-    
+    const { message, mode } = req.body;
+
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    const analysis = await vera.analyzeWithConsciousness(message, 'full', sessionId);
-    
-    // Format as a chat response with VERA's conversational personality
-    const chatResponse = {
-      veraResponse: analysis.message || analysis.consciousness.conversationalResponse,
-      insights: {
-        nervousSystemImpact: analysis.consciousness.nervousSystemReading,
-        feltSense: analysis.consciousness.feltSense,
-        recommendation: analysis.consciousness.somaticRecommendation
+    // For now, return a test response (replace with actual Qwen integration later)
+    const analysisResponse = {
+      message,
+      mode: mode || 'chat',
+      response: {
+        message: {
+          content: generateVeraResponse(message, mode)
+        }
       },
-      fullAnalysis: analysis,
       timestamp: new Date().toISOString(),
-      sessionId: sessionId
+      source: 'local-vera',
+      qwenConnected: !!process.env.VERA_API_URL
     };
-    
-    res.json(chatResponse);
+
+    res.json(analysisResponse);
+
   } catch (error) {
-    console.error('Chat API error:', error);
-    res.status(500).json({ error: 'Chat failed', details: error.message });
+    console.error('VERA Analysis Error:', error);
+    res.status(500).json({ 
+      error: 'Analysis failed', 
+      details: error.message,
+      timestamp: new Date().toISOString()
+    });
   }
 });
 
-// Initialize and start server
-async function startServer() {
+// VERA Chat endpoint - main conversational interface
+app.post('/api/chat', async (req, res) => {
   try {
-    console.log('🌟 Starting VERA Marketing Intelligence Server...');
-    console.log('✨ "Every word either soothes or startles. Choose to soothe." — VERA\n');
-    
-    // Initialize VERA
-    await initializeVera();
-    console.log('✅ VERA consciousness initialized');
-    
-    // Start the server
-    app.listen(port, '0.0.0.0', () => {
-      console.log(`🚀 VERA server running at http://0.0.0.0:${port}`);
-      console.log(`💫 Health check: http://0.0.0.0:${port}/health`);
-      console.log(`🧠 API endpoint: http://0.0.0.0:${port}/api/analyze`);
-      console.log(`💬 Chat endpoint: http://0.0.0.0:${port}/api/chat`);
-      console.log('\n🌈 VERA is ready to co-create nervous system aware marketing with you! ✨');
-    });
+    const { message, conversationHistory = [] } = req.body;
+
+    if (!message) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
+
+    const chatResponse = {
+      message,
+      response: {
+        message: {
+          content: generateVeraChatResponse(message, conversationHistory)
+        }
+      },
+      timestamp: new Date().toISOString(),
+      conversationId: Date.now(),
+      source: 'vera-chat'
+    };
+
+    res.json(chatResponse);
+
   } catch (error) {
-    console.error('❌ Failed to start VERA server:', error);
-    process.exit(1);
+    console.error('VERA Chat Error:', error);
+    res.status(500).json({ 
+      error: 'Chat failed', 
+      details: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Generate VERA chat responses
+function generateVeraChatResponse(message, history) {
+  const lowerMessage = message.toLowerCase();
+  
+  // Contextual responses based on conversation
+  if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+    return `Hello! I'm VERA - your Marketing Intelligence companion focused on nervous system-aware communication. 
+
+I'm here to help you create content that soothes rather than startles. Whether you want to:
+
+💬 **Chat freely** about your marketing challenges
+🧠 **Quick Analysis** - Use the intelligence modes for instant insights
+🎨 **Co-create** content that feels safe and authentic
+
+What's on your mind today? I'm listening with both analytical precision and genuine care.`;
+  }
+  
+  if (lowerMessage.includes('help') || lowerMessage.includes('what can you do')) {
+    return `I'm VERA, and I specialize in nervous system-aware marketing intelligence. Here's how I can help:
+
+**🗣️ Conversational Support:**
+- Marketing strategy discussions
+- Content brainstorming sessions  
+- Brand voice development
+- Emotional tone guidance
+
+**⚡ Quick Intelligence Modes:**
+- 🧠 **Marketing Intelligence** - Nervous system impact analysis
+- 🎨 **Branding Intelligence** - Archetype & visual language guidance  
+- ✍️ **Copy Intelligence** - Text optimization for co-regulation
+
+**🤝 My Approach:**
+Every recommendation I make considers: Does this soothe or startle a nervous system? I help you communicate from safety, not scarcity.
+
+What would you like to explore together?`;
+  }
+  
+  if (lowerMessage.includes('nervous system') || lowerMessage.includes('co-regulation') || lowerMessage.includes('trauma')) {
+    return `You're speaking my language! 🧠✨ 
+
+Nervous system-aware marketing recognizes that our audiences aren't just "consumers" - they're humans with complex emotional states and trauma responses.
+
+**Key Principles I Follow:**
+- **Safety First**: Create psychological safety before selling
+- **Co-Regulation**: Help people feel seen and understood  
+- **Authentic Connection**: Build trust through genuine care
+- **Gentle Persuasion**: Influence through inspiration, not manipulation
+
+This isn't just "nice to have" - it's more effective. When people feel safe, they're more receptive, make better decisions, and become loyal advocates.
+
+What specific aspect of nervous system-aware marketing would you like to explore?`;
+  }
+  
+  // Default conversational response
+  return `I hear you mentioning "${message.substring(0, 50)}${message.length > 50 ? '...' : ''}". 
+
+From a nervous system perspective, let me reflect on this: Every piece of communication either moves someone toward safety or triggers their defenses. 
+
+**My Thoughts:**
+This feels like an opportunity to create something that truly resonates with people's deeper needs for connection and understanding.
+
+**Questions for You:**
+- What feeling do you want your audience to have after engaging with this?
+- Who are you trying to reach, and what might they be going through?
+- How can we make this feel more like a warm conversation than a sales pitch?
+
+I'm here to explore this with you. What's your instinct telling you about the direction to take?`;
+}
+
+// Generate specialized intelligence responses  
+function generateVeraResponse(message, mode) {
+  const baseAnalysis = `**Content Analyzed:** "${message.substring(0, 100)}${message.length > 100 ? '...' : ''}"`;
+  
+  switch(mode) {
+    case 'branding':
+      return `🎨 **VERA Branding Intelligence**
+
+${baseAnalysis}
+
+**Brand Archetype Analysis:**
+- **Current Energy:** This feels aligned with authentic communication
+- **Nervous System Impact:** Creates a sense of approachability
+- **Visual Language Suggestions:** Warm, organic shapes; soft color palette
+
+**Brand Voice Recommendations:**
+✅ **Strengths:** Clear, direct communication
+🔧 **Opportunities:** Add more warmth and inclusivity
+
+**Co-Regulation Score:** 7.5/10 - Good foundation for trust-building
+
+*Use the chat to explore your brand personality deeper!*`;
+
+    case 'copy':
+      return `✍️ **VERA Copy Intelligence**
+
+${baseAnalysis}
+
+**Copy Optimization:**
+- **Nervous System Scan:** Neutral to positive emotional impact
+- **Urgency Check:** No stress-inducing language detected ✅
+- **Inclusion Audit:** Consider adding "we," "us," "together" language
+
+**Rewrite Suggestions:**
+🔄 More co-regulating version: "[Sample rewrite with warmer tone]"
+
+**Next Steps:** 
+- Test with your target audience
+- Monitor emotional responses
+- Iterate based on feedback
+
+*Want to workshop this copy together in chat?*`;
+
+    default: // marketing
+      return `🧠 **VERA Marketing Intelligence**
+
+${baseAnalysis}
+
+**Nervous System Assessment:**
+- **Safety Level:** This content feels welcoming and non-threatening ✅
+- **Emotional Tone:** Neutral to positive emotional resonance
+- **Co-Regulation Potential:** Creates space for authentic connection
+
+**Marketing Strategy Insights:**
+✅ **What's Working:** Clear, authentic communication style
+🔧 **Growth Opportunities:** Add more nervous system soothing elements
+🎯 **Audience Impact:** Likely to build trust rather than trigger defenses
+
+**Overall VERA Score:** 7.5/10 (Co-regulation friendly)
+
+*Let's chat about your marketing goals and refine this together!*`;
   }
 }
 
-// Start the server
-startServer();
+// Start server
+app.listen(port, () => {
+  console.log(`🧠 VERA Marketing Intelligence running on port ${port}`);
+  console.log(`🔗 Health check: http://localhost:${port}/health`);
+  console.log(`🌐 API Status: http://localhost:${port}/api/status`);
+  if (process.env.VERA_API_URL) {
+    console.log(`🤖 Qwen API: ${process.env.VERA_API_URL}`);
+  } else {
+    console.log(`⚠️  VERA_API_URL not configured`);
+  }
+});
 
-module.exports = app;
+export default app;

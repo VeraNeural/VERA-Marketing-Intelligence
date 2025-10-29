@@ -2,20 +2,20 @@
   "name": "vera-marketing-intelligence",
   "version": "1.0.0",
   "description": "VERA - AI Marketing Intelligence for Brand Tone Analysis, Emotional Co-regulation, and Nervous System Aware Content Creation",
-  "main": "server/index.js",
+  "main": "server.js",
   "type": "module",
   "bin": {
     "vera": "./vera_chat_interface.js",
     "vera-chat": "./vera_chat_interface.js"
   },
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "node vera_chat_interface.js",
-    "web": "node server/index.js",
+    "start": "node server.js",
+    "dev": "node server.js",
+    "web": "node server.js",
     "chat": "node vera_chat_interface.js",
     "test": "node test_vera.js",
     "demo": "node demo.js",
-    "help": "echo 'VERA Marketing Intelligence Commands: npm start - Start web backend, npm run dev - Local chat interface, npm run demo - Run demo, npm test - Run tests'"
+    "help": "echo 'VERA Marketing Intelligence Commands: npm start - Start web backend, npm run dev - Start server, npm run demo - Run demo, npm test - Run tests'"
   },
   "keywords": [
     "marketing",
