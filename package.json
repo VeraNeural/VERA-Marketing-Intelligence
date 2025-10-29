@@ -50,28 +50,19 @@
     "node-fetch": "^3.3.2",
     "readline": "^1.3.0"
   },
-  "optionalDependencies": {
-    "mysql2": "^3.6.5",
-    "pg": "^8.11.3",
-    "sqlite3": "^5.1.6"
-  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/vera-marketing-intelligence.git"
+    "url": "https://github.com/VeraNeural/VERA-Marketing-Intelligence.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/vera-marketing-intelligence/issues"
+    "url": "https://github.com/VeraNeural/VERA-Marketing-Intelligence/issues"
   },
-  "homepage": "https://github.com/your-org/vera-marketing-intelligence#readme",
+  "homepage": "https://github.com/VeraNeural/VERA-Marketing-Intelligence#readme",
   "files": [
-    "vera_core.js",
-    "vera_chat_interface.js",
-    "memory_store.js",
-    "branding-tools/",
-    "co-regulation/",
-    "content-strategy/",
-    "examples/",
+    "server/",
+    "lib/",
+    "public/",
     "README.md",
-    "setup_local.md"
+    ".env.example"
   ]
 }
