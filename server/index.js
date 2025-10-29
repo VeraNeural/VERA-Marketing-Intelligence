@@ -55,6 +55,41 @@ app.get('/debug/env', (req, res) => {
   });
 });
 
+// Test Qwen API connectivity
+app.get('/debug/qwen-test', async (req, res) => {
+  try {
+    if (!process.env.VERA_API_URL) {
+      return res.json({ error: 'VERA_API_URL not set' });
+    }
+
+    const response = await fetch(process.env.VERA_API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: process.env.QWEN_MODEL || "qwen3-30b",
+        messages: [
+          { role: "system", content: "You are a test." },
+          { role: "user", content: "Say hello" },
+        ],
+      }),
+    });
+
+    const responseText = await response.text();
+    
+    res.json({
+      status: response.status,
+      statusText: response.statusText,
+      ok: response.ok,
+      responseBody: responseText.substring(0, 500) + (responseText.length > 500 ? '...' : '')
+    });
+  } catch (error) {
+    res.json({
+      error: error.message,
+      stack: error.stack
+    });
+  }
+});
+
 // Main VERA marketing intelligence endpoint
 app.post("/api/marketing", async (req, res) => {
   try {
@@ -96,6 +131,40 @@ app.post("/api/marketing", async (req, res) => {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('API Error:', response.status, errorText);
+      
+      // If Qwen API is down, provide a fallback response
+      if (response.status >= 500 || response.status === 404) {
+        return res.json({
+          message,
+          mode,
+          response: {
+            message: {
+              content: `🧠 **VERA Analysis (Fallback Mode)**
+
+I notice the external AI service is currently unavailable, but I can still provide you with nervous system-aware guidance:
+
+**For "${message.substring(0, 100)}${message.length > 100 ? '...' : ''}"**
+
+This content should be evaluated for:
+- **Nervous System Impact**: Does it soothe or startle?
+- **Emotional Tone**: What feeling state does it create?
+- **Brand Resonance**: Does it align with your authentic voice?
+- **Co-Regulation**: Does it help people feel safe and seen?
+
+**Quick VERA Recommendations:**
+- Use warm, inclusive language
+- Avoid urgency/scarcity tactics
+- Lead with empathy and understanding
+- Create psychological safety for your audience
+
+*Note: Full AI analysis will return when the service is restored. This guidance follows VERA's core nervous system principles.*`
+            }
+          },
+          timestamp: new Date().toISOString(),
+          fallback: true
+        });
+      }
+      
       throw new Error(`API request failed: ${response.status} - ${errorText}`);
     }
 
