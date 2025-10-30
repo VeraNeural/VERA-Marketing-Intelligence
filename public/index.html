@@ -1795,7 +1795,11 @@
         }
 
         function speakText(text) {
-            if (!ttsEnabled) return;
+            console.log('🎙️ speakText called - TTS Enabled:', ttsEnabled, 'Voice Engine:', voiceEngine, 'Text length:', text.length);
+            if (!ttsEnabled) {
+                console.log('🎙️ TTS disabled, returning early');
+                return;
+            }
             
             // Stop any current audio
             if (currentAudio) {
@@ -1908,9 +1912,12 @@
             scrollToBottom();
             
             // 🎙️ AUTO-SPEAK VERA MESSAGES WHEN VOICE IS ENABLED
+            console.log('🎙️ TTS Debug - Sender:', sender, 'TTS Enabled:', ttsEnabled, 'Voice ID:', selectedVoiceId);
             if (sender === 'vera' && ttsEnabled) {
                 console.log('🎙️ Auto-speaking VERA message with voice ID:', selectedVoiceId);
                 speakText(content);
+            } else {
+                console.log('🎙️ TTS not triggered - Sender:', sender, 'TTS Enabled:', ttsEnabled);
             }
         }
 
