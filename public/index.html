@@ -2,581 +2,1077 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VERA - Marketing Intelligence of Co-Regulation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#2a1a4a">
+    <title>VERA • Marketing Intelligence</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: radial-gradient(ellipse at center, #1a1a2a 0%, #2a2a3a 50%, #3a3a4a 100%);
-            color: #f0f0f5;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Neural Network Background */
-        .neural-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .neural-node {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(180, 160, 255, 0.4);
-            border-radius: 50%;
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        .neural-connection {
-            position: absolute;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(180, 160, 255, 0.2), transparent);
-            animation: flow 8s linear infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.5); }
-        }
-
-        @keyframes flow {
-            0% { opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { opacity: 0; }
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            position: relative;
-            z-index: 1;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(180deg, #1a0f2e 0%, #2a1a4a 50%, #1a0f2e 100%);
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
         }
 
         /* Header */
         .header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .vera-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #b4a0ff 0%, #a0d0ff 50%, #a0ffb4 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .vera-subtitle {
-            font-size: 1.25rem;
-            color: #c0c5ff;
-            margin-bottom: 1rem;
-            font-weight: 300;
-        }
-
-        .vera-tagline {
-            font-size: 1rem;
-            color: #9ca3af;
-            font-style: italic;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* Central ORB */
-        .orb-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 4rem 0;
-            position: relative;
-        }
-
-        .vera-orb {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, 
-                rgba(180, 160, 255, 0.7) 0%,
-                rgba(160, 208, 255, 0.5) 30%,
-                rgba(160, 255, 180, 0.3) 60%,
-                rgba(128, 200, 255, 0.1) 100%);
-            box-shadow: 
-                0 0 40px rgba(180, 160, 255, 0.3),
-                0 0 80px rgba(160, 208, 255, 0.15),
-                inset 0 0 40px rgba(255, 255, 255, 0.08);
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: breathe 4s ease-in-out infinite;
-        }
-
-        .vera-orb:hover {
-            transform: scale(1.05);
-            box-shadow: 
-                0 0 60px rgba(180, 160, 255, 0.4),
-                0 0 120px rgba(160, 208, 255, 0.2);
-        }
-
-        .vera-orb.active {
-            animation: activate 2s ease-in-out;
-            box-shadow: 
-                0 0 80px rgba(180, 160, 255, 0.6),
-                0 0 160px rgba(160, 208, 255, 0.3);
-        }
-
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        @keyframes activate {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Orb Inner Elements */
-        .orb-core {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%;
-            height: 60%;
-            border-radius: 50%;
-            background: radial-gradient(circle at 40% 40%, 
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(180, 160, 255, 0.15) 50%,
-                transparent 100%);
-            animation: rotate 20s linear infinite;
-        }
-
-        .orb-pulse {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120%;
-            height: 120%;
-            border: 2px solid rgba(180, 160, 255, 0.25);
-            border-radius: 50%;
-            animation: ripple 3s ease-out infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        @keyframes ripple {
-            0% { 
-                transform: translate(-50%, -50%) scale(0.8);
-                opacity: 1;
-            }
-            100% { 
-                transform: translate(-50%, -50%) scale(1.5);
-                opacity: 0;
-            }
-        }
-
-        /* Status Text */
-        .orb-status {
-            position: absolute;
-            bottom: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.9rem;
-            color: #b4a0ff;
-            text-align: center;
-            opacity: 0.8;
-            transition: all 0.3s ease;
-        }
-
-        /* Interface Panel */
-        .interface-panel {
-            background: rgba(45, 45, 55, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(180, 160, 255, 0.15);
-            border-radius: 24px;
-            padding: 2rem;
-            margin: 2rem 0;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
-
-        .input-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .input-label {
-            display: block;
-            font-size: 0.9rem;
-            color: #c0c5ff;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .neural-input {
-            width: 100%;
-            min-height: 120px;
-            background: rgba(55, 55, 65, 0.5);
-            border: 2px solid rgba(180, 160, 255, 0.2);
-            border-radius: 16px;
-            padding: 1rem;
-            color: #f0f0f5;
-            font-size: 1rem;
-            line-height: 1.6;
-            resize: vertical;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .neural-input:focus {
-            outline: none;
-            border-color: #b4a0ff;
-            box-shadow: 0 0 0 3px rgba(180, 160, 255, 0.08);
-            background: rgba(55, 55, 65, 0.7);
-        }
-
-        .neural-input::placeholder {
-            color: #9ca3af;
-            font-style: italic;
-        }
-
-        /* Mode Selector */
-        .mode-selector {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .mode-button {
-            flex: 1;
-            min-width: 150px;
-            padding: 0.75rem 1rem;
-            background: rgba(55, 55, 65, 0.5);
-            border: 2px solid rgba(180, 160, 255, 0.2);
-            border-radius: 12px;
-            color: #c0c5ff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .mode-button:hover {
-            border-color: #b4a0ff;
-            background: rgba(180, 160, 255, 0.08);
-        }
-
-        .mode-button.active {
-            background: rgba(180, 160, 255, 0.15);
-            border-color: #b4a0ff;
-            color: #f0f0f5;
-            box-shadow: 0 0 20px rgba(180, 160, 255, 0.2);
-        }
-
-        /* Analyze Button */
-        .analyze-button {
-            width: 100%;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, #b4a0ff 0%, #a0d0ff 100%);
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .analyze-button:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(180, 160, 255, 0.3);
-        }
-
-        .analyze-button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .analyze-button .button-text {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 0.5rem;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Results Area */
-        .results-area {
-            margin-top: 2rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s ease;
-        }
-
-        .results-area.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .vera-response {
-            background: linear-gradient(135deg, 
-                rgba(180, 160, 255, 0.08) 0%, 
-                rgba(160, 208, 255, 0.04) 100%);
-            border: 1px solid rgba(180, 160, 255, 0.2);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .vera-response::before {
-            content: '';
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #b4a0ff, #a0d0ff, #a0ffb4);
-        }
-
-        .response-header {
+            height: 60px;
+            background: rgba(42, 26, 74, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(160, 200, 255, 0.2);
             display: flex;
             align-items: center;
-            margin-bottom: 1rem;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
         }
 
-        .vera-avatar {
-            width: 40px;
-            height: 40px;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .orb {
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #b4a0ff, #a0d0ff);
+            background: radial-gradient(circle, #a0c8ff 0%, #7890ff 100%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Main Container */
+        .container {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Quick Panel */
+        .quick-panel {
+            padding: 15px;
+            background: rgba(42, 26, 74, 0.5);
+            border-bottom: 1px solid rgba(160, 200, 255, 0.1);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .quick-btn {
+            padding: 8px 16px;
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            border-radius: 20px;
+            color: #a0c8ff;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: rgba(160, 200, 255, 0.2);
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.vera .message-bubble {
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
+            color: #1a0f2e;
+            font-weight: 500;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .message.vera .message-time {
+            text-align: left;
+        }
+
+        /* Typing Indicator */
+        .typing {
+            display: none;
+            padding: 12px 16px;
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            border-radius: 18px;
+            max-width: 80%;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #a0c8ff;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        /* Input Area */
+        .input-area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(42, 26, 74, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(160, 200, 255, 0.2);
+            padding: 15px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: end;
+            gap: 10px;
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            border-radius: 24px;
+            padding: 8px;
+        }
+
+        .message-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            padding: 8px 12px;
+            resize: none;
+            max-height: 100px;
+            font-family: inherit;
+        }
+
+        .message-input:focus {
+            outline: none;
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .send-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
+            border: none;
+            color: #1a0f2e;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
+            font-size: 16px;
             font-weight: bold;
-            color: white;
+            transition: transform 0.2s;
         }
 
-        .response-content {
-            line-height: 1.8;
-            color: #f0f0f5;
+        .send-btn:active {
+            transform: scale(0.95);
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .vera-title {
-                font-size: 2.5rem;
-            }
-            
-            .vera-orb {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .mode-selector {
-                flex-direction: column;
-            }
-            
-            .mode-button {
-                min-width: auto;
+        .send-btn:disabled {
+            background: rgba(160, 200, 255, 0.3);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Features Panel */
+        .features-panel {
+            padding: 15px;
+            background: rgba(42, 26, 74, 0.3);
+            border-bottom: 1px solid rgba(160, 200, 255, 0.1);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .feature-card {
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .feature-card:active {
+            transform: scale(0.98);
+            background: rgba(160, 200, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 12px;
+            color: #a0c8ff;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 375px) {
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Neural Network Background -->
-    <div class="neural-bg" id="neuralBg"></div>
+    <div class="header">
+        <div class="logo">
+            <div class="orb"></div>
+            <div class="title">VERA</div>
+        </div>
+        <div class="status">Online</div>
+    </div>
 
     <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1 class="vera-title">VERA</h1>
-            <p class="vera-subtitle">Marketing Intelligence of Co-Regulation</p>
-            <p class="vera-tagline">"Every word either soothes or startles a nervous system. Choose to soothe."</p>
-        </header>
-
-        <!-- Central ORB -->
-        <div class="orb-container">
-            <div class="vera-orb" id="veraOrb">
-                <div class="orb-core"></div>
-                <div class="orb-pulse"></div>
+        <div class="quick-panel">
+            <div class="quick-actions">
+                <div class="quick-btn" onclick="quickMessage('What should I focus on today?')">Daily Focus</div>
+                <div class="quick-btn" onclick="quickMessage('Give me the latest market intelligence')">Market Intel</div>
+                <div class="quick-btn" onclick="quickMessage('Help me brainstorm campaign ideas')">Campaign Ideas</div>
+                <div class="quick-btn" onclick="quickMessage('Review my content performance')">Performance</div>
             </div>
-            <div class="orb-status" id="orbStatus">Ready to analyze your content</div>
         </div>
 
-        <!-- Interface Panel -->
-        <div class="interface-panel">
-            <div class="input-group">
-                <label class="input-label" for="contentInput">Enter your marketing content:</label>
+        <div class="features-panel">
+            <div class="feature-grid">
+                <div class="feature-card" onclick="toggleTTS()">
+                    <span class="feature-icon">🔊</span>
+                    <div class="feature-title">Voice TTS</div>
+                </div>
+                <div class="feature-card" onclick="viewCalendar()">
+                    <span class="feature-icon">📅</span>
+                    <div class="feature-title">Calendar</div>
+                </div>
+                <div class="feature-card" onclick="emailAutomation()">
+                    <span class="feature-icon">📧</span>
+                    <div class="feature-title">Email Auto</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-area" id="chatArea">
+            <div class="message vera">
+                <div class="message-bubble">
+                    Hey Taylor! 👋 Ready to tackle your marketing goals today? I've got your back for strategy, content, and insights.
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="typing" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <div class="input-container">
+            <textarea 
+                id="messageInput" 
+                class="message-input" 
+                placeholder="Message VERA..."
+                rows="1"></textarea>
+            <button id="sendBtn" class="send-btn" onclick="sendMessage()" disabled>→</button>
+        </div>
+    </div>
+
+    <script>
+        let ttsEnabled = false;
+        let conversationHistory = [];
+
+        // Auto-resize textarea
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatArea = document.getElementById('chatArea');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+            sendBtn.disabled = !this.value.trim();
+        });
+
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Quick message
+        function quickMessage(text) {
+            messageInput.value = text;
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 100) + 'px';
+            sendBtn.disabled = false;
+            messageInput.focus();
+        }
+
+        // Send message
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            
+            // Clear input
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            sendBtn.disabled = true;
+
+            // Show typing
+            showTyping();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationHistory: conversationHistory,
+                        mobileMode: true
+                    })
+                });
+
+                const result = await response.json();
+                hideTyping();
+                
+                const veraMessage = result.response?.message?.content || result.response?.message || 'Sorry, having trouble with that. Try again?';
+                addMessage(veraMessage, 'vera');
+
+                // Update history
+                conversationHistory.push(
+                    { role: 'user', content: message },
+                    { role: 'assistant', content: veraMessage }
+                );
+                
+                // Keep history manageable
+                if (conversationHistory.length > 20) {
+                    conversationHistory = conversationHistory.slice(-20);
+                }
+
+                // TTS if enabled
+                if (ttsEnabled) {
+                    speakText(veraMessage);
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                hideTyping();
+                addMessage('Sorry, I had trouble connecting. Please try again.', 'vera');
+            }
+        }
+
+        // Add message to chat
+        function addMessage(content, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    ${formatMessage(content)}
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            
+            chatArea.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Format message
+        function formatMessage(content) {
+            return content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+        }
+
+        // Typing indicator
+        function showTyping() {
+            typingIndicator.style.display = 'block';
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+        }
+
+        // Scroll to bottom
+        function scrollToBottom() {
+            setTimeout(() => {
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 100);
+        }
+
+        // Feature functions
+        function toggleTTS() {
+            ttsEnabled = !ttsEnabled;
+            const card = event.target.closest('.feature-card');
+            card.style.background = ttsEnabled ? 'rgba(160, 200, 255, 0.3)' : 'rgba(160, 200, 255, 0.1)';
+            addMessage(`TTS ${ttsEnabled ? 'enabled' : 'disabled'}! ${ttsEnabled ? 'I\'ll speak my responses.' : ''}`, 'vera');
+        }
+
+        async function speakText(text) {
+            try {
+                const response = await fetch('/api/tts/speak', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text.replace(/<[^>]*>/g, '') })
+                });
+                
+                if (response.ok) {
+                    console.log('TTS request sent');
+                    // In real implementation, play audio
+                }
+            } catch (error) {
+                console.error('TTS error:', error);
+            }
+        }
+
+        async function viewCalendar() {
+            try {
+                const response = await fetch('/api/calendar/today');
+                const data = await response.json();
+                
+                let calendarText = `📅 **Today's Schedule:**\n\n`;
+                data.events.forEach(event => {
+                    calendarText += `• **${event.time}** - ${event.title}\n`;
+                });
+                
+                addMessage(calendarText, 'vera');
+            } catch (error) {
+                addMessage('Calendar integration coming soon!', 'vera');
+            }
+        }
+
+        async function emailAutomation() {
+            try {
+                const response = await fetch('/api/email/automation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'list' })
+                });
+                
+                const data = await response.json();
+                
+                let automationText = `📧 **Email Automation Status:**\n\n`;
+                data.automations.forEach(auto => {
+                    automationText += `• **${auto.name}** - ${auto.status}\n`;
+                });
+                
+                addMessage(automationText, 'vera');
+            } catch (error) {
+                addMessage('Email automation dashboard ready!', 'vera');
+            }
+        }
+
+        // Initialize
+        console.log('VERA Marketing Intelligence Ready');
+        messageInput.focus();
+    </script>
+</body>
+</html>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(180deg, #0a0a0f 0%, #1a1a2a 100%);
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        /* Mobile App Header */
+        .mobile-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100;
+            padding-top: env(safe-area-inset-top);
+        }
+
+        .vera-identity {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .vera-orb {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(160, 200, 255, 0.9) 0%,
+                rgba(120, 160, 255, 0.7) 40%,
+                rgba(80, 120, 255, 0.5) 100%);
+            animation: breathe 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        .vera-orb::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            background: rgba(10, 10, 15, 0.3);
+        }
+
+        .vera-info h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: -0.01em;
+        }
+
+        .vera-info p {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 1px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; box-shadow: 0 0 10px #00ff88; }
+        }
+
+        /* Chat Container */
+        .chat-container {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Messages Area */
+        .messages-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .message-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 85%;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-group.taylor {
+            align-self: flex-end;
+            align-items: flex-end;
+        }
+
+        .message-group.vera {
+            align-self: flex-start;
+            align-items: flex-start;
+        }
+
+        .message-bubble {
+            padding: 14px 18px;
+            border-radius: 20px;
+            font-size: 16px;
+            line-height: 1.4;
+            max-width: 100%;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .message-group.taylor .message-bubble {
+            background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
+
+        .message-group.vera .message-bubble {
+            background: rgba(45, 45, 55, 0.8);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom-left-radius: 6px;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+            margin-left: 4px;
+            margin-right: 4px;
+        }
+
+        /* Quick Suggestions */
+        .quick-suggestions {
+            padding: 12px 16px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .suggestion-chip {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .suggestion-chip:active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(0.98);
+        }
+
+        /* Input Area */
+        .input-area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 12px 16px;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom));
+            z-index: 100;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: end;
+            gap: 8px;
+            background: rgba(45, 45, 55, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 8px;
+            min-height: 48px;
+        }
+
+        .message-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            padding: 8px 12px;
+            resize: none;
+            max-height: 120px;
+            line-height: 1.4;
+            font-family: inherit;
+        }
+
+        .message-input:focus {
+            outline: none;
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .voice-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .voice-button:active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(0.95);
+        }
+
+        .send-button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .send-button:active {
+            transform: scale(0.95);
+        }
+
+        .send-button:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 18px;
+            background: rgba(45, 45, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            border-bottom-left-radius: 6px;
+            max-width: 85%;
+            align-self: flex-start;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            animation: typingBounce 1.4s ease-in-out infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        .typing-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .welcome-message h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .welcome-message p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .chat-container {
+                height: -webkit-fill-available;
+            }
+        }
+
+        /* Landscape mode adjustments */
+        @media screen and (orientation: landscape) and (max-height: 500px) {
+            .mobile-header {
+                height: 60px;
+            }
+            
+            .chat-container {
+                top: 60px;
+            }
+            
+            .vera-info h1 {
+                font-size: 16px;
+            }
+            
+            .vera-info p {
+                font-size: 12px;
+            }
+        }
+
+        /* Dark mode optimization */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-header">
+        <div class="vera-identity">
+            <div class="vera-orb"></div>
+            <div class="vera-info">
+                <h1>VERA</h1>
+                <p>Your Marketing Partner</p>
+            </div>
+        </div>
+        <div class="status-dot"></div>
+    </div>
+
+    <div class="chat-container">
+        <div class="messages-area" id="messagesArea">
+            <div class="message-group vera">
+                <div class="message-bubble">
+                    Hey Taylor! 👋 It's Wednesday - perfect day to tackle some marketing magic together. 
+                    
+                    I've been thinking about our VERA Neural launch strategy while you were away. Ready to dive in? ✨
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+            
+            <div class="message-group vera">
+                <div class="message-bubble">
+                    What's on your mind today? I'm here for:
+                    
+                    🔥 **Quick wins** - Tactical stuff you can execute today
+                    💡 **Big ideas** - Campaign brainstorming and strategy  
+                    🎯 **Content review** - Let me analyze what you're working on
+                    📊 **Market intel** - What competitors are doing, trends to watch
+                    
+                    Or just tell me what's stressing you out and let's solve it together! 😊
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+        </div>
+
+        <div class="quick-suggestions" id="quickSuggestions">
+            <div class="suggestion-chip" data-text="I'm feeling overwhelmed with the launch timeline. Help me prioritize?">� Overwhelmed</div>
+            <div class="suggestion-chip" data-text="What's the latest buzz in AI marketing? Any opportunities for us?">� Market Buzz</div>
+            <div class="suggestion-chip" data-text="Brainstorm some killer campaign ideas for VERA Neural's luxury positioning">� Campaign Ideas</div>
+            <div class="suggestion-chip" data-text="Review this email subject line: 'VERA Neural - Where Intelligence Meets Intuition'">� Quick Review</div>
+            <div class="suggestion-chip" data-text="Coffee chat time! What should I know about today's marketing landscape?">☕ Coffee Chat</div>
+        </div>
+
+        <div class="input-area">
+            <div class="input-container">
+                <button class="voice-button" id="voiceButton">🎙️</button>
                 <textarea 
-                    id="contentInput" 
-                    class="neural-input" 
-                    placeholder="Paste your marketing copy, email, ad text, or brand message here for VERA to analyze with nervous system awareness..."
-                ></textarea>
-            </div>
-
-            <div class="input-group">
-                <label class="input-label">Choose VERA Intelligence Mode:</label>
-                <div class="mode-selector">
-                    <div class="mode-button active" data-mode="marketing">
-                        Marketing Intelligence
-                    </div>
-                    <div class="mode-button" data-mode="branding">
-                        Branding Intelligence
-                    </div>
-                    <div class="mode-button" data-mode="copy">
-                        Copy Intelligence
-                    </div>
-                </div>
-            </div>
-
-            <button class="analyze-button" id="analyzeButton">
-                <span class="button-text">Analyze with VERA's Consciousness</span>
-            </button>
-        </div>
-
-        <!-- Results Area -->
-        <div class="results-area" id="resultsArea">
-            <div class="vera-response" id="veraResponse">
-                <div class="response-header">
-                    <div class="vera-avatar">V</div>
-                    <div>
-                        <strong>VERA's Neural Analysis</strong>
-                        <div style="font-size: 0.85rem; color: #9ca3af;">Nervous system-aware insights</div>
-                    </div>
-                </div>
-                <div class="response-content" id="responseContent"></div>
+                    class="message-input" 
+                    id="messageInput" 
+                    placeholder="Talk to me, Taylor..."
+                    rows="1"></textarea>
+                <button class="send-button" id="sendButton" disabled>→</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Neural background generation
-        function createNeuralBackground() {
-            const bg = document.getElementById('neuralBg');
-            const nodeCount = 50;
-            const connectionCount = 30;
+        // Global variables
+        let conversationHistory = [];
+        let isTyping = false;
+        const messagesArea = document.getElementById('messagesArea');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const voiceButton = document.getElementById('voiceButton');
+        const quickSuggestions = document.getElementById('quickSuggestions');
 
-            // Create nodes
-            for (let i = 0; i < nodeCount; i++) {
-                const node = document.createElement('div');
-                node.className = 'neural-node';
-                node.style.left = Math.random() * 100 + '%';
-                node.style.top = Math.random() * 100 + '%';
-                node.style.animationDelay = Math.random() * 4 + 's';
-                bg.appendChild(node);
-            }
-
-            // Create connections
-            for (let i = 0; i < connectionCount; i++) {
-                const connection = document.createElement('div');
-                connection.className = 'neural-connection';
-                connection.style.left = Math.random() * 100 + '%';
-                connection.style.top = Math.random() * 100 + '%';
-                connection.style.width = (Math.random() * 200 + 100) + 'px';
-                connection.style.transform = `rotate(${Math.random() * 360}deg)`;
-                connection.style.animationDelay = Math.random() * 8 + 's';
-                bg.appendChild(connection);
-            }
-        }
-
-        // Initialize neural background
-        createNeuralBackground();
-
-        // Mode selection
-        const modeButtons = document.querySelectorAll('.mode-button');
-        let selectedMode = 'marketing';
-
-        modeButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                modeButtons.forEach(b => b.classList.remove('active'));
-                button.classList.add('active');
-                selectedMode = button.dataset.mode;
-                
-                // Update orb status based on mode
-                const orbStatus = document.getElementById('orbStatus');
-                const modeNames = {
-                    'marketing': 'Marketing Intelligence Active',
-                    'branding': 'Branding Intelligence Active',
-                    'copy': 'Copy Intelligence Active'
-                };
-                orbStatus.textContent = modeNames[selectedMode];
-            });
-        });
-
-        // Orb interaction
-        const veraOrb = document.getElementById('veraOrb');
-        veraOrb.addEventListener('click', () => {
-            veraOrb.classList.add('active');
-            setTimeout(() => veraOrb.classList.remove('active'), 2000);
-        });
-
-        // Content analysis
-        const analyzeButton = document.getElementById('analyzeButton');
-        const contentInput = document.getElementById('contentInput');
-        const resultsArea = document.getElementById('resultsArea');
-        const responseContent = document.getElementById('responseContent');
-        const orbStatus = document.getElementById('orbStatus');
-
-        analyzeButton.addEventListener('click', async () => {
-            const content = contentInput.value.trim();
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
             
-            if (!content) {
-                alert('Please enter some content to analyze');
-                return;
-            }
+            // Enable/disable send button
+            sendButton.disabled = !this.value.trim();
+        });
 
-            // Update UI for analysis
-            analyzeButton.disabled = true;
-            analyzeButton.innerHTML = '<div class="loading"></div><span class="button-text">VERA is analyzing...</span>';
-            orbStatus.textContent = 'Analyzing with neural awareness...';
-            veraOrb.classList.add('active');
+        // Quick suggestions
+        quickSuggestions.addEventListener('click', function(e) {
+            if (e.target.classList.contains('suggestion-chip')) {
+                const text = e.target.dataset.text;
+                messageInput.value = text;
+                messageInput.style.height = 'auto';
+                messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
+                sendButton.disabled = false;
+                messageInput.focus();
+            }
+        });
+
+        // Send message function
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message || isTyping) return;
+
+            // Add Taylor's message
+            addMessage(message, 'taylor');
+            
+            // Clear input
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            sendButton.disabled = true;
+
+            // Show typing indicator
+            showTypingIndicator();
 
             try {
-                const response = await fetch('/api/marketing', {
+                const response = await fetch('/api/chat', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        message: content, 
-                        mode: selectedMode 
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationHistory: conversationHistory,
+                        mobileMode: true
                     })
                 });
 
@@ -586,57 +1082,174 @@
 
                 const result = await response.json();
                 
-                // Display results
-                displayResults(result);
-                resultsArea.classList.add('show');
-                orbStatus.textContent = 'Analysis complete';
+                // Remove typing indicator
+                hideTypingIndicator();
+                
+                // Add VERA's response
+                const veraMessage = result.response?.message?.content || result.response?.message || 'Sorry, I had trouble with that. Try again?';
+                addMessage(veraMessage, 'vera');
+
+                // Update conversation history
+                conversationHistory.push(
+                    { role: 'user', content: message },
+                    { role: 'assistant', content: veraMessage }
+                );
+                
+                // Keep last 20 exchanges for mobile performance
+                if (conversationHistory.length > 40) {
+                    conversationHistory = conversationHistory.slice(-40);
+                }
+
+                // Update suggestions based on conversation
+                updateSuggestions();
 
             } catch (error) {
-                console.error('Analysis error:', error);
-                responseContent.innerHTML = `
-                    <div style="color: #ef4444;">
-                        <strong>Analysis Error</strong><br>
-                        ${error.message}<br><br>
-                        <em>Note: Make sure the VERA backend is running and Qwen API is configured.</em>
-                    </div>
-                `;
-                resultsArea.classList.add('show');
-                orbStatus.textContent = 'Error occurred';
-            } finally {
-                // Reset UI
-                analyzeButton.disabled = false;
-                analyzeButton.innerHTML = '<span class="button-text">Analyze with VERA\'s Consciousness</span>';
-                veraOrb.classList.remove('active');
-            }
-        });
-
-        function displayResults(result) {
-            if (result.response && result.response.message) {
-                responseContent.innerHTML = `
-                    <div style="white-space: pre-wrap; line-height: 1.8;">
-                        ${result.response.message.content || result.response.message}
-                    </div>
-                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(139, 92, 246, 0.2); font-size: 0.9rem; color: #94a3b8;">
-                        <strong>Mode:</strong> ${result.mode}<br>
-                        <strong>Timestamp:</strong> ${new Date(result.timestamp).toLocaleString()}
-                    </div>
-                `;
-            } else {
-                responseContent.innerHTML = `
-                    <div style="color: #fbbf24;">
-                        <strong>Unexpected Response Format</strong><br>
-                        <pre style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px; overflow-x: auto;">${JSON.stringify(result, null, 2)}</pre>
-                    </div>
-                `;
+                console.error('Message error:', error);
+                hideTypingIndicator();
+                addMessage(`Oops! I'm having trouble connecting. Check your internet and try again. 📱`, 'vera');
             }
         }
 
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'Enter') {
-                analyzeButton.click();
+        // Add message to chat
+        function addMessage(content, sender) {
+            const messageGroup = document.createElement('div');
+            messageGroup.className = `message-group ${sender}`;
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
+            messageBubble.innerHTML = formatMessage(content);
+            
+            const messageTime = document.createElement('div');
+            messageTime.className = 'message-time';
+            messageTime.textContent = new Date().toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            messageGroup.appendChild(messageBubble);
+            messageGroup.appendChild(messageTime);
+            
+            messagesArea.appendChild(messageGroup);
+            scrollToBottom();
+        }
+
+        // Format message content
+        function formatMessage(content) {
+            // Convert **bold** to <strong>
+            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Convert *italic* to <em>
+            content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            // Convert line breaks
+            content = content.replace(/\n/g, '<br>');
+            return content;
+        }
+
+        // Typing indicator
+        function showTypingIndicator() {
+            if (isTyping) return;
+            isTyping = true;
+
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+                <span class="typing-text">VERA is thinking...</span>
+            `;
+            
+            messagesArea.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            isTyping = false;
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // Update suggestions based on conversation context
+        function updateSuggestions() {
+            const contextualSuggestions = [
+                { text: "Tell me more about that", emoji: "💭" },
+                { text: "What's the next step?", emoji: "👉" },
+                { text: "How do I implement this?", emoji: "🛠️" },
+                { text: "Any examples?", emoji: "📖" },
+                { text: "Let's brainstorm more", emoji: "🚀" }
+            ];
+            
+            quickSuggestions.innerHTML = '';
+            contextualSuggestions.forEach(suggestion => {
+                const chip = document.createElement('div');
+                chip.className = 'suggestion-chip';
+                chip.dataset.text = suggestion.text;
+                chip.textContent = `${suggestion.emoji} ${suggestion.text}`;
+                quickSuggestions.appendChild(chip);
+            });
+        }
+
+        // Scroll to bottom
+        function scrollToBottom() {
+            setTimeout(() => {
+                messagesArea.scrollTop = messagesArea.scrollHeight;
+            }, 100);
+        }
+
+        // Voice button (placeholder for future implementation)
+        voiceButton.addEventListener('click', function() {
+            console.log('Voice input - future ElevenLabs integration');
+            // Placeholder for voice input
+            messageInput.placeholder = "Voice input coming soon...";
+            setTimeout(() => {
+                messageInput.placeholder = "Message VERA...";
+            }, 2000);
+        });
+
+        // Send button
+        sendButton.addEventListener('click', sendMessage);
+
+        // Enter to send (mobile-friendly)
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
             }
         });
+
+        // Prevent zoom on input focus (iOS Safari)
+        messageInput.addEventListener('focus', function() {
+            document.querySelector('meta[name=viewport]').setAttribute('content', 
+                'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+        });
+
+        messageInput.addEventListener('blur', function() {
+            document.querySelector('meta[name=viewport]').setAttribute('content', 
+                'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+        });
+
+        // Add sample conversation for demo
+        setTimeout(() => {
+            const welcomeMessage = messagesArea.querySelector('.welcome-message');
+            if (welcomeMessage) {
+                welcomeMessage.innerHTML = `
+                    <h2>Hey Taylor! 👋</h2>
+                    <p>I've been thinking about our VERA Neural launch strategy. Ready to dive into some marketing magic?</p>
+                `;
+            }
+        }, 1000);
+
+        // Initialize
+        console.log('📱 VERA Mobile Chat App Ready');
+        
+        // PWA-like experience
+        if ('serviceWorker' in navigator) {
+            // Future: Add service worker for offline capability
+        }
     </script>
 </body>
 </html>
