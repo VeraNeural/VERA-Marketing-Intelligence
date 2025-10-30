@@ -1179,18 +1179,21 @@
             </div>
 
             <div class="nav-section">
-                <div class="nav-title">Intelligence Hub</div>
-                <div class="nav-item" onclick="switchView('dashboard')">
-                    <span>Executive Dashboard</span>
-                    <div class="nav-indicator"></div>
+                <div class="nav-title">Marketing Intelligence</div>
+                <div class="nav-item" onclick="quickMessage('Show me today\'s marketing performance metrics and key insights')">
+                    <span>Performance Dashboard</span>
                 </div>
-                <div class="nav-item" onclick="switchView('reports')">
-                    <span>Intelligence Reports</span>
-                    <div class="nav-indicator"></div>
+                <div class="nav-item" onclick="quickMessage('Generate executive marketing report for this week')">
+                    <span>Weekly Reports</span>
                 </div>
-                <div class="nav-item" onclick="switchView('calendar')">
-                    <span>Marketing Calendar</span>
-                    <div class="nav-indicator"></div>
+                <div class="nav-item" onclick="quickMessage('Show campaign status and upcoming deadlines')">
+                    <span>Campaign Calendar</span>
+                </div>
+                <div class="nav-item" onclick="quickMessage('Analyze lead pipeline and conversion opportunities')">
+                    <span>Lead Intelligence</span>
+                </div>
+                <div class="nav-item" onclick="quickMessage('Review competitor analysis and market positioning')">
+                    <span>Market Analysis</span>
                 </div>
             </div>
 
@@ -1655,34 +1658,13 @@
             mainContent.classList.toggle('panel-collapsed');
         }
 
-        function switchView(view) {
-            currentView = view;
-            
-            // Update active nav item
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.closest('.nav-item').classList.add('active');
-            
-            // Hide all views
-            document.getElementById('chatView').style.display = 'none';
-            document.getElementById('calendarView').classList.remove('active');
-            
-            // Show selected view
-            switch(view) {
-                case 'chat':
-                    document.getElementById('chatView').style.display = 'block';
-                    break;
-                case 'calendar':
-                    document.getElementById('calendarView').classList.add('active');
-                    break;
-                case 'campaigns':
-                    showCampaignsView();
-                    break;
-                case 'analytics':
-                    showAnalyticsView();
-                    break;
-            }
+        // Simplified navigation - everything works through chat
+        function newChat() {
+            // Clear current chat and start fresh
+            document.getElementById('chatMessages').innerHTML = '';
+            document.getElementById('messageInput').value = '';
+            quickStartActive = true;
+            showQuickStart();
         }
 
         // Calendar Functions
