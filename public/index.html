@@ -18,19 +18,21 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(180deg, #1a0f2e 0%, #2a1a4a 50%, #1a0f2e 100%);
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0a0a0f 100%);
             color: #ffffff;
             height: 100vh;
             overflow: hidden;
             display: flex;
+            margin: 0;
+            padding: 0;
         }
 
         /* Side Panel */
         .side-panel {
             width: 280px;
-            background: rgba(42, 26, 74, 0.95);
+            background: rgba(10, 10, 15, 0.95);
             backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(160, 200, 255, 0.2);
+            border-right: 1px solid rgba(100, 120, 156, 0.2);
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -39,6 +41,9 @@
             bottom: 0;
             z-index: 1000;
             transition: transform 0.3s ease, width 0.3s ease;
+            box-shadow: 
+                0 0 50px rgba(100, 120, 156, 0.1),
+                inset 1px 0 0 rgba(100, 120, 156, 0.15);
         }
 
         .side-panel.collapsed {
@@ -66,10 +71,10 @@
             right: -15px;
             width: 30px;
             height: 30px;
-            background: rgba(42, 26, 74, 0.95);
-            border: 1px solid rgba(160, 200, 255, 0.3);
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid rgba(100, 120, 160, 0.3);
             border-radius: 50%;
-            color: #a0c8ff;
+            color: #64789c;
             font-size: 14px;
             cursor: pointer;
             display: flex;
@@ -81,8 +86,8 @@
         }
 
         .collapse-btn:hover {
-            background: rgba(160, 200, 255, 0.2);
-            border-color: rgba(160, 200, 255, 0.5);
+            background: rgba(100, 120, 160, 0.1);
+            border-color: rgba(100, 120, 160, 0.5);
         }
 
         .panel-header {
@@ -101,7 +106,7 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: radial-gradient(circle, #a0c8ff 0%, #7890ff 100%);
+            background: radial-gradient(circle, #64789c 0%, #4a5a7a 100%);
             animation: breathe 4s ease-in-out infinite;
             position: relative;
             overflow: hidden;
@@ -110,11 +115,11 @@
         .orb::before {
             content: '';
             position: absolute;
-            top: 20%;
-            left: 20%;
-            width: 60%;
-            height: 60%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+            top: 25%;
+            left: 25%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
             border-radius: 50%;
             animation: breatheGlow 4s ease-in-out infinite;
         }
@@ -122,31 +127,31 @@
         @keyframes breathe {
             0%, 100% { 
                 transform: scale(1);
-                opacity: 0.9;
-                box-shadow: 0 0 10px rgba(160, 200, 255, 0.3);
+                opacity: 0.8;
+                box-shadow: 0 0 8px rgba(100, 120, 156, 0.2);
             }
             50% { 
-                transform: scale(1.05);
+                transform: scale(1.03);
                 opacity: 1;
-                box-shadow: 0 0 20px rgba(160, 200, 255, 0.6);
+                box-shadow: 0 0 16px rgba(100, 120, 156, 0.4);
             }
         }
 
         @keyframes breatheGlow {
             0%, 100% { 
-                opacity: 0.3;
+                opacity: 0.2;
                 transform: scale(1);
             }
             50% { 
-                opacity: 0.6;
-                transform: scale(1.2);
+                opacity: 0.4;
+                transform: scale(1.1);
             }
         }
 
         .title {
             font-size: 22px;
             font-weight: 700;
-            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
+            background: linear-gradient(135deg, #64789c 0%, #4a5a7a 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -154,7 +159,7 @@
 
         .subtitle {
             font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
             margin-top: 2px;
         }
 
@@ -322,10 +327,10 @@
 
         .quick-btn {
             padding: 10px 20px;
-            background: rgba(160, 200, 255, 0.1);
-            border: 1px solid rgba(160, 200, 255, 0.2);
+            background: rgba(100, 120, 156, 0.1);
+            border: 1px solid rgba(100, 120, 156, 0.2);
             border-radius: 6px;
-            color: #a0c8ff;
+            color: #64789c;
             font-size: 13px;
             font-weight: 500;
             white-space: nowrap;
@@ -334,8 +339,8 @@
         }
 
         .quick-btn:hover {
-            background: rgba(160, 200, 255, 0.2);
-            border-color: rgba(160, 200, 255, 0.3);
+            background: rgba(100, 120, 156, 0.2);
+            border-color: rgba(100, 120, 156, 0.3);
         }
 
         /* Chat Area */
@@ -353,16 +358,16 @@
         }
 
         .chat-area::-webkit-scrollbar-track {
-            background: rgba(160, 200, 255, 0.1);
+            background: rgba(100, 120, 156, 0.1);
         }
 
         .chat-area::-webkit-scrollbar-thumb {
-            background: rgba(160, 200, 255, 0.3);
+            background: rgba(100, 120, 156, 0.3);
             border-radius: 3px;
         }
 
         .chat-area::-webkit-scrollbar-thumb:hover {
-            background: rgba(160, 200, 255, 0.5);
+            background: rgba(100, 120, 156, 0.5);
         }
 
         .message {
@@ -390,8 +395,8 @@
         }
 
         .message.user .message-bubble {
-            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
-            color: #1a0f2e;
+            background: linear-gradient(135deg, #64789c 0%, #4a5a7a 100%);
+            color: white;
             font-weight: 500;
         }
 
@@ -424,7 +429,7 @@
         .typing-dot {
             width: 6px;
             height: 6px;
-            background: #a0c8ff;
+            background: #64789c;
             border-radius: 50%;
             animation: typing 1.4s infinite;
         }
@@ -439,9 +444,9 @@
 
         /* Input Area */
         .input-area {
-            background: rgba(42, 26, 74, 0.95);
+            background: rgba(10, 10, 15, 0.95);
             backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(160, 200, 255, 0.2);
+            border-top: 1px solid rgba(100, 120, 156, 0.2);
             padding: 20px 30px;
         }
 
@@ -479,9 +484,9 @@
             width: 40px;
             height: 40px;
             border-radius: 8px;
-            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
+            background: linear-gradient(135deg, #64789c 0%, #4a5a7a 100%);
             border: none;
-            color: #1a0f2e;
+            color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -536,7 +541,7 @@
 
         .feature-title {
             font-size: 12px;
-            color: #a0c8ff;
+            color: #64789c;
             font-weight: 500;
         }
 
@@ -612,17 +617,17 @@
         }
 
         .calendar-nav-btn {
-            background: rgba(160, 200, 255, 0.1);
-            border: 1px solid rgba(160, 200, 255, 0.2);
+            background: rgba(100, 120, 156, 0.1);
+            border: 1px solid rgba(100, 120, 156, 0.2);
             border-radius: 6px;
-            color: #a0c8ff;
+            color: #64789c;
             padding: 8px 16px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .calendar-nav-btn:hover {
-            background: rgba(160, 200, 255, 0.2);
+            background: rgba(100, 120, 156, 0.2);
         }
 
         .calendar-grid {
@@ -660,12 +665,12 @@
         }
 
         .calendar-cell.today {
-            background: rgba(160, 200, 255, 0.2);
-            border: 2px solid #a0c8ff;
+            background: rgba(100, 120, 156, 0.2);
+            border: 2px solid #64789c;
         }
 
         .calendar-cell.has-events {
-            background: rgba(160, 200, 255, 0.15);
+            background: rgba(100, 120, 156, 0.15);
         }
 
         .calendar-date {
@@ -675,8 +680,8 @@
         }
 
         .calendar-event {
-            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
-            color: #1a0f2e;
+            background: linear-gradient(135deg, #64789c 0%, #4a5a7a 100%);
+            color: white;
             font-size: 10px;
             padding: 2px 4px;
             border-radius: 3px;
@@ -729,8 +734,8 @@
         }
 
         .event-type {
-            background: rgba(160, 200, 255, 0.2);
-            color: #a0c8ff;
+            background: rgba(100, 120, 156, 0.2);
+            color: #64789c;
             font-size: 10px;
             padding: 4px 8px;
             border-radius: 12px;
@@ -754,7 +759,7 @@
             font-weight: 700;
             color: #ffffff;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
+            background: linear-gradient(135deg, #64789c 0%, #4a5a7a 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -862,9 +867,9 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background: rgba(42, 26, 74, 0.9);
-            border: 1px solid rgba(160, 200, 255, 0.3);
-            color: #a0c8ff;
+            background: rgba(10, 10, 15, 0.9);
+            border: 1px solid rgba(100, 120, 156, 0.3);
+            color: #64789c;
             font-size: 20px;
             cursor: pointer;
             display: flex;
@@ -881,9 +886,9 @@
         }
 
         .tts-btn.active {
-            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
-            color: #1a0f2e;
-            border-color: #a0c8ff;
+            background: linear-gradient(135deg, #64789c 0%, #4a5a7a 100%);
+            color: white;
+            border-color: #64789c;
         }
     </style>
 </head>
@@ -1009,25 +1014,21 @@
                     
                     <div class="quick-start-grid">
                         <div class="quick-start-card" onclick="quickStart('morning-briefing')">
-                            <div class="quick-start-icon">📊</div>
                             <h3 class="quick-start-card-title">Morning Marketing Briefing</h3>
                             <p class="quick-start-description">Get your daily marketing intelligence report with key metrics, campaign updates, and priority actions</p>
                         </div>
                         
                         <div class="quick-start-card" onclick="quickStart('strategic-planning')">
-                            <div class="quick-start-icon">🎯</div>
                             <h3 class="quick-start-card-title">Strategic Planning Session</h3>
                             <p class="quick-start-description">Deep-dive into campaign strategy, market analysis, and competitive positioning for the week ahead</p>
                         </div>
                         
                         <div class="quick-start-card" onclick="quickStart('performance-review')">
-                            <div class="quick-start-icon">📈</div>
                             <h3 class="quick-start-card-title">Performance Review</h3>
                             <p class="quick-start-description">Analyze campaign performance, ROI metrics, and optimization opportunities across all channels</p>
                         </div>
                         
                         <div class="quick-start-card" onclick="quickStart('team-coordination')">
-                            <div class="quick-start-icon">👥</div>
                             <h3 class="quick-start-card-title">Team Coordination</h3>
                             <p class="quick-start-description">Review team workload, project timelines, and resource allocation for maximum productivity</p>
                         </div>
@@ -1281,7 +1282,7 @@
                 .replace(/\*(.*?)\*/g, '$1')
                 .replace(/•/g, '')
                 .replace(/\n/g, ' ')
-                .replace(/🚀|📊|💡|🎯|📈|👥|🌅|⚡|💰|📧|🔊|🔇/g, '');
+                .replace(/🚀||🎯|📈|👥|🌅|⚡|💰|📧|🔊|🔇/g, '');
             
             const utterance = new SpeechSynthesisUtterance(cleanText);
             utterance.rate = 0.9;
@@ -1640,7 +1641,7 @@
                 .replace(/\n/g, '<br>')
                 .replace(/•/g, '&bull;')
                 .replace(/🚀/g, '<span style="color: #4ade80;">🚀</span>')
-                .replace(/📊/g, '<span style="color: #a0c8ff;">📊</span>')
+                .replace(/📊/g, '<span style="color: #64789c;">📊</span>')
                 .replace(/💡/g, '<span style="color: #fbbf24;">💡</span>');
         }
 
