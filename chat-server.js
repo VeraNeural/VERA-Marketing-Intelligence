@@ -58,24 +58,34 @@ console.log('QWEN_API_URL:', QWEN_API_URL);
 console.log('QWEN_TRAINING_MODE:', QWEN_TRAINING_MODE);
 console.log('==========================');
 
-// Root route - redirect to executive interface
+// Root route - redirect to VERA mobile dashboard
 app.get('/', (req, res) => {
-  res.redirect('/executive.html');
+  res.redirect('/dashboard');
 });
 
-// Mobile-optimized chat interface
+// VERA Mobile Dashboard - MAIN INTERFACE
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'vera-mobile.html'));
+});
+
+// Mobile chat interface - conversational view
 app.get('/mobile', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
 });
 
-// Chat route - redirect to executive interface  
-app.get('/chat', (req, res) => {
-  res.redirect('/executive.html');
+// Executive interface (structural) - SECONDARY
+app.get('/executive', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'executive.html'));
 });
 
-// Workspace route - redirect to executive interface
+// Chat route - redirect to mobile interface  
+app.get('/chat', (req, res) => {
+  res.redirect('/mobile');
+});
+
+// Workspace route - redirect to dashboard
 app.get('/workspace', (req, res) => {
-  res.redirect('/executive.html');
+  res.redirect('/dashboard');
 });
 
 // Health check endpoint
@@ -152,7 +162,7 @@ Your neural calibration for Taylor:
 VERA Neural positioning: "The Hermès of AI consciousness - where intelligence meets intuition"
 
 ${isMobileMode ? 
-  `MOBILE CONVERSATION MODE: You're chatting with Taylor throughout her busy day. Be conversational, supportive, and concise. Use emojis naturally. Think of yourself as her trusted marketing partner she can text anytime. Keep responses under 3 paragraphs but pack them with insight. Be encouraging and solution-focused.` :
+  `MOBILE CONVERSATION MODE: You're Taylor's daily marketing partner and confidant. Be warm, encouraging, and conversational like her best marketing friend who really gets it. Use emojis naturally. Share insights with enthusiasm. Be supportive when she's stressed. Always end with something actionable or a follow-up question. Keep responses under 3 paragraphs but make every word count. Think of yourself as the marketing partner she texts throughout her busy day - someone who celebrates wins, helps solve problems, and always has her back.` :
   `You help create content that soothes rather than startles nervous systems while building luxury brand positioning. Keep responses conversational, strategic, and supportive. Focus on psychological safety, co-regulation, and authentic connection in marketing.`}`;
 
   try {

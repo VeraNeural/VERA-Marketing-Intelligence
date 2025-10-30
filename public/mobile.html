@@ -407,18 +407,36 @@
 
     <div class="chat-container">
         <div class="messages-area" id="messagesArea">
-            <div class="welcome-message">
-                <h2>Hey Taylor! 👋</h2>
-                <p>Ready to tackle some marketing challenges together? I'm here whenever you need me.</p>
+            <div class="message-group vera">
+                <div class="message-bubble">
+                    Hey Taylor! 👋 It's Wednesday - perfect day to tackle some marketing magic together. 
+                    
+                    I've been thinking about our VERA Neural launch strategy while you were away. Ready to dive in? ✨
+                </div>
+                <div class="message-time">Just now</div>
+            </div>
+            
+            <div class="message-group vera">
+                <div class="message-bubble">
+                    What's on your mind today? I'm here for:
+                    
+                    🔥 **Quick wins** - Tactical stuff you can execute today
+                    💡 **Big ideas** - Campaign brainstorming and strategy  
+                    🎯 **Content review** - Let me analyze what you're working on
+                    📊 **Market intel** - What competitors are doing, trends to watch
+                    
+                    Or just tell me what's stressing you out and let's solve it together! 😊
+                </div>
+                <div class="message-time">Just now</div>
             </div>
         </div>
 
         <div class="quick-suggestions" id="quickSuggestions">
-            <div class="suggestion-chip" data-text="What's trending in AI marketing today?">🔥 Trending</div>
-            <div class="suggestion-chip" data-text="Help me brainstorm campaign ideas">💡 Ideas</div>
-            <div class="suggestion-chip" data-text="Review my latest content draft">📝 Review</div>
-            <div class="suggestion-chip" data-text="Quick competitor analysis">🔍 Intel</div>
-            <div class="suggestion-chip" data-text="Schedule strategy session">📅 Schedule</div>
+            <div class="suggestion-chip" data-text="I'm feeling overwhelmed with the launch timeline. Help me prioritize?">� Overwhelmed</div>
+            <div class="suggestion-chip" data-text="What's the latest buzz in AI marketing? Any opportunities for us?">� Market Buzz</div>
+            <div class="suggestion-chip" data-text="Brainstorm some killer campaign ideas for VERA Neural's luxury positioning">� Campaign Ideas</div>
+            <div class="suggestion-chip" data-text="Review this email subject line: 'VERA Neural - Where Intelligence Meets Intuition'">� Quick Review</div>
+            <div class="suggestion-chip" data-text="Coffee chat time! What should I know about today's marketing landscape?">☕ Coffee Chat</div>
         </div>
 
         <div class="input-area">
@@ -427,7 +445,7 @@
                 <textarea 
                     class="message-input" 
                     id="messageInput" 
-                    placeholder="Message VERA..."
+                    placeholder="Talk to me, Taylor..."
                     rows="1"></textarea>
                 <button class="send-button" id="sendButton" disabled>→</button>
             </div>
@@ -546,12 +564,6 @@
             
             messageGroup.appendChild(messageBubble);
             messageGroup.appendChild(messageTime);
-            
-            // Remove welcome message if it exists
-            const welcomeMessage = messagesArea.querySelector('.welcome-message');
-            if (welcomeMessage) {
-                welcomeMessage.remove();
-            }
             
             messagesArea.appendChild(messageGroup);
             scrollToBottom();
