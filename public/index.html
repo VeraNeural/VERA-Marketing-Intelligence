@@ -31,8 +31,8 @@
         /* Side Panel */
         .side-panel {
             width: 280px;
-            background: #f6f1fb;
-            border-right: 1px solid #eadff6;
+            background: #f7eef6; /* soft blush */
+            border-right: 1px solid #eddff0;
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -400,6 +400,7 @@
             max-height: calc(100vh - 140px);
             -webkit-overflow-scrolling: touch;
             position: relative;
+            background: linear-gradient(180deg, #fff8fb 0%, #ffffff 70%); /* blush only in mid section */
         }
 
         .chat-area::-webkit-scrollbar {
@@ -493,10 +494,10 @@
 
         /* Input Area */
         .input-area {
-            background: rgba(10, 10, 15, 0.95);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(100, 120, 156, 0.2);
+            background: #fbf7fc; /* lighter input bar */
+            border-top: 1px solid #eadff1;
             padding: 20px 30px;
+            backdrop-filter: none;
         }
 
         /* Copilot Dock */
@@ -508,26 +509,26 @@
         }
         .copilot-chip {
             padding: 6px 12px;
-            background: rgba(181, 122, 188, 0.1);
-            border: 1px solid rgba(181, 122, 188, 0.25);
+            background: #f2e9f5; /* lighter chip */
+            border: 1px solid #e3d3ea;
             border-radius: 16px;
-            color: #b57abc;
+            color: #6f5a8e;
             font-size: 12px;
             white-space: nowrap;
             cursor: pointer;
             transition: background 0.2s, border-color 0.2s;
         }
         .copilot-chip:hover {
-            background: rgba(181, 122, 188, 0.2);
-            border-color: rgba(181, 122, 188, 0.4);
+            background: #ece0f0;
+            border-color: #d6c6de;
         }
 
         .input-container {
             display: flex;
             align-items: end;
             gap: 12px;
-            background: rgba(181, 122, 188, 0.1);
-            border: 1px solid rgba(181, 122, 188, 0.2);
+            background: #ffffff;
+            border: 1px solid #e7dff0;
             border-radius: 12px;
             padding: 12px;
         }
@@ -549,7 +550,7 @@
         }
 
         .message-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: #9aa0a6;
         }
 
         .send-btn {
@@ -1009,7 +1010,7 @@
             </div>
 
             <div class="nav-section">
-                <div class="nav-title">Core Workflows</div>
+                <div class="nav-title">Weekly Agenda</div>
                 <div class="nav-item" onclick="quickMessage('Help me build and track the VERA Neural launch plan. Start with phases, milestones, owners, risks, and first next actions for today.')">
                     <span>Neural Launch Plan</span>
                 </div>
@@ -1078,9 +1079,6 @@
                         </div>
                         <div class="quick-start-card" onclick="quickStart('julija-comm')">
                             <h3 class="quick-start-card-title">Comms with Julija</h3>
-                        </div>
-                        <div class="quick-start-card" onclick="quickStart('eva-comm')">
-                            <h3 class="quick-start-card-title">Comms with Eva</h3>
                         </div>
                     </div>
                     
