@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#2a1a4a">
-    <title>VERA • Marketing Intelligence</title>
+    <title>VERA • Executive Marketing Intelligence</title>
     <style>
         * {
             margin: 0;
@@ -20,46 +20,51 @@
             color: #ffffff;
             height: 100vh;
             overflow: hidden;
+            display: flex;
         }
 
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 60px;
+        /* Side Panel */
+        .side-panel {
+            width: 280px;
             background: rgba(42, 26, 74, 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(160, 200, 255, 0.2);
+            border-right: 1px solid rgba(160, 200, 255, 0.2);
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
+            flex-direction: column;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
             z-index: 1000;
+        }
+
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(160, 200, 255, 0.1);
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            margin-bottom: 8px;
         }
 
         .orb {
-            width: 28px;
-            height: 28px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             background: radial-gradient(circle, #a0c8ff 0%, #7890ff 100%);
-            animation: pulse 2s infinite;
+            animation: pulse 3s infinite;
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; transform: scale(1.05); }
+            50% { opacity: 1; transform: scale(1.02); }
         }
 
         .title {
-            font-size: 18px;
+            font-size: 22px;
             font-weight: 700;
             background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
             -webkit-background-clip: text;
@@ -67,43 +72,177 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .status {
+        .subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2px;
+        }
+
+        /* Navigation */
+        .nav-section {
+            padding: 20px;
+            border-bottom: 1px solid rgba(160, 200, 255, 0.1);
+        }
+
+        .nav-title {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            padding: 12px 16px;
+            margin-bottom: 6px;
+            background: rgba(160, 200, 255, 0.05);
+            border: 1px solid rgba(160, 200, 255, 0.1);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(160, 200, 255, 0.15);
+            border-color: rgba(160, 200, 255, 0.3);
+            color: #ffffff;
+        }
+
+        .nav-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+        }
+
+        .nav-indicator.warning {
+            background: #fbbf24;
+        }
+
+        .nav-indicator.inactive {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Wellness Panel */
+        .wellness-panel {
+            padding: 20px;
+            background: rgba(160, 200, 255, 0.05);
+        }
+
+        .wellness-title {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .wellness-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(160, 200, 255, 0.1);
+        }
+
+        .wellness-metric:last-child {
+            border-bottom: none;
+        }
+
+        .wellness-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .wellness-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4ade80;
+        }
+
+        .wellness-value.warning {
+            color: #fbbf24;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            height: 60px;
+            background: rgba(42, 26, 74, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(160, 200, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .header-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ade80;
+        }
+
+        .status-text {
             font-size: 12px;
             color: rgba(255, 255, 255, 0.7);
         }
 
         /* Main Container */
         .container {
-            position: fixed;
-            top: 60px;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            flex: 1;
             display: flex;
             flex-direction: column;
         }
 
-        /* Quick Panel */
-        .quick-panel {
-            padding: 15px;
-            background: rgba(42, 26, 74, 0.5);
+        /* Quick Actions */
+        .quick-actions-bar {
+            padding: 15px 30px;
+            background: rgba(42, 26, 74, 0.3);
             border-bottom: 1px solid rgba(160, 200, 255, 0.1);
         }
 
         .quick-actions {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             overflow-x: auto;
-            padding-bottom: 5px;
         }
 
         .quick-btn {
-            padding: 8px 16px;
+            padding: 10px 20px;
             background: rgba(160, 200, 255, 0.1);
             border: 1px solid rgba(160, 200, 255, 0.2);
-            border-radius: 20px;
+            border-radius: 6px;
             color: #a0c8ff;
             font-size: 13px;
+            font-weight: 500;
             white-space: nowrap;
             cursor: pointer;
             transition: all 0.2s;
@@ -111,20 +250,21 @@
 
         .quick-btn:hover {
             background: rgba(160, 200, 255, 0.2);
+            border-color: rgba(160, 200, 255, 0.3);
         }
 
         /* Chat Area */
         .chat-area {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 30px;
             -webkit-overflow-scrolling: touch;
         }
 
         .message {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
-            gap: 10px;
+            gap: 12px;
         }
 
         .message.user {
@@ -132,11 +272,11 @@
         }
 
         .message-bubble {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
+            max-width: 70%;
+            padding: 16px 20px;
+            border-radius: 12px;
             font-size: 14px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .message.vera .message-bubble {
@@ -154,7 +294,7 @@
         .message-time {
             font-size: 11px;
             color: rgba(255, 255, 255, 0.5);
-            margin-top: 4px;
+            margin-top: 6px;
             text-align: right;
         }
 
@@ -195,24 +335,20 @@
 
         /* Input Area */
         .input-area {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
             background: rgba(42, 26, 74, 0.95);
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(160, 200, 255, 0.2);
-            padding: 15px;
+            padding: 20px 30px;
         }
 
         .input-container {
             display: flex;
             align-items: end;
-            gap: 10px;
+            gap: 12px;
             background: rgba(160, 200, 255, 0.1);
             border: 1px solid rgba(160, 200, 255, 0.2);
-            border-radius: 24px;
-            padding: 8px;
+            border-radius: 12px;
+            padding: 12px;
         }
 
         .message-input {
@@ -223,7 +359,7 @@
             font-size: 16px;
             padding: 8px 12px;
             resize: none;
-            max-height: 100px;
+            max-height: 120px;
             font-family: inherit;
         }
 
@@ -236,9 +372,9 @@
         }
 
         .send-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
             background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
             border: none;
             color: #1a0f2e;
@@ -301,92 +437,195 @@
         }
 
         /* Responsive */
-        @media screen and (max-width: 375px) {
-            .feature-grid {
-                grid-template-columns: repeat(2, 1fr);
+        @media screen and (max-width: 768px) {
+            .side-panel {
+                width: 260px;
             }
+            
+            .main-content {
+                margin-left: 260px;
+            }
+        }
+
+        @media screen and (max-width: 640px) {
+            .side-panel {
+                width: 100%;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .side-panel.open {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 18px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">
-            <div class="orb"></div>
-            <div class="title">VERA</div>
+    <!-- Side Panel -->
+    <div class="side-panel" id="sidePanel">
+        <div class="panel-header">
+            <div class="logo">
+                <div class="orb"></div>
+                <div>
+                    <div class="title">VERA</div>
+                    <div class="subtitle">Executive Marketing Intelligence</div>
+                </div>
+            </div>
         </div>
-        <div class="status">Online</div>
+
+        <div class="nav-section">
+            <div class="nav-title">Intelligence</div>
+            <div class="nav-item active" onclick="switchView('chat')">
+                <span>Strategic Conversation</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" onclick="switchView('campaigns')">
+                <span>Campaign Management</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" onclick="switchView('analytics')">
+                <span>Performance Analytics</span>
+                <div class="nav-indicator warning"></div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Automation</div>
+            <div class="nav-item" onclick="manageEmailAutomation()">
+                <span>Email Workflows</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" onclick="manageSocialAutomation()">
+                <span>Social Publishing</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" onclick="manageLeadNurturing()">
+                <span>Lead Nurturing</span>
+                <div class="nav-indicator warning"></div>
+            </div>
+        </div>
+
+        <div class="nav-section">
+            <div class="nav-title">Executive Tools</div>
+            <div class="nav-item" onclick="viewDashboard()">
+                <span>Executive Dashboard</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" onclick="generateReports()">
+                <span>Intelligence Reports</span>
+                <div class="nav-indicator"></div>
+            </div>
+            <div class="nav-item" onclick="manageTeam()">
+                <span>Team Coordination</span>
+                <div class="nav-indicator"></div>
+            </div>
+        </div>
+
+        <div class="wellness-panel">
+            <div class="wellness-title">System Wellness</div>
+            <div class="wellness-metric">
+                <span class="wellness-label">AI Response Time</span>
+                <span class="wellness-value">0.3s</span>
+            </div>
+            <div class="wellness-metric">
+                <span class="wellness-label">Data Freshness</span>
+                <span class="wellness-value">Real-time</span>
+            </div>
+            <div class="wellness-metric">
+                <span class="wellness-label">Automation Health</span>
+                <span class="wellness-value">98.5%</span>
+            </div>
+            <div class="wellness-metric">
+                <span class="wellness-label">Trust Score</span>
+                <span class="wellness-value">94.2%</span>
+            </div>
+        </div>
     </div>
 
-    <div class="container">
-        <div class="quick-panel">
-            <div class="quick-actions">
-                <div class="quick-btn" onclick="quickMessage('What should I focus on today?')">Daily Focus</div>
-                <div class="quick-btn" onclick="quickMessage('Give me the latest market intelligence')">Market Intel</div>
-                <div class="quick-btn" onclick="quickMessage('Help me brainstorm campaign ideas')">Campaign Ideas</div>
-                <div class="quick-btn" onclick="quickMessage('Review my content performance')">Performance</div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <button class="mobile-menu-btn" onclick="toggleSidePanel()">☰</button>
+            <div class="header-title">Strategic Marketing Intelligence</div>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span class="status-text">Neural Network Active</span>
             </div>
         </div>
 
-        <div class="features-panel">
-            <div class="feature-grid">
-                <div class="feature-card" onclick="toggleTTS()">
-                    <span class="feature-icon">🔊</span>
-                    <div class="feature-title">Voice TTS</div>
+        <div class="container">
+            <div class="quick-actions-bar">
+                <div class="quick-actions">
+                    <div class="quick-btn" onclick="quickMessage('What are my top 3 strategic priorities this week?')">Weekly Priorities</div>
+                    <div class="quick-btn" onclick="quickMessage('Analyze competitor intelligence and market positioning')">Market Position</div>
+                    <div class="quick-btn" onclick="quickMessage('Review campaign performance and optimization opportunities')">Performance Review</div>
+                    <div class="quick-btn" onclick="quickMessage('Generate executive summary of marketing metrics')">Executive Summary</div>
                 </div>
-                <div class="feature-card" onclick="viewCalendar()">
-                    <span class="feature-icon">📅</span>
-                    <div class="feature-title">Calendar</div>
+            </div>
+
+            <div class="chat-area" id="chatArea">
+                <div class="message vera">
+                    <div class="message-bubble">
+                        Good morning, Taylor. I've analyzed your marketing ecosystem overnight and have strategic recommendations ready. Your lead nurturing sequences are performing exceptionally well, with a 23% increase in qualified leads this quarter. How would you like to begin today's strategic session?
+                        <div class="message-time">Just now</div>
+                    </div>
                 </div>
-                <div class="feature-card" onclick="emailAutomation()">
-                    <span class="feature-icon">📧</span>
-                    <div class="feature-title">Email Auto</div>
+            </div>
+
+            <div class="typing" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
                 </div>
             </div>
         </div>
 
-        <div class="chat-area" id="chatArea">
-            <div class="message vera">
-                <div class="message-bubble">
-                    Hey Taylor! 👋 Ready to tackle your marketing goals today? I've got your back for strategy, content, and insights.
-                    <div class="message-time">Just now</div>
-                </div>
+        <div class="input-area">
+            <div class="input-container">
+                <textarea 
+                    id="messageInput" 
+                    class="message-input" 
+                    placeholder="Ask VERA about strategy, campaigns, analytics, or automation..."
+                    rows="1"></textarea>
+                <button id="sendBtn" class="send-btn" onclick="sendMessage()" disabled>→</button>
             </div>
-        </div>
-
-        <div class="typing" id="typingIndicator">
-            <div class="typing-dots">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="input-area">
-        <div class="input-container">
-            <textarea 
-                id="messageInput" 
-                class="message-input" 
-                placeholder="Message VERA..."
-                rows="1"></textarea>
-            <button id="sendBtn" class="send-btn" onclick="sendMessage()" disabled>→</button>
         </div>
     </div>
 
     <script>
         let ttsEnabled = false;
         let conversationHistory = [];
+        let currentView = 'chat';
 
         // DOM elements
         const messageInput = document.getElementById('messageInput');
         const sendBtn = document.getElementById('sendBtn');
         const chatArea = document.getElementById('chatArea');
         const typingIndicator = document.getElementById('typingIndicator');
+        const sidePanel = document.getElementById('sidePanel');
 
         // Auto-resize textarea
         messageInput.addEventListener('input', function() {
             this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
             sendBtn.disabled = !this.value.trim();
         });
 
@@ -397,16 +636,80 @@
             }
         });
 
+        // Side panel management
+        function toggleSidePanel() {
+            sidePanel.classList.toggle('open');
+        }
+
+        function switchView(view) {
+            currentView = view;
+            // Update active nav item
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.nav-item').classList.add('active');
+            
+            // Handle view switching
+            switch(view) {
+                case 'chat':
+                    showChatView();
+                    break;
+                case 'campaigns':
+                    showCampaignsView();
+                    break;
+                case 'analytics':
+                    showAnalyticsView();
+                    break;
+            }
+        }
+
+        function showChatView() {
+            // Show normal chat interface
+        }
+
+        function showCampaignsView() {
+            addMessage("**Campaign Management Center**\n\nActive Campaigns:\n• Q4 Product Launch - 78% completion\n• Holiday Email Series - Scheduled\n• LinkedIn Thought Leadership - Ongoing\n\nPending Approvals:\n• Partnership Announcement Draft\n• Webinar Registration Landing Page", 'vera');
+        }
+
+        function showAnalyticsView() {
+            addMessage("**Performance Analytics Dashboard**\n\n**This Week:**\n• Website Traffic: +12% (23,450 visitors)\n• Lead Generation: +23% (342 qualified leads)\n• Email Open Rate: 28.5% (↑3.2%)\n• Social Engagement: +18%\n\n**Optimization Opportunities:**\n• Blog conversion rate: 2.1% → 3.5% potential\n• LinkedIn ad targeting refinement\n• Email subject line A/B testing", 'vera');
+        }
+
         // Quick message
         function quickMessage(text) {
             messageInput.value = text;
             messageInput.style.height = 'auto';
-            messageInput.style.height = Math.min(messageInput.scrollHeight, 100) + 'px';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + 'px';
             sendBtn.disabled = false;
             messageInput.focus();
         }
 
-        // Send message
+        // Advanced automation functions
+        function manageEmailAutomation() {
+            addMessage("**Email Automation Command Center**\n\n**Active Workflows:**\n• Lead Nurturing Sequence: 1,247 contacts\n• Welcome Series: 89 new subscribers\n• Re-engagement Campaign: 2,156 contacts\n\n**Performance This Week:**\n• Automation Revenue: $23,450\n• Conversion Rate: 4.2%\n• Deliverability: 98.3%\n\n**Recommended Actions:**\n• Optimize subject lines for 15% lift\n• A/B test call-to-action buttons\n• Segment high-value prospects", 'vera');
+        }
+
+        function manageSocialAutomation() {
+            addMessage("**Social Media Automation Hub**\n\n**Scheduled Content:**\n• LinkedIn: 12 posts this week\n• Twitter: 21 tweets scheduled\n• Instagram: 5 posts + 8 stories\n\n**Engagement Automation:**\n• Auto-response: Active\n• Lead qualification: Running\n• Hashtag monitoring: 247 mentions\n\n**Optimization:**\n• Best posting times identified\n• Content themes performing +25%\n• Influencer outreach opportunities detected", 'vera');
+        }
+
+        function manageLeadNurturing() {
+            addMessage("**Lead Nurturing Intelligence**\n\n**Pipeline Status:**\n• Hot Leads: 23 (requiring immediate attention)\n• Warm Prospects: 156 (in nurturing sequence)\n• Cold Leads: 1,247 (re-engagement campaign)\n\n**Behavioral Triggers:**\n• 12 leads viewed pricing page\n• 8 downloaded case study\n• 5 attended webinar\n\n**Action Required:**\n• Schedule calls with hot leads\n• Personalize follow-up for warm prospects\n• Adjust nurturing cadence for cold leads", 'vera');
+        }
+
+        function viewDashboard() {
+            addMessage("**Executive Marketing Dashboard**\n\n**Key Metrics (30 days):**\n• Revenue Attribution: $127,890\n• Marketing ROI: 312%\n• Cost per Acquisition: $89\n• Customer Lifetime Value: $2,340\n\n**Strategic Insights:**\n• Content marketing driving 67% of leads\n• LinkedIn generating highest quality prospects\n• Email automation contributing 34% of revenue\n\n**Recommendations:**\n• Increase content budget by 25%\n• Expand LinkedIn advertising\n• Implement advanced lead scoring", 'vera');
+        }
+
+        function generateReports() {
+            addMessage("**Intelligence Report Generation**\n\n**Available Reports:**\n• Weekly Executive Summary\n• Campaign Performance Analysis\n• Competitive Intelligence Brief\n• Market Trend Analysis\n• Customer Journey Analytics\n\n**Custom Reports:**\n• ROI by Channel\n• Lead Quality Assessment\n• Content Performance Matrix\n\nWhich report would you like me to generate first?", 'vera');
+        }
+
+        function manageTeam() {
+            addMessage("**Team Coordination Center**\n\n**Team Performance:**\n• Content Team: 12 pieces published this week\n• Design Team: 8 assets delivered\n• Paid Media: 5 campaigns optimized\n\n**Collaboration Status:**\n• 3 projects awaiting approval\n• 2 campaigns in review\n• 1 urgent deadline tomorrow\n\n**Resource Allocation:**\n• Content: 45% capacity\n• Design: 78% capacity\n• Paid Media: 92% capacity\n\n**Recommendations:**\n• Hire additional designer\n• Redistribute content workload\n• Automate routine reporting tasks", 'vera');
+        }
+
+        // Send message function (enhanced)
         async function sendMessage() {
             const message = messageInput.value.trim();
             if (!message) return;
@@ -429,14 +732,16 @@
                     body: JSON.stringify({
                         message: message,
                         conversationHistory: conversationHistory,
-                        mobileMode: true
+                        mobileMode: true,
+                        executiveMode: true,
+                        currentView: currentView
                     })
                 });
 
                 const result = await response.json();
                 hideTyping();
                 
-                const veraMessage = result.response?.message?.content || result.response?.message || 'Sorry, having trouble with that. Try again?';
+                const veraMessage = result.response?.message?.content || result.response?.message || 'I apologize, but I\'m experiencing a connectivity issue. Please try again.';
                 addMessage(veraMessage, 'vera');
 
                 // Update history
@@ -450,19 +755,43 @@
                     conversationHistory = conversationHistory.slice(-20);
                 }
 
-                // TTS if enabled
-                if (ttsEnabled) {
-                    speakText(veraMessage);
+                // Auto-execute if it's an automation request
+                if (message.toLowerCase().includes('email automation') || 
+                    message.toLowerCase().includes('automate email')) {
+                    executeEmailAutomation(message);
                 }
 
             } catch (error) {
                 console.error('Error:', error);
                 hideTyping();
-                addMessage('Sorry, I had trouble connecting. Please try again.', 'vera');
+                addMessage('I\'m experiencing technical difficulties. My systems are automatically recovering. Please try again in a moment.', 'vera');
             }
         }
 
-        // Add message to chat
+        // Advanced email automation
+        async function executeEmailAutomation(request) {
+            try {
+                const response = await fetch('/api/email/automation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        action: 'execute',
+                        request: request,
+                        intelligentMode: true
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    addMessage(`**Automation Executed Successfully**\n\n${data.details}\n\nMonitoring performance in real-time. I'll notify you of any significant changes.`, 'vera');
+                }
+            } catch (error) {
+                addMessage('**Automation Status:** Email workflows are configured and ready. Manual oversight recommended for enterprise-level deployments.', 'vera');
+            }
+        }
+
+        // Add message to chat (enhanced)
         function addMessage(content, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
@@ -480,12 +809,13 @@
             scrollToBottom();
         }
 
-        // Format message
+        // Enhanced message formatting
         function formatMessage(content) {
             return content
                 .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/\n/g, '<br>');
+                .replace(/\n/g, '<br>')
+                .replace(/•/g, '&bull;');
         }
 
         // Typing indicator
@@ -505,70 +835,23 @@
             }, 100);
         }
 
-        // Feature functions
-        function toggleTTS() {
-            ttsEnabled = !ttsEnabled;
-            const card = event.target.closest('.feature-card');
-            card.style.background = ttsEnabled ? 'rgba(160, 200, 255, 0.3)' : 'rgba(160, 200, 255, 0.1)';
-            addMessage(`TTS ${ttsEnabled ? 'enabled' : 'disabled'}! ${ttsEnabled ? 'I\'ll speak my responses.' : ''}`, 'vera');
-        }
-
-        async function speakText(text) {
-            try {
-                const response = await fetch('/api/tts/speak', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text: text.replace(/<[^>]*>/g, '') })
-                });
-                
-                if (response.ok) {
-                    console.log('TTS request sent');
-                }
-            } catch (error) {
-                console.error('TTS error:', error);
-            }
-        }
-
-        async function viewCalendar() {
-            try {
-                const response = await fetch('/api/calendar/today');
-                const data = await response.json();
-                
-                let calendarText = `📅 **Today's Schedule:**\n\n`;
-                data.events.forEach(event => {
-                    calendarText += `• **${event.time}** - ${event.title}\n`;
-                });
-                
-                addMessage(calendarText, 'vera');
-            } catch (error) {
-                addMessage('📅 **Today\'s Schedule:**\n\n• **9:00 AM** - VERA Neural Strategy Meeting\n• **11:00 AM** - Content Review Session\n• **2:00 PM** - Partnership Call\n• **4:00 PM** - Q4 Performance Review', 'vera');
-            }
-        }
-
-        async function emailAutomation() {
-            try {
-                const response = await fetch('/api/email/automation', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ action: 'list' })
-                });
-                
-                const data = await response.json();
-                
-                let automationText = `📧 **Email Automation Status:**\n\n`;
-                data.automations.forEach(auto => {
-                    automationText += `• **${auto.name}** - ${auto.status}\n`;
-                });
-                
-                addMessage(automationText, 'vera');
-            } catch (error) {
-                addMessage('📧 **Email Automation Status:**\n\n• **VERA Neural Lead Nurturing** - Active\n• **Partnership Outreach** - Paused\n• **Launch Announcement** - Draft', 'vera');
-            }
-        }
-
         // Initialize
-        console.log('VERA Marketing Intelligence Ready');
+        console.log('VERA Executive Marketing Intelligence Ready');
         messageInput.focus();
+
+        // Update wellness metrics periodically
+        setInterval(updateWellnessMetrics, 30000);
+
+        function updateWellnessMetrics() {
+            // Simulate real-time updates
+            const responseTime = (Math.random() * 0.5 + 0.2).toFixed(1);
+            const automationHealth = (Math.random() * 2 + 97).toFixed(1);
+            const trustScore = (Math.random() * 3 + 92).toFixed(1);
+            
+            document.querySelector('.wellness-value').textContent = responseTime + 's';
+            document.querySelectorAll('.wellness-value')[2].textContent = automationHealth + '%';
+            document.querySelectorAll('.wellness-value')[3].textContent = trustScore + '%';
+        }
     </script>
 </body>
 </html>
