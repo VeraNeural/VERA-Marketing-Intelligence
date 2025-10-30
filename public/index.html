@@ -18,8 +18,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%, #f8fafc 100%);
-            color: #1e293b;
+            background: #ffffff;
+            color: #1a1a1a;
             height: 100vh;
             overflow: hidden;
             display: flex;
@@ -30,9 +30,8 @@
         /* Side Panel */
         .side-panel {
             width: 280px;
-            background: rgba(248, 250, 252, 0.95);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(71, 85, 105, 0.2);
+            background: #f8f9fa;
+            border-right: 1px solid #e9ecef;
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -41,9 +40,7 @@
             bottom: 0;
             z-index: 1000;
             transition: transform 0.3s ease, width 0.3s ease;
-            box-shadow: 
-                0 0 50px rgba(30, 41, 59, 0.1),
-                inset 1px 0 0 rgba(30, 41, 59, 0.15);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .side-panel.collapsed {
@@ -490,9 +487,8 @@
         /* Header */
         .header {
             height: 60px;
-            background: rgba(42, 26, 74, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(181, 122, 188, 0.2);
+            background: #ffffff;
+            border-bottom: 1px solid #e9ecef;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -505,7 +501,7 @@
         .header-title {
             font-size: 16px;
             font-weight: 600;
-            color: #333;
+            color: #212529;
             flex: 1;
         }
 
