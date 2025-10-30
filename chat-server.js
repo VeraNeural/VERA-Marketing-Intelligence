@@ -573,47 +573,69 @@ ${baseAnalysis}
 app.post('/api/voice/synthesize', async (req, res) => {
   try {
     const { text, voiceId } = req.body;
+    
+    console.log('🎙️ Voice synthesis request received:');
+    console.log('- Text length:', text ? text.length : 'undefined');
+    console.log('- Voice ID:', voiceId);
+    console.log('- API Key present:', !!ELEVENLABS_API_KEY);
+    console.log('- API Key length:', ELEVENLABS_API_KEY ? ELEVENLABS_API_KEY.length : 'undefined');
 
     if (!text) {
+      console.error('❌ No text provided for synthesis');
       return res.status(400).json({ error: 'Text is required for voice synthesis' });
     }
 
     if (!ELEVENLABS_API_KEY) {
+      console.error('❌ ElevenLabs API key not configured');
       return res.status(503).json({ error: 'ElevenLabs API key not configured' });
     }
 
     // Use provided voiceId or default
     const currentVoiceId = voiceId || ELEVENLABS_VOICE_ID;
+    console.log('🎙️ Using voice ID:', currentVoiceId);
 
     // ElevenLabs API call
-    const voiceResponse = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${currentVoiceId}`, {
+    const apiUrl = `https://api.elevenlabs.io/v1/text-to-speech/${currentVoiceId}`;
+    console.log('🎙️ Making request to:', apiUrl);
+    
+    const requestBody = {
+      text: text,
+      model_id: 'eleven_monolingual_v1',
+      voice_settings: {
+        stability: 0.5,
+        similarity_boost: 0.5
+      }
+    };
+    console.log('🎙️ Request body:', JSON.stringify(requestBody, null, 2));
+
+    const voiceResponse = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Accept': 'audio/mpeg',
         'Content-Type': 'application/json',
         'xi-api-key': ELEVENLABS_API_KEY
       },
-      body: JSON.stringify({
-        text: text,
-        model_id: 'eleven_monolingual_v1',
-        voice_settings: {
-          stability: 0.5,
-          similarity_boost: 0.5
-        }
-      })
+      body: JSON.stringify(requestBody)
     });
 
+    console.log('🎙️ ElevenLabs response status:', voiceResponse.status);
+    console.log('🎙️ ElevenLabs response headers:', Object.fromEntries(voiceResponse.headers.entries()));
+
     if (!voiceResponse.ok) {
-      throw new Error(`ElevenLabs API error: ${voiceResponse.status}`);
+      const errorText = await voiceResponse.text();
+      console.error('❌ ElevenLabs API error response:', errorText);
+      throw new Error(`ElevenLabs API error: ${voiceResponse.status} - ${errorText}`);
     }
 
     const audioBuffer = await voiceResponse.arrayBuffer();
+    console.log('✅ Audio buffer received, size:', audioBuffer.byteLength);
     
     res.setHeader('Content-Type', 'audio/mpeg');
     res.send(Buffer.from(audioBuffer));
 
   } catch (error) {
-    console.error('Voice synthesis error:', error);
+    console.error('❌ Voice synthesis error:', error);
+    console.error('❌ Error stack:', error.stack);
     res.status(500).json({ error: 'Voice synthesis failed', details: error.message });
   }
 });
