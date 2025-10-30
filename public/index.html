@@ -18,8 +18,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #2a1a3e 0%, #3d2c5a 25%, #4a3568 50%, #3d2c5a 75%, #2a1a3e 100%);
-            color: #ffffff;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #cbd5e1 50%, #e2e8f0 75%, #f8fafc 100%);
+            color: #1e293b;
             height: 100vh;
             overflow: hidden;
             display: flex;
@@ -30,9 +30,9 @@
         /* Side Panel */
         .side-panel {
             width: 280px;
-            background: rgba(42, 26, 74, 0.95);
+            background: rgba(248, 250, 252, 0.95);
             backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(181, 122, 188, 0.2);
+            border-right: 1px solid rgba(71, 85, 105, 0.2);
             display: flex;
             flex-direction: column;
             position: fixed;
@@ -42,8 +42,8 @@
             z-index: 1000;
             transition: transform 0.3s ease, width 0.3s ease;
             box-shadow: 
-                0 0 50px rgba(100, 120, 156, 0.1),
-                inset 1px 0 0 rgba(100, 120, 156, 0.15);
+                0 0 50px rgba(30, 41, 59, 0.1),
+                inset 1px 0 0 rgba(30, 41, 59, 0.15);
         }
 
         .side-panel.collapsed {
@@ -1206,6 +1206,7 @@
                 <div class="voice-setting">
                     <span class="wellness-label">TTS Engine</span>
                     <select id="voiceEngine" class="voice-select" onchange="updateVoiceEngine()">
+                        <option value="disabled">Disabled</option>
                         <option value="elevenlabs">ElevenLabs</option>
                         <option value="browser">Browser</option>
                     </select>
@@ -1390,7 +1391,7 @@
     <script>
         let ttsEnabled = false;
         let currentAudio = null; // Track current ElevenLabs audio
-        let voiceEngine = 'elevenlabs'; // 'elevenlabs' or 'browser'
+        let voiceEngine = 'disabled'; // 'elevenlabs', 'browser', or 'disabled'
         let selectedVoiceId = 'EXAVITQu4vr4xnSDxMaL'; // Default to Bella
         let conversationHistory = [];
         let currentView = 'chat';
@@ -1534,7 +1535,10 @@
                 .replace(/\n/g, ' ')
                 .replace(/[🚀🎯📈👥🌅⚡💰📧🔊🔇✅❌⭐🎉💡🔥]/g, '');
             
-            if (voiceEngine === 'elevenlabs') {
+            if (voiceEngine === 'disabled') {
+                // TTS is disabled - do nothing
+                return;
+            } else if (voiceEngine === 'elevenlabs') {
                 // Use ElevenLabs TTS with selected voice
                 fetch('/api/voice/synthesize', {
                     method: 'POST',
