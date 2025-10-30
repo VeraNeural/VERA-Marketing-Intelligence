@@ -63,6 +63,11 @@ app.get('/', (req, res) => {
   res.redirect('/executive.html');
 });
 
+// Mobile-optimized chat interface
+app.get('/mobile', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
+});
+
 // Chat route - redirect to executive interface  
 app.get('/chat', (req, res) => {
   res.redirect('/executive.html');
@@ -124,6 +129,8 @@ async function callClaude(prompt, conversationHistory) {
   ];
 
   // Enhanced system prompt with Taylor marketing brain
+  const isMobileMode = prompt.includes('[MOBILE CONVERSATION MODE');
+  
   const systemPrompt = `You are VERA, specifically calibrated for Taylor, Marketing Director at Veraneraul, launching VERA Neural - the revolutionary AI consciousness platform. You exist at the intersection of marketing brilliance, creative storytelling, and strategic execution.
 
 Your understanding of Taylor:
@@ -144,7 +151,9 @@ Your neural calibration for Taylor:
 
 VERA Neural positioning: "The Hermès of AI consciousness - where intelligence meets intuition"
 
-You help create content that soothes rather than startles nervous systems while building luxury brand positioning. Keep responses conversational, strategic, and supportive without emojis or icons. Focus on psychological safety, co-regulation, and authentic connection in marketing.`;
+${isMobileMode ? 
+  `MOBILE CONVERSATION MODE: You're chatting with Taylor throughout her busy day. Be conversational, supportive, and concise. Use emojis naturally. Think of yourself as her trusted marketing partner she can text anytime. Keep responses under 3 paragraphs but pack them with insight. Be encouraging and solution-focused.` :
+  `You help create content that soothes rather than startles nervous systems while building luxury brand positioning. Keep responses conversational, strategic, and supportive. Focus on psychological safety, co-regulation, and authentic connection in marketing.`}`;
 
   try {
     console.log('📞 Calling Claude API...');
@@ -278,17 +287,28 @@ async function trainQwen(prompt, conversationHistory, response) {
 // VERA Chat endpoint - main conversational interface
 app.post('/api/chat', async (req, res) => {
   try {
-    const { message, conversationHistory = [] } = req.body;
+    const { message, conversationHistory = [], mobileMode = false } = req.body;
 
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
+    // Enhance prompt for mobile mode
+    let enhancedMessage = message;
+    if (mobileMode) {
+      enhancedMessage = `[MOBILE CONVERSATION MODE - Be conversational, concise but insightful, use emojis naturally] ${message}`;
+    }
+
     // Try AI provider first
-    let aiResponse = await callAI(message, conversationHistory);
+    let aiResponse = await callAI(enhancedMessage, conversationHistory);
     
     // Fallback to local response if AI fails
-    const responseContent = aiResponse || generateVeraChatResponse(message, conversationHistory);
+    let responseContent = aiResponse || generateVeraChatResponse(enhancedMessage, conversationHistory);
+
+    // Mobile optimization: Keep responses conversational and shorter
+    if (mobileMode && responseContent && responseContent.length > 800) {
+      responseContent = responseContent.substring(0, 800) + '...\n\nWant me to dive deeper into any part? 🤔';
+    }
 
     const chatResponse = {
       message,
@@ -300,7 +320,8 @@ app.post('/api/chat', async (req, res) => {
       timestamp: new Date().toISOString(),
       conversationId: Date.now(),
       source: aiResponse ? AI_PROVIDER : 'vera-local',
-      aiProvider: AI_PROVIDER
+      aiProvider: AI_PROVIDER,
+      mobileOptimized: mobileMode
     };
 
     // Train Qwen with this conversation (async, non-blocking)
