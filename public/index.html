@@ -2109,7 +2109,7 @@
                 <div class="message-bubble">
                     ${formatMessage(content)}
                     <div class="message-time">${time}</div>
-                    <button class="delete-message-btn" onclick="deleteMessage('${messageId}')" title="Delete message">
+                    <button class="delete-message-btn" title="Delete message">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                         </svg>
@@ -2118,6 +2118,16 @@
             `;
             const container = document.getElementById('chatMessages');
             container.appendChild(messageDiv);
+            
+            // 🗑️ Add delete functionality with event listener
+            const deleteBtn = messageDiv.querySelector('.delete-message-btn');
+            deleteBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('🗑️ Delete button clicked for message:', messageId);
+                deleteMessage(messageId);
+            });
+            
             scrollToBottom();
             
             // 🎙️ AUTO-SPEAK VERA MESSAGES WHEN VOICE IS ENABLED
@@ -2130,10 +2140,14 @@
             }
         }
 
-        // 🗑️ DELETE MESSAGE FUNCTIONALITY
+        // 🗑️ IMPROVED DELETE MESSAGE FUNCTIONALITY
         function deleteMessage(messageId) {
+            console.log('🗑️ deleteMessage called with ID:', messageId);
             const messageElement = document.getElementById(messageId);
+            
             if (messageElement) {
+                console.log('🗑️ Found message element, deleting...');
+                
                 // Add fade out animation
                 messageElement.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
                 messageElement.style.opacity = '0';
@@ -2142,12 +2156,14 @@
                 // Remove element after animation
                 setTimeout(() => {
                     messageElement.remove();
+                    console.log('✅ Message successfully deleted:', messageId);
                     
                     // Update conversation history by removing the deleted message
                     // Note: This is a simple implementation - for more robust tracking,
                     // you'd want to store message IDs with conversation history
-                    console.log('🗑️ Message deleted:', messageId);
                 }, 300);
+            } else {
+                console.error('❌ Message element not found for ID:', messageId);
             }
         }
 
