@@ -1722,6 +1722,9 @@
     </div>
 
     <script>
+        // 🎯 TAYLOR'S VOICE PROTECTION - FIRST LINE OF DEFENSE
+        console.log('🎯 LOADING VERA - Protecting Taylor\'s voice ID: eL7xfWghif0oJwtmX2qs');
+        
         let ttsEnabled = true; // Enable TTS by default so VERA can speak
         let currentAudio = null; // Track current ElevenLabs audio
         let voiceEngine = 'elevenlabs'; // Default to ElevenLabs for VERA's voice
@@ -1953,6 +1956,10 @@
                 // TTS is disabled - do nothing
                 return;
             } else if (voiceEngine === 'elevenlabs') {
+                // 🎯 SUPER AGGRESSIVE VOICE ID OVERRIDE - NEVER LET IT CHANGE!
+                selectedVoiceId = 'eL7xfWghif0oJwtmX2qs';
+                console.log('🎙️ FORCED Voice ID to:', selectedVoiceId);
+                
                 // Use ElevenLabs TTS with selected voice
                 console.log('🎙️ Using ElevenLabs with voice ID:', selectedVoiceId);
                 console.log('🎙️ Making API call to /api/voice/synthesize');
@@ -2135,6 +2142,20 @@
                 scrollToBottom();
             }, 500);
         });
+        
+        // 🎯 NUCLEAR VOICE ID PROTECTION - RUNS EVERY 5 SECONDS
+        setInterval(function() {
+            if (selectedVoiceId !== 'eL7xfWghif0oJwtmX2qs') {
+                console.log('🚨 VOICE ID HIJACKED! Was:', selectedVoiceId, 'Forcing back to: eL7xfWghif0oJwtmX2qs');
+                selectedVoiceId = 'eL7xfWghif0oJwtmX2qs';
+                
+                // Also force settings
+                if (typeof settings !== 'undefined') {
+                    settings.voiceId = 'eL7xfWghif0oJwtmX2qs';
+                    settings.voiceEngine = 'elevenlabs';
+                }
+            }
+        }, 5000);
 
         function toggleSidePanelCollapse() {
             sidebarCollapsed = !sidebarCollapsed;
@@ -2439,10 +2460,17 @@
         }
 
         // Voice Settings Functions
+        // 🚫 VOICE SELECTION DISABLED - TAYLOR'S VOICE IS LOCKED
         function updateVoice() {
+            console.log('🚫 updateVoice() called but BLOCKED! Voice ID stays: eL7xfWghif0oJwtmX2qs');
+            // Force it back to Taylor's voice no matter what
+            selectedVoiceId = 'eL7xfWghif0oJwtmX2qs';
+            
+            // Update any dropdown to show the correct voice
             const voiceSelect = document.getElementById('aiVoiceSelect');
-            selectedVoiceId = voiceSelect.value;
-            console.log('Voice changed to:', selectedVoiceId);
+            if (voiceSelect) {
+                voiceSelect.value = 'eL7xfWghif0oJwtmX2qs';
+            }
         }
 
         // Chat Management Functions
