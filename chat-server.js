@@ -26,8 +26,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 const AI_PROVIDER = process.env.AI_PROVIDER || 'claude';
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-haiku-20241022';
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
+
+// Qwen Training Configuration
+const QWEN_API_URL = process.env.QWEN_API_URL || 'http://localhost:11434/api/chat';
+const QWEN_MODEL = process.env.QWEN_MODEL || 'qwen2.5:latest';
+const QWEN_TRAINING_MODE = process.env.QWEN_TRAINING_MODE === 'true';
 
 // Initialize AI clients
 const anthropic = ANTHROPIC_API_KEY ? new Anthropic({
@@ -45,7 +50,9 @@ console.log('ANTHROPIC_API_KEY length:', ANTHROPIC_API_KEY ? ANTHROPIC_API_KEY.l
 console.log('OPENAI_API_KEY length:', OPENAI_API_KEY ? OPENAI_API_KEY.length : 'NOT FOUND');
 console.log('ANTHROPIC_API_KEY starts with:', ANTHROPIC_API_KEY ? ANTHROPIC_API_KEY.substring(0, 10) + '...' : 'NO KEY');
 console.log('OPENAI_API_KEY starts with:', OPENAI_API_KEY ? OPENAI_API_KEY.substring(0, 10) + '...' : 'NO KEY');
-console.log('==========================')
+console.log('QWEN_API_URL:', QWEN_API_URL);
+console.log('QWEN_TRAINING_MODE:', QWEN_TRAINING_MODE);
+console.log('==========================');
 
 // Root route - redirect to chat interface
 app.get('/', (req, res) => {
@@ -200,6 +207,60 @@ You help create content that soothes rather than startles nervous systems while 
   }
 }
 
+// Qwen Training Function - sends conversations for learning but doesn't get responses
+async function trainQwen(prompt, conversationHistory, response) {
+  if (!QWEN_TRAINING_MODE) return;
+  
+  try {
+    console.log('🎓 Training Qwen with conversation...');
+    
+    // Format the training data with the full conversation including the response
+    const trainingData = {
+      conversation: [
+        ...conversationHistory.map(msg => ({
+          role: msg.role,
+          content: msg.content
+        })),
+        { role: 'user', content: prompt },
+        { role: 'assistant', content: response }
+      ],
+      context: 'VERA Marketing Intelligence Training',
+      timestamp: new Date().toISOString()
+    };
+
+    // Send to Qwen for training (fire and forget - no response needed)
+    const qwenResponse = await fetch(QWEN_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: QWEN_MODEL,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are learning from VERA Marketing Intelligence conversations. Store this conversation pattern for future reference. This is training data for marketing AI capabilities.'
+          },
+          {
+            role: 'user', 
+            content: `Training conversation: ${JSON.stringify(trainingData, null, 2)}`
+          }
+        ],
+        stream: false
+      })
+    });
+
+    if (qwenResponse.ok) {
+      console.log('✅ Qwen training successful');
+    } else {
+      console.log('⚠️ Qwen training failed:', qwenResponse.status);
+    }
+    
+  } catch (error) {
+    console.log('⚠️ Qwen training error (non-critical):', error.message);
+  }
+}
+
 // VERA Chat endpoint - main conversational interface
 app.post('/api/chat', async (req, res) => {
   try {
@@ -227,6 +288,13 @@ app.post('/api/chat', async (req, res) => {
       source: aiResponse ? AI_PROVIDER : 'vera-local',
       aiProvider: AI_PROVIDER
     };
+
+    // Train Qwen with this conversation (async, non-blocking)
+    if (QWEN_TRAINING_MODE) {
+      trainQwen(message, conversationHistory, responseContent).catch(err => 
+        console.log('Qwen training background error:', err.message)
+      );
+    }
 
     res.json(chatResponse);
 
