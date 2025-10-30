@@ -130,6 +130,62 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+// ElevenLabs TTS endpoint
+app.post('/api/voice/synthesize', async (req, res) => {
+  try {
+    const { text, voiceId = 'EXAVITQu4vr4xnSDxMaL' } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: 'Text is required for synthesis' });
+    }
+
+    const elevenLabsApiKey = process.env.ELEVENLABS_API_KEY;
+    if (!elevenLabsApiKey) {
+      console.warn('ElevenLabs API key not found, falling back to browser TTS');
+      return res.status(503).json({ error: 'ElevenLabs service not configured' });
+    }
+
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'audio/mpeg',
+        'Content-Type': 'application/json',
+        'xi-api-key': elevenLabsApiKey
+      },
+      body: JSON.stringify({
+        text: text,
+        model_id: 'eleven_monolingual_v1',
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 0.75,
+          style: 0.5,
+          use_speaker_boost: true
+        }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`ElevenLabs API error: ${response.status}`);
+    }
+
+    const audioBuffer = await response.arrayBuffer();
+    
+    res.set({
+      'Content-Type': 'audio/mpeg',
+      'Content-Length': audioBuffer.byteLength
+    });
+    
+    res.send(Buffer.from(audioBuffer));
+
+  } catch (error) {
+    console.error('ElevenLabs TTS Error:', error);
+    res.status(500).json({ 
+      error: 'TTS synthesis failed', 
+      details: error.message 
+    });
+  }
+});
+
 // Generate VERA chat responses
 function generateVeraChatResponse(message, history) {
   const lowerMessage = message.toLowerCase();

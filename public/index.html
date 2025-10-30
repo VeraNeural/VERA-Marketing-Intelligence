@@ -1616,9 +1616,9 @@
     </div>
 
     <script>
-        let ttsEnabled = false;
+        let ttsEnabled = true; // Enable TTS by default so VERA can speak
         let currentAudio = null; // Track current ElevenLabs audio
-        let voiceEngine = 'disabled'; // 'elevenlabs', 'browser', or 'disabled'
+        let voiceEngine = 'elevenlabs'; // Default to ElevenLabs for VERA's voice
         let selectedVoiceId = 'EXAVITQu4vr4xnSDxMaL'; // Default to Bella
         let conversationHistory = [];
         let currentView = 'chat';
@@ -2397,6 +2397,21 @@
             const veSel = document.getElementById('voiceEngine');
             if (veSel) veSel.value = voiceEngine;
             
+            // Initialize TTS button and voice status as active
+            const ttsBtn = document.getElementById('ttsBtn');
+            if (ttsBtn) {
+                ttsBtn.classList.add('active');
+            }
+            
+            const voiceStatusIndicator = document.querySelector('.voice-status-indicator');
+            const voiceStatusText = document.getElementById('voiceStatusText');
+            if (voiceStatusIndicator) {
+                voiceStatusIndicator.classList.add('active');
+            }
+            if (voiceStatusText) {
+                voiceStatusText.textContent = 'Voice On';
+            }
+            
             // Sync wellness panel voice ID input
             const wellnessVoiceInput = document.getElementById('wellnessVoiceId');
             if (wellnessVoiceInput) wellnessVoiceInput.value = settings.voiceId || '';
@@ -2464,7 +2479,12 @@
         function openWellness() {
             const panel = document.getElementById('wellnessPanel');
             if (!panel) {
-                addMessage('Wellness panel is not available right now, but I can still share your current metrics on request.', 'vera');
+                addMessage("Let's do a quick wellness check, Taylor. How are you feeling today? Are you managing stress well, staying hydrated, and taking breaks? I can help you assess your current state and suggest adjustments for better productivity and well-being.", 'vera');
+                
+                // Auto-enable TTS for wellness check if configured
+                if (ttsEnabled) {
+                    speakText("Let's do a quick wellness check, Taylor. How are you feeling today? Are you managing stress well, staying hydrated, and taking breaks? I can help you assess your current state and suggest adjustments for better productivity and well-being.");
+                }
                 return;
             }
             panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
