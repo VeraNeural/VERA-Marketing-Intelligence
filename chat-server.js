@@ -54,9 +54,14 @@ console.log('QWEN_API_URL:', QWEN_API_URL);
 console.log('QWEN_TRAINING_MODE:', QWEN_TRAINING_MODE);
 console.log('==========================');
 
-// Root route - redirect to chat interface
+// Root route - redirect to workspace interface
 app.get('/', (req, res) => {
-  res.redirect('/chat.html');
+  res.redirect('/workspace.html');
+});
+
+// Chat route - redirect to workspace  
+app.get('/chat', (req, res) => {
+  res.redirect('/workspace.html');
 });
 
 // Health check endpoint

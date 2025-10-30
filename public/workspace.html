@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERA ⚡ Taylor - Marketing Intelligence Workspace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2a 50%, #2a2a3a 100%);
+            color: #f0f0f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Workspace Header */
+        .workspace-header {
+            padding: 1rem 2rem;
+            background: rgba(20, 20, 30, 0.95);
+            border-bottom: 1px solid rgba(180, 160, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(20px);
+        }
+
+        .workspace-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .vera-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, 
+                rgba(180, 160, 255, 0.9) 0%,
+                rgba(160, 208, 255, 0.6) 60%,
+                rgba(160, 255, 180, 0.4) 100%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
+        }
+
+        .title-text h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b4a0ff 0%, #a0d0ff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .title-text p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
+
+        .workspace-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; box-shadow: 0 0 10px #10b981; }
+        }
+
+        /* Main Workspace */
+        .workspace-container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+
+        /* Conversation Panel */
+        .conversation-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(25, 25, 35, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Quick Actions Bar */
+        .quick-actions {
+            padding: 1rem 1.5rem;
+            background: rgba(35, 35, 45, 0.9);
+            border-bottom: 1px solid rgba(180, 160, 255, 0.1);
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            overflow-x: auto;
+        }
+
+        .action-chip {
+            padding: 0.4rem 0.8rem;
+            background: rgba(55, 55, 65, 0.6);
+            border: 1px solid rgba(180, 160, 255, 0.2);
+            border-radius: 16px;
+            color: #c0c5ff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .action-chip:hover {
+            background: rgba(180, 160, 255, 0.15);
+            border-color: #b4a0ff;
+            transform: translateY(-1px);
+        }
+
+        .action-icon {
+            font-size: 0.9rem;
+        }
+
+        /* Chat Messages Area */
+        .chat-flow {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .conversation-bubble {
+            display: flex;
+            gap: 0.75rem;
+            max-width: 80%;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .conversation-bubble.taylor {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .conversation-bubble.vera {
+            align-self: flex-start;
+        }
+
+        .speaker-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .conversation-bubble.taylor .speaker-avatar {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+
+        .conversation-bubble.vera .speaker-avatar {
+            background: linear-gradient(135deg, #b4a0ff 0%, #a0d0ff 100%);
+            color: white;
+        }
+
+        .message-bubble {
+            padding: 0.9rem 1.2rem;
+            border-radius: 18px;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .conversation-bubble.taylor .message-bubble {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-bottom-right-radius: 6px;
+        }
+
+        .conversation-bubble.vera .message-bubble {
+            background: linear-gradient(135deg, rgba(180, 160, 255, 0.08) 0%, rgba(160, 208, 255, 0.05) 100%);
+            border: 1px solid rgba(180, 160, 255, 0.25);
+            border-bottom-left-radius: 6px;
+        }
+
+        .message-meta {
+            font-size: 0.7rem;
+            color: #9ca3af;
+            margin-top: 0.4rem;
+            opacity: 0.8;
+        }
+
+        /* Collaboration Input */
+        .collaboration-input {
+            padding: 1.2rem 1.5rem;
+            background: rgba(20, 20, 30, 0.95);
+            border-top: 1px solid rgba(180, 160, 255, 0.15);
+            backdrop-filter: blur(20px);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 0.8rem;
+            align-items: end;
+            position: relative;
+        }
+
+        .context-indicator {
+            position: absolute;
+            top: -2rem;
+            left: 0;
+            font-size: 0.75rem;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .context-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #10b981;
+        }
+
+        .conversation-input {
+            flex: 1;
+            min-height: 44px;
+            max-height: 120px;
+            padding: 0.8rem 1rem;
+            background: rgba(45, 45, 55, 0.8);
+            border: 1.5px solid rgba(180, 160, 255, 0.2);
+            border-radius: 22px;
+            color: #f0f0f5;
+            font-size: 0.95rem;
+            resize: none;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            line-height: 1.4;
+        }
+
+        .conversation-input:focus {
+            outline: none;
+            border-color: #b4a0ff;
+            background: rgba(45, 45, 55, 0.95);
+            box-shadow: 0 0 0 3px rgba(180, 160, 255, 0.1);
+        }
+
+        .conversation-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .send-button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b4a0ff 0%, #a0d0ff 100%);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+
+        .send-button:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(180, 160, 255, 0.4);
+        }
+
+        .send-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Thinking Indicator */
+        .thinking-indicator {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            padding: 0.8rem 1.2rem;
+            background: linear-gradient(135deg, rgba(180, 160, 255, 0.08) 0%, rgba(160, 208, 255, 0.05) 100%);
+            border: 1px solid rgba(180, 160, 255, 0.25);
+            border-radius: 18px;
+            border-bottom-left-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .thinking-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .thinking-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #b4a0ff;
+            animation: think 1.4s ease-in-out infinite;
+        }
+
+        .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+        .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes think {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        .thinking-text {
+            color: #b4a0ff;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        /* Scrollbar Styling */
+        .chat-flow::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .chat-flow::-webkit-scrollbar-track {
+            background: rgba(55, 55, 65, 0.3);
+            border-radius: 10px;
+        }
+
+        .chat-flow::-webkit-scrollbar-thumb {
+            background: rgba(180, 160, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .chat-flow::-webkit-scrollbar-thumb:hover {
+            background: rgba(180, 160, 255, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .workspace-header {
+                padding: 0.8rem 1rem;
+            }
+            
+            .title-text h1 {
+                font-size: 1.1rem;
+            }
+            
+            .chat-flow {
+                padding: 1rem;
+            }
+            
+            .conversation-bubble {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="workspace-header">
+        <div class="workspace-title">
+            <div class="vera-icon"></div>
+            <div class="title-text">
+                <h1>VERA ⚡ Taylor Collaboration</h1>
+                <p>Marketing Intelligence Workspace</p>
+            </div>
+        </div>
+        <div class="workspace-status">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>Neural Link Active</span>
+            </div>
+            <div class="status-indicator">
+                <span id="qwenStatus">🎓 Training Mode</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="workspace-container">
+        <div class="conversation-panel">
+            <div class="quick-actions">
+                <div class="action-chip" onclick="suggestAction('campaign')">
+                    <span class="action-icon">🚀</span>
+                    <span>New Campaign</span>
+                </div>
+                <div class="action-chip" onclick="suggestAction('analysis')">
+                    <span class="action-icon">📊</span>
+                    <span>Market Analysis</span>
+                </div>
+                <div class="action-chip" onclick="suggestAction('content')">
+                    <span class="action-icon">✍️</span>
+                    <span>Content Strategy</span>
+                </div>
+                <div class="action-chip" onclick="suggestAction('positioning')">
+                    <span class="action-icon">🎯</span>
+                    <span>Brand Positioning</span>
+                </div>
+                <div class="action-chip" onclick="suggestAction('presentation')">
+                    <span class="action-icon">📝</span>
+                    <span>Presentation</span>
+                </div>
+                <div class="action-chip" onclick="suggestAction('competitor')">
+                    <span class="action-icon">🔍</span>
+                    <span>Competitive Intel</span>
+                </div>
+            </div>
+
+            <div class="chat-flow" id="chatFlow">
+                <!-- Welcome Message -->
+                <div class="conversation-bubble vera">
+                    <div class="speaker-avatar">V</div>
+                    <div class="message-bubble">
+                        <div>Hey Taylor! 👋 Ready to make VERA Neural the most talked-about AI launch of 2025? I'm here with all my marketing intelligence at your disposal. What's on your mind today?</div>
+                        <div class="message-meta">Just now • Neural Intelligence Online</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="collaboration-input">
+                <div class="input-wrapper">
+                    <div class="context-indicator">
+                        <div class="context-dot"></div>
+                        <span>Context-aware • Marketing Director mode</span>
+                    </div>
+                    <textarea 
+                        class="conversation-input" 
+                        id="messageInput" 
+                        placeholder="What marketing challenge can we tackle together, Taylor?"
+                        rows="1"></textarea>
+                    <button class="send-button" id="sendButton">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let conversationHistory = [];
+        const chatFlow = document.getElementById('chatFlow');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        // Auto-resize textarea
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+
+        // Quick action suggestions
+        function suggestAction(type) {
+            const suggestions = {
+                campaign: "Help me design a comprehensive campaign strategy for VERA Neural's launch. I need to balance luxury positioning with market penetration.",
+                analysis: "Can you analyze the current AI consciousness market landscape and identify our key differentiators for VERA Neural?",
+                content: "I need a content strategy that positions VERA Neural as the 'Hermès of AI consciousness.' What's your approach?",
+                positioning: "How should we position VERA Neural against existing AI platforms while maintaining our luxury mystique?",
+                presentation: "Help me create a compelling stakeholder presentation for Q1 VERA Neural launch goals.",
+                competitor: "What competitive intelligence should we gather to ensure VERA Neural's market dominance?"
+            };
+            
+            messageInput.value = suggestions[type];
+            messageInput.focus();
+            messageInput.style.height = 'auto';
+            messageInput.style.height = messageInput.scrollHeight + 'px';
+        }
+
+        // Send message function
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add Taylor's message
+            addConversationBubble(message, 'taylor');
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+
+            // Show thinking indicator
+            showThinkingIndicator();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationHistory: conversationHistory
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                // Remove thinking indicator
+                hideThinkingIndicator();
+                
+                // Add VERA's response
+                const veraMessage = result.response?.message?.content || result.response?.message || 'I had trouble processing that. Let me recalibrate and try again.';
+                addConversationBubble(veraMessage, 'vera');
+
+                // Update conversation history
+                conversationHistory.push(
+                    { role: 'user', content: message },
+                    { role: 'assistant', content: veraMessage }
+                );
+                
+                // Keep last 20 exchanges
+                if (conversationHistory.length > 40) {
+                    conversationHistory = conversationHistory.slice(-40);
+                }
+
+            } catch (error) {
+                console.error('Message error:', error);
+                hideThinkingIndicator();
+                addConversationBubble(`Oops! I encountered a technical issue: ${error.message}. Let me check my neural connections...`, 'vera', true);
+            }
+        }
+
+        // Add conversation bubble
+        function addConversationBubble(content, speaker, isError = false) {
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.className = `conversation-bubble ${speaker}`;
+            
+            const avatar = speaker === 'taylor' ? 'T' : 'V';
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const context = speaker === 'taylor' ? 'Marketing Director' : 'Neural Intelligence';
+            
+            bubbleDiv.innerHTML = `
+                <div class="speaker-avatar">${avatar}</div>
+                <div class="message-bubble" ${isError ? 'style="border-color: #ef4444; background: rgba(239, 68, 68, 0.1);"' : ''}>
+                    <div>${formatMessage(content)}</div>
+                    <div class="message-meta">${time} • ${context}</div>
+                </div>
+            `;
+            
+            chatFlow.appendChild(bubbleDiv);
+            chatFlow.scrollTop = chatFlow.scrollHeight;
+        }
+
+        // Format message content
+        function formatMessage(content) {
+            // Convert **bold** to <strong>
+            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Convert *italic* to <em>
+            content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            // Convert line breaks
+            content = content.replace(/\n/g, '<br>');
+            return content;
+        }
+
+        // Thinking indicator
+        function showThinkingIndicator() {
+            const thinkingDiv = document.createElement('div');
+            thinkingDiv.id = 'thinkingIndicator';
+            thinkingDiv.className = 'conversation-bubble vera';
+            thinkingDiv.innerHTML = `
+                <div class="speaker-avatar">V</div>
+                <div class="thinking-indicator">
+                    <div class="thinking-dots">
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                    </div>
+                    <span class="thinking-text">Processing marketing intelligence...</span>
+                </div>
+            `;
+            chatFlow.appendChild(thinkingDiv);
+            chatFlow.scrollTop = chatFlow.scrollHeight;
+        }
+
+        function hideThinkingIndicator() {
+            const thinkingIndicator = document.getElementById('thinkingIndicator');
+            if (thinkingIndicator) {
+                thinkingIndicator.remove();
+            }
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+
+        messageInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Initialize
+        console.log('🚀 VERA ⚡ Taylor Collaboration Workspace Ready');
+    </script>
+</body>
+</html>
