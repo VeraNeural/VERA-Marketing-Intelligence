@@ -2098,7 +2098,7 @@
             speechSynthesis.speak(utterance);
         }
 
-        // Single addMessage implementation
+        // 🗑️ SIMPLIFIED WORKING DELETE MESSAGE SYSTEM
         function addMessage(content, sender) {
             console.log('🔧 addMessage called - Creating message with delete button');
             const messageDiv = document.createElement('div');
@@ -2109,40 +2109,23 @@
             
             const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            // Create message bubble
-            const messageBubble = document.createElement('div');
-            messageBubble.className = 'message-bubble';
-            messageBubble.innerHTML = `
-                ${formatMessage(content)}
-                <div class="message-time">${time}</div>
+            // Create complete message HTML with inline delete button
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    ${formatMessage(content)}
+                    <div class="message-time">${time}</div>
+                    <button class="delete-message-btn" onclick="deleteMessage('${messageId}')" title="Delete message">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                    </button>
+                </div>
             `;
-            
-            // Create delete button separately
-            const deleteBtn = document.createElement('button');
-            deleteBtn.className = 'delete-message-btn';
-            deleteBtn.title = 'Delete message';
-            deleteBtn.innerHTML = `
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                </svg>
-            `;
-            
-            // Add click event to delete button
-            deleteBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('🗑️ DELETE BUTTON CLICKED! Message ID:', messageId);
-                deleteMessage(messageId);
-            });
-            
-            // Append elements
-            messageBubble.appendChild(deleteBtn);
-            messageDiv.appendChild(messageBubble);
             
             const container = document.getElementById('chatMessages');
             container.appendChild(messageDiv);
             
-            console.log('✅ Message added to DOM with delete button');
+            console.log('✅ Message added to DOM with inline delete button');
             scrollToBottom();
             
             // 🎙️ AUTO-SPEAK VERA MESSAGES WHEN VOICE IS ENABLED
@@ -2155,21 +2138,14 @@
             }
         }
 
-        // 🗑️ BULLETPROOF DELETE MESSAGE FUNCTIONALITY
+        // 🗑️ SIMPLIFIED DELETE FUNCTION
         function deleteMessage(messageId) {
-            console.log('🗑️ deleteMessage called with ID:', messageId);
+            console.log('🗑️ DELETING MESSAGE:', messageId);
             
-            // Try multiple ways to find the message
-            let messageElement = document.getElementById(messageId);
-            
-            if (!messageElement) {
-                // Try finding by partial ID match
-                const allMessages = document.querySelectorAll('.message');
-                messageElement = Array.from(allMessages).find(msg => msg.id === messageId);
-            }
+            const messageElement = document.getElementById(messageId);
             
             if (messageElement) {
-                console.log('🗑️ Found message element, deleting...', messageElement);
+                console.log('🗑️ Found message element, removing...', messageElement);
                 
                 // Add fade out animation
                 messageElement.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
@@ -2180,12 +2156,11 @@
                 setTimeout(() => {
                     if (messageElement.parentNode) {
                         messageElement.parentNode.removeChild(messageElement);
-                        console.log('✅ Message successfully deleted and removed from DOM:', messageId);
+                        console.log('✅ MESSAGE SUCCESSFULLY DELETED:', messageId);
                     }
                 }, 300);
             } else {
-                console.error('❌ Message element not found for ID:', messageId);
-                console.log('Available message IDs:', Array.from(document.querySelectorAll('.message')).map(m => m.id));
+                console.error('❌ MESSAGE NOT FOUND:', messageId);
             }
         }
 
@@ -2238,16 +2213,15 @@
         
         // 📱 MOBILE ENHANCEMENTS
         
-        // 🗑️ GLOBAL DELETE BUTTON HANDLER (backup method)
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.delete-message-btn')) {
-                e.preventDefault();
-                e.stopPropagation();
-                const messageElement = e.target.closest('.message');
-                if (messageElement && messageElement.id) {
-                    console.log('🗑️ GLOBAL DELETE HANDLER triggered for:', messageElement.id);
-                    deleteMessage(messageElement.id);
-                }
+        // Auto-resize textarea and update input handling
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+            sendBtn.disabled = !this.value.trim();
+            
+            // Hide quick start when user starts typing
+            if (quickStartActive && this.value.trim()) {
+                skipQuickStart();
             }
         });
         
