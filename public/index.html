@@ -2390,7 +2390,15 @@
             if (!settings.julijaName) settings.julijaName = 'Julija';
             if (!settings.evaName) settings.evaName = 'Eva';
             if (!settings.voiceId) settings.voiceId = 'EXAVITQu4vr4xnSDxMaL';
-            if (!settings.voiceEngine) settings.voiceEngine = 'elevenlabs';
+            
+            // FORCE ElevenLabs to be enabled - override any previous disabled setting
+            settings.voiceEngine = 'elevenlabs';
+            
+            // FORCE TTS to be enabled
+            ttsEnabled = true;
+            
+            console.log('🎙️ FORCED SETTINGS - Voice Engine:', settings.voiceEngine, 'TTS Enabled:', ttsEnabled);
+            
             // Apply voice defaults to runtime and controls
             selectedVoiceId = settings.voiceId;
             voiceEngine = settings.voiceEngine;
@@ -2423,6 +2431,8 @@
             }
             
             localStorage.setItem('veraSettings', JSON.stringify(settings));
+            
+            console.log('✅ Settings saved to localStorage with ElevenLabs enabled');
         });
 
         // Settings panel functions
