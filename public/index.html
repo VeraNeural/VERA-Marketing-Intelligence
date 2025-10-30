@@ -256,17 +256,235 @@
             color: #fbbf24;
         }
 
+        /* Voice Settings Panel */
+        .voice-settings-panel {
+            background: rgba(100, 120, 156, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .voice-setting {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(100, 120, 156, 0.1);
+        }
+
+        .voice-setting:last-child {
+            border-bottom: none;
+        }
+
+        .voice-select {
+            background: rgba(10, 10, 15, 0.8);
+            border: 1px solid rgba(100, 120, 156, 0.3);
+            border-radius: 4px;
+            color: #64789c;
+            padding: 4px 8px;
+            font-size: 12px;
+            width: 140px;
+            outline: none;
+        }
+
+        .voice-select:focus {
+            border-color: #64789c;
+        }
+
+        .voice-select option {
+            background: rgba(10, 10, 15, 0.95);
+            color: #64789c;
+        }
+
+        /* Chat History Styles */
+        .chat-history-item {
+            background: rgba(100, 120, 156, 0.1);
+            border: 1px solid rgba(100, 120, 156, 0.2);
+            border-radius: 6px;
+            padding: 12px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chat-history-item:hover {
+            background: rgba(100, 120, 156, 0.2);
+            border-color: rgba(100, 120, 156, 0.3);
+        }
+
+        .chat-title {
+            font-weight: 500;
+            color: #64789c;
+            margin-bottom: 4px;
+        }
+
+        .chat-date {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Right Panel */
+        .right-panel {
+            width: 320px;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(100, 120, 156, 0.2);
+            position: fixed;
+            right: -320px;
+            top: 0;
+            bottom: 0;
+            z-index: 1001;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 
+                0 0 50px rgba(100, 120, 156, 0.1),
+                inset -1px 0 0 rgba(100, 120, 156, 0.15);
+        }
+
+        .right-panel.open {
+            right: 0;
+        }
+
+        .right-panel-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(100, 120, 156, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .right-panel-header h3 {
+            margin: 0;
+            color: #64789c;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .close-right-panel {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .close-right-panel:hover {
+            background: rgba(100, 120, 156, 0.2);
+            color: #64789c;
+        }
+
+        .right-panel-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* Executive Calendar in Right Panel */
+        .executive-calendar {
+            background: rgba(100, 120, 156, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .calendar-title {
+            color: #64789c;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .calendar-event {
+            background: rgba(10, 10, 15, 0.8);
+            border: 1px solid rgba(100, 120, 156, 0.3);
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
+
+        .event-time {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 11px;
+            margin-bottom: 4px;
+        }
+
+        .event-title {
+            color: white;
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        /* Quick Actions in Right Panel */
+        .quick-actions {
+            background: rgba(100, 120, 156, 0.1);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .action-button {
+            width: 100%;
+            background: rgba(100, 120, 156, 0.2);
+            border: 1px solid rgba(100, 120, 156, 0.3);
+            border-radius: 6px;
+            color: #64789c;
+            padding: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+
+        .action-button:hover {
+            background: rgba(100, 120, 156, 0.3);
+            border-color: #64789c;
+        }
+
+        /* Metrics Display */
+        .metric-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(100, 120, 156, 0.2);
+        }
+
+        .metric-item:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+        }
+
+        .metric-value {
+            color: #4ade80;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
         /* Main Content */
         .main-content {
             flex: 1;
             margin-left: 280px;
             display: flex;
             flex-direction: column;
-            transition: margin-left 0.3s ease;
+            transition: margin-left 0.3s ease, margin-right 0.3s ease;
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
         }
 
         .main-content.panel-collapsed {
             margin-left: 60px;
+        }
+
+        .main-content.right-panel-open {
+            margin-right: 320px;
         }
 
         /* Header */
@@ -285,6 +503,28 @@
             font-size: 16px;
             font-weight: 600;
             color: #ffffff;
+            flex: 1;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .header-action-btn {
+            background: rgba(100, 120, 156, 0.2);
+            border: 1px solid rgba(100, 120, 156, 0.3);
+            border-radius: 6px;
+            color: #64789c;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .header-action-btn:hover {
+            background: rgba(100, 120, 156, 0.3);
+            border-color: #64789c;
         }
 
         .status-indicator {
@@ -348,9 +588,11 @@
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 0;
+            padding: 20px;
+            height: calc(100vh - 140px);
+            max-height: calc(100vh - 140px);
             -webkit-overflow-scrolling: touch;
-            height: calc(100vh - 200px);
+            position: relative;
         }
 
         .chat-area::-webkit-scrollbar {
@@ -909,18 +1151,26 @@
             </div>
 
             <div class="nav-section">
-                <div class="nav-title">Intelligence</div>
-                <div class="nav-item active" onclick="switchView('chat')">
-                    <span>Strategic Conversation</span>
+                <div class="nav-title">Conversations</div>
+                <div class="nav-item active" onclick="newChat()">
+                    <span>New Chat</span>
                     <div class="nav-indicator"></div>
                 </div>
-                <div class="nav-item" onclick="switchView('campaigns')">
-                    <span>Campaign Management</span>
+                <div class="nav-item" onclick="showChatHistory()">
+                    <span>Chat History</span>
                     <div class="nav-indicator"></div>
                 </div>
-                <div class="nav-item" onclick="switchView('analytics')">
-                    <span>Performance Analytics</span>
-                    <div class="nav-indicator warning"></div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-title">Intelligence Hub</div>
+                <div class="nav-item" onclick="switchView('dashboard')">
+                    <span>Executive Dashboard</span>
+                    <div class="nav-indicator"></div>
+                </div>
+                <div class="nav-item" onclick="switchView('reports')">
+                    <span>Intelligence Reports</span>
+                    <div class="nav-indicator"></div>
                 </div>
                 <div class="nav-item" onclick="switchView('calendar')">
                     <span>Marketing Calendar</span>
@@ -928,57 +1178,27 @@
                 </div>
             </div>
 
-            <div class="nav-section">
-                <div class="nav-title">Automation</div>
-                <div class="nav-item" onclick="manageEmailAutomation()">
-                    <span>Email Workflows</span>
-                    <div class="nav-indicator"></div>
-                </div>
-                <div class="nav-item" onclick="manageSocialAutomation()">
-                    <span>Social Publishing</span>
-                    <div class="nav-indicator"></div>
-                </div>
-                <div class="nav-item" onclick="manageLeadNurturing()">
-                    <span>Lead Nurturing</span>
-                    <div class="nav-indicator warning"></div>
+            <div class="voice-settings-panel">
+                <div class="wellness-title">Voice Settings</div>
+                <div class="voice-setting">
+                    <span class="wellness-label">TTS Engine</span>
+                    <select id="voiceEngine" class="voice-select" onchange="updateVoiceEngine()">
+                        <option value="elevenlabs">ElevenLabs</option>
+                        <option value="browser">Browser</option>
+                    </select>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="nav-section">
-                <div class="nav-title">Executive Tools</div>
-                <div class="nav-item" onclick="viewDashboard()">
-                    <span>Executive Dashboard</span>
-                    <div class="nav-indicator"></div>
-                </div>
-                <div class="nav-item" onclick="generateReports()">
-                    <span>Intelligence Reports</span>
-                    <div class="nav-indicator"></div>
-                </div>
-                <div class="nav-item" onclick="manageTeam()">
-                    <span>Team Coordination</span>
-                    <div class="nav-indicator"></div>
-                </div>
-            </div>
-
-            <div class="wellness-panel">
-                <div class="wellness-title">System Wellness</div>
-                <div class="wellness-metric">
-                    <span class="wellness-label">AI Response Time</span>
-                    <span class="wellness-value">0.3s</span>
-                </div>
-                <div class="wellness-metric">
-                    <span class="wellness-label">Data Freshness</span>
-                    <span class="wellness-value">Real-time</span>
-                </div>
-                <div class="wellness-metric">
-                    <span class="wellness-label">Automation Health</span>
-                    <span class="wellness-value">98.5%</span>
-                </div>
-                <div class="wellness-metric">
-                    <span class="wellness-label">Trust Score</span>
-                    <span class="wellness-value">94.2%</span>
-                </div>
-            </div>
+    <!-- Right Panel for Tools/Calendar -->
+    <div class="right-panel" id="rightPanel">
+        <div class="right-panel-header">
+            <h3>Executive Tools</h3>
+            <button class="close-right-panel" onclick="toggleRightPanel()">×</button>
+        </div>
+        <div class="right-panel-content" id="rightPanelContent">
+            <!-- Content will be dynamically loaded -->
         </div>
     </div>
 
@@ -986,10 +1206,17 @@
     <div class="main-content">
         <div class="header">
             <button class="mobile-menu-btn" onclick="toggleSidePanel()">☰</button>
-            <div class="header-title">Strategic Marketing Intelligence</div>
-            <div class="status-indicator">
-                <div class="status-dot"></div>
-                <span class="status-text">Neural Network Active</span>
+            <div class="header-title">Marketing Intelligence</div>
+            <div class="header-actions">
+                <button class="header-action-btn" onclick="openCalendar()" title="Calendar">
+                    📅
+                </button>
+                <button class="header-action-btn" onclick="openDashboard()" title="Dashboard">
+                    📊
+                </button>
+                <button class="header-action-btn" onclick="openReports()" title="Reports">
+                    📈
+                </button>
             </div>
         </div>
 
@@ -1008,7 +1235,7 @@
                 <!-- Quick Start Section -->
                 <div id="quickStartSection" class="quick-start-section">
                     <div class="quick-start-header">
-                        <h2 class="quick-start-title">Good Morning, Taylor! Ready to start your day with VERA?</h2>
+                        <h2 class="quick-start-title">Welcome to VERA Marketing Intelligence</h2>
                         <p class="quick-start-subtitle">Choose how you'd like VERA to assist you today</p>
                     </div>
                     
@@ -1043,7 +1270,7 @@
                 <div id="chatMessages" class="chat-messages" style="display: none;">
                     <div class="message vera">
                         <div class="message-bubble">
-                            Good morning, Taylor. I've analyzed your marketing ecosystem overnight and have strategic recommendations ready. Your lead nurturing sequences are performing exceptionally well, with a 23% increase in qualified leads this quarter. How would you like to begin today's strategic session?
+                            Hello! I'm VERA, your marketing intelligence assistant. I can help you with strategy, analytics, campaign planning, and performance insights. What would you like to explore today?
                             <div class="message-time">Just now</div>
                         </div>
                     </div>
@@ -1149,6 +1376,9 @@
 
     <script>
         let ttsEnabled = false;
+        let currentAudio = null; // Track current ElevenLabs audio
+        let voiceEngine = 'elevenlabs'; // 'elevenlabs' or 'browser'
+        let selectedVoiceId = 'EXAVITQu4vr4xnSDxMaL'; // Default to Bella
         let conversationHistory = [];
         let currentView = 'chat';
         let currentMonth = 10; // November (0-indexed)
@@ -1231,7 +1461,7 @@
                 
                 switch(type) {
                     case 'morning-briefing':
-                        response = "**🌅 Good Morning, Taylor! Here's Your Marketing Intelligence Briefing**\n\n**📊 Key Metrics (Last 24 Hours):**\n• **Website Traffic**: 2,347 visitors (+12% vs yesterday)\n• **Lead Generation**: 23 new qualified leads\n• **Email Performance**: 31.2% open rate, 7.8% click rate\n• **Social Engagement**: 156 interactions (+18%)\n\n**🚀 Campaign Updates:**\n• **Q4 Product Launch**: 82% completion, on track for Nov 15\n• **VERA Neural Demo Campaign**: 47 scheduled demos this week\n• **LinkedIn Thought Leadership**: Trending post reached 12K+ professionals\n• **Email Nurturing**: 8.2% conversion rate (industry-leading)\n\n**⚡ Priority Actions Today:**\n1. **Review hot leads** - 12 prospects ready for immediate follow-up\n2. **Approve holiday campaign** - Creative assets pending your review\n3. **Partnership meeting prep** - TechCorp discussion at 2 PM\n4. **Content calendar** - Plan next week's thought leadership posts\n\n**💡 Strategic Opportunities:**\n• VERA Neural positioning driving 73% of inbound interest\n• Technical content performing 234% above baseline\n• Enterprise prospects showing 67% higher engagement\n\nHow would you like to prioritize these opportunities today?";
+                        response = "**📊 Marketing Briefing**\n\n**Key Metrics:**\n• Website Traffic: 2,347 visitors (+12%)\n• Lead Generation: 23 new qualified leads\n• Email Performance: 31.2% open rate\n• Social Engagement: 156 interactions (+18%)\n\n**Campaign Updates:**\n• Q4 Product Launch: 82% completion\n• Demo Campaign: 47 scheduled demos this week\n• Content Performance: Strong engagement across channels\n\n**Priority Actions:**\n1. Review hot leads (12 prospects ready)\n2. Approve holiday campaign creative\n3. Plan next week's content calendar\n\nWhat specific area would you like to dive deeper into?";
                         break;
                     case 'strategic-planning':
                         response = "**🎯 Strategic Planning Session Initiated**\n\n**Market Intelligence Summary:**\n• **AI Marketing Adoption**: Accelerating 340% annually in our target market\n• **Competitive Landscape**: VERA Neural's co-regulation approach is unique differentiator\n• **Customer Demand**: 89% of prospects request advanced automation capabilities\n\n**Campaign Strategy Analysis:**\n• **High-Performing Channels**: LinkedIn (31% of leads), Content Marketing (67% attribution)\n• **Emerging Opportunities**: Partnership ecosystem (45% growth potential)\n• **Optimization Areas**: Demo-to-close process (current 89% close rate)\n\n**Strategic Recommendations:**\n1. **Scale VERA Demo Capacity** - 40% pipeline increase opportunity\n2. **Launch Executive Thought Leadership** - C-suite engagement strategy\n3. **Develop Partnership Program** - $500K+ revenue opportunity\n4. **Advanced Content Strategy** - Technical deep-dives for enterprise\n\n**Competitive Positioning:**\n• **Unique Value**: Neural marketing intelligence with co-regulation\n• **Market Timing**: Perfect alignment with AI adoption curve\n• **Differentiation**: 94% of competitors lack our advanced capabilities\n\nWhat strategic priority would you like to deep-dive into first?";
@@ -1264,6 +1494,10 @@
             } else {
                 addMessage("🔇 **Text-to-Speech Disabled**\n\nI'll continue providing written responses only.", 'vera');
                 // Stop any current speech
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio = null;
+                }
                 if ('speechSynthesis' in window) {
                     speechSynthesis.cancel();
                 }
@@ -1271,10 +1505,13 @@
         }
 
         function speakText(text) {
-            if (!ttsEnabled || !('speechSynthesis' in window)) return;
+            if (!ttsEnabled) return;
             
-            // Cancel any ongoing speech
-            speechSynthesis.cancel();
+            // Stop any current audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
             
             // Clean the text for speech
             const cleanText = text
@@ -1283,6 +1520,55 @@
                 .replace(/•/g, '')
                 .replace(/\n/g, ' ')
                 .replace(/🚀||🎯|📈|👥|🌅|⚡|💰|📧|🔊|🔇/g, '');
+            
+            if (voiceEngine === 'elevenlabs') {
+                // Use ElevenLabs TTS with selected voice
+                fetch('/api/voice/synthesize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        text: cleanText,
+                        voiceId: selectedVoiceId 
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`TTS API error: ${response.status}`);
+                    }
+                    return response.blob();
+                })
+                .then(audioBlob => {
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    currentAudio = new Audio(audioUrl);
+                    currentAudio.play().catch(error => {
+                        console.warn('Audio playback failed:', error);
+                        // Fallback to browser TTS if ElevenLabs fails
+                        fallbackToWebSpeech(cleanText);
+                    });
+                    
+                    // Clear reference when audio ends
+                    currentAudio.addEventListener('ended', () => {
+                        currentAudio = null;
+                    });
+                })
+                .catch(error => {
+                    console.warn('ElevenLabs TTS failed:', error);
+                    // Fallback to browser TTS
+                    fallbackToWebSpeech(cleanText);
+                });
+            } else {
+                // Use browser TTS directly
+                fallbackToWebSpeech(cleanText);
+            }
+        }
+
+        function fallbackToWebSpeech(cleanText) {
+            if (!('speechSynthesis' in window)) return;
+            
+            // Cancel any ongoing speech
+            speechSynthesis.cancel();
             
             const utterance = new SpeechSynthesisUtterance(cleanText);
             utterance.rate = 0.9;
@@ -1680,6 +1966,243 @@
                 wellnessValues[3].textContent = trustScore + '%';
             }
         }
+
+        // Voice Settings Functions
+        function updateVoiceEngine() {
+            const engineSelect = document.getElementById('voiceEngine');
+            voiceEngine = engineSelect.value;
+            
+            // Show/hide AI voice selector based on engine
+            const aiVoiceSelect = document.getElementById('aiVoiceSelect');
+            const voiceSetting = aiVoiceSelect.closest('.voice-setting');
+            
+            if (voiceEngine === 'elevenlabs') {
+                voiceSetting.style.display = 'flex';
+            } else {
+                voiceSetting.style.display = 'none';
+            }
+            
+            console.log('Voice engine switched to:', voiceEngine);
+        }
+
+        function updateVoice() {
+            const voiceSelect = document.getElementById('aiVoiceSelect');
+            selectedVoiceId = voiceSelect.value;
+            console.log('Voice changed to:', selectedVoiceId);
+        }
+
+        // Chat Management Functions
+        let savedChats = JSON.parse(localStorage.getItem('veraChats') || '[]');
+        let currentChatId = null;
+        let rightPanelOpen = false;
+
+        function toggleRightPanel() {
+            const rightPanel = document.getElementById('rightPanel');
+            const mainContent = document.querySelector('.main-content');
+            
+            rightPanelOpen = !rightPanelOpen;
+            
+            if (rightPanelOpen) {
+                rightPanel.classList.add('open');
+                mainContent.classList.add('right-panel-open');
+            } else {
+                rightPanel.classList.remove('open');
+                mainContent.classList.remove('right-panel-open');
+            }
+        }
+
+        function openCalendar() {
+            const content = `
+                <div class="executive-calendar">
+                    <div class="calendar-title">Today's Schedule</div>
+                    <div class="calendar-event">
+                        <div class="event-time">9:00 AM - 10:00 AM</div>
+                        <div class="event-title">Strategy Review</div>
+                    </div>
+                    <div class="calendar-event">
+                        <div class="event-time">2:00 PM - 3:00 PM</div>
+                        <div class="event-title">Campaign Planning</div>
+                    </div>
+                    <div class="calendar-event">
+                        <div class="event-time">4:00 PM - 5:00 PM</div>
+                        <div class="event-title">Performance Analysis</div>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <div class="calendar-title">Quick Actions</div>
+                    <button class="action-button" onclick="scheduleReview()">Schedule Review</button>
+                    <button class="action-button" onclick="blockTime()">Block Time</button>
+                    <button class="action-button" onclick="setReminder()">Set Reminder</button>
+                </div>
+            `;
+            showRightPanel('Executive Calendar', content);
+        }
+
+        function openDashboard() {
+            const content = `
+                <div class="executive-calendar">
+                    <div class="calendar-title">Key Metrics</div>
+                    <div class="metric-item">
+                        <div class="metric-label">Leads Generated</div>
+                        <div class="metric-value">247 (+12%)</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">Conversion Rate</div>
+                        <div class="metric-value">23.4% (+2.1%)</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-label">Revenue Attribution</div>
+                        <div class="metric-value">$127,890 (+8%)</div>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <div class="calendar-title">Dashboard Actions</div>
+                    <button class="action-button" onclick="refreshData()">Refresh Data</button>
+                    <button class="action-button" onclick="exportReport()">Export Report</button>
+                    <button class="action-button" onclick="scheduleReport()">Schedule Report</button>
+                </div>
+            `;
+            showRightPanel('Executive Dashboard', content);
+        }
+
+        function openReports() {
+            const content = `
+                <div class="executive-calendar">
+                    <div class="calendar-title">Available Reports</div>
+                    <div class="calendar-event">
+                        <div class="event-time">Daily</div>
+                        <div class="event-title">Performance Summary</div>
+                    </div>
+                    <div class="calendar-event">
+                        <div class="event-time">Weekly</div>
+                        <div class="event-title">Campaign Analysis</div>
+                    </div>
+                    <div class="calendar-event">
+                        <div class="event-time">Monthly</div>
+                        <div class="event-title">Strategic Review</div>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <div class="calendar-title">Report Actions</div>
+                    <button class="action-button" onclick="generateReport()">Generate Report</button>
+                    <button class="action-button" onclick="customReport()">Custom Report</button>
+                    <button class="action-button" onclick="shareReport()">Share Report</button>
+                </div>
+            `;
+            showRightPanel('Intelligence Reports', content);
+        }
+
+        function showRightPanel(title, content) {
+            const rightPanel = document.getElementById('rightPanel');
+            const rightPanelContent = document.getElementById('rightPanelContent');
+            const headerTitle = rightPanel.querySelector('.right-panel-header h3');
+            
+            headerTitle.textContent = title;
+            rightPanelContent.innerHTML = content;
+            
+            if (!rightPanelOpen) {
+                toggleRightPanel();
+            }
+        }
+
+        function newChat() {
+            // Save current chat if it has messages
+            if (conversationHistory.length > 0 && currentChatId) {
+                saveCurrentChat();
+            }
+            
+            // Clear current conversation
+            conversationHistory = [];
+            currentChatId = Date.now().toString();
+            
+            // Clear chat area
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            // Show a simpler welcome message
+            addMessage("Hello! I'm VERA, your marketing intelligence assistant. How can I help you today?", 'vera');
+            
+            // Update navigation
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.target.closest('.nav-item').classList.add('active');
+        }
+
+        function saveCurrentChat() {
+            if (conversationHistory.length === 0) return;
+            
+            const chatTitle = generateChatTitle();
+            const chatData = {
+                id: currentChatId,
+                title: chatTitle,
+                timestamp: new Date().toISOString(),
+                messages: [...conversationHistory]
+            };
+            
+            // Remove existing chat with same ID
+            savedChats = savedChats.filter(chat => chat.id !== currentChatId);
+            
+            // Add to beginning of array
+            savedChats.unshift(chatData);
+            
+            // Keep only last 20 chats
+            savedChats = savedChats.slice(0, 20);
+            
+            localStorage.setItem('veraChats', JSON.stringify(savedChats));
+        }
+
+        function generateChatTitle() {
+            const firstUserMessage = conversationHistory.find(msg => msg.sender === 'user');
+            if (firstUserMessage) {
+                return firstUserMessage.content.substring(0, 30) + (firstUserMessage.content.length > 30 ? '...' : '');
+            }
+            return 'Marketing Discussion';
+        }
+
+        function showChatHistory() {
+            // Simple chat history display
+            const historyHtml = savedChats.map(chat => {
+                const date = new Date(chat.timestamp).toLocaleDateString();
+                return `<div class="chat-history-item" onclick="loadChat('${chat.id}')">
+                    <div class="chat-title">${chat.title}</div>
+                    <div class="chat-date">${date}</div>
+                </div>`;
+            }).join('');
+            
+            addMessage(`**📋 Chat History**\n\n${historyHtml || 'No saved chats yet.'}`, 'vera');
+        }
+
+        function loadChat(chatId) {
+            const chat = savedChats.find(c => c.id === chatId);
+            if (!chat) return;
+            
+            // Save current chat first
+            if (conversationHistory.length > 0 && currentChatId) {
+                saveCurrentChat();
+            }
+            
+            // Load selected chat
+            currentChatId = chatId;
+            conversationHistory = [...chat.messages];
+            
+            // Clear and reload chat area
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            conversationHistory.forEach(msg => {
+                addMessage(msg.content, msg.sender);
+            });
+        }
+
+        // Initialize voice settings on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateWellnessMetrics();
+            setInterval(updateWellnessMetrics, 30000);
+            
+            // Initialize voice engine display
+            updateVoiceEngine();
+        });
     </script>
 </body>
 </html>

@@ -29,14 +29,14 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-haiku-20241022';
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
 
+// ElevenLabs Configuration
+const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
+const ELEVENLABS_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'pNInz6obpgDQGcFmaJgB'; // Adam voice
+
 // Qwen Training Configuration
 const QWEN_API_URL = process.env.QWEN_API_URL || 'http://localhost:11434/api/chat';
 const QWEN_MODEL = process.env.QWEN_MODEL || 'qwen2.5:latest';
 const QWEN_TRAINING_MODE = process.env.QWEN_TRAINING_MODE === 'true';
-
-// ElevenLabs Configuration
-const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
-const ELEVENLABS_VOICE_ID = process.env.ELEVENLABS_VOICE_ID;
 
 // Initialize AI clients
 const anthropic = ANTHROPIC_API_KEY ? new Anthropic({
@@ -571,7 +571,7 @@ ${baseAnalysis}
 // ElevenLabs Voice API endpoint
 app.post('/api/voice/synthesize', async (req, res) => {
   try {
-    const { text } = req.body;
+    const { text, voiceId } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: 'Text is required for voice synthesis' });
@@ -581,8 +581,11 @@ app.post('/api/voice/synthesize', async (req, res) => {
       return res.status(503).json({ error: 'ElevenLabs API key not configured' });
     }
 
-    // ElevenLabs API call (placeholder - needs actual implementation)
-    const voiceResponse = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVENLABS_VOICE_ID}`, {
+    // Use provided voiceId or default
+    const currentVoiceId = voiceId || ELEVENLABS_VOICE_ID;
+
+    // ElevenLabs API call
+    const voiceResponse = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${currentVoiceId}`, {
       method: 'POST',
       headers: {
         'Accept': 'audio/mpeg',
