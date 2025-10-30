@@ -77,40 +77,29 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            :root {
-                --vera-bg: #f4ecff;            /* page tint */
-                --vera-surface: #f6f0ff;      /* panels/cards */
-                --vera-border: #e6d9ff;       /* soft border */
-                --vera-primary: #7c5dc9;      /* neural lavender */
-                --vera-primary-2: #a37be8;    /* lighter gradient end */
-                --vera-accent: #c7a7ff;       /* accents/hover */
-                --vera-chip-bg: rgba(124, 93, 201, 0.10);
-                --vera-chip-border: rgba(124, 93, 201, 0.30);
-                --vera-ink: #212529;
-            }
             justify-content: center;
             transform: translateY(-50%);
-                background: linear-gradient(180deg, var(--vera-bg) 0%, #ffffff 70%);
-                color: var(--vera-ink);
+            transition: all 0.3s ease;
+            z-index: 1001;
         }
 
         .collapse-btn:hover {
-                background: var(--vera-surface);
-                border-right: 1px solid var(--vera-border);
+            background: rgba(100, 120, 160, 0.1);
+            border-color: rgba(100, 120, 160, 0.5);
         }
 
         .panel-header {
             padding: 20px;
-                background: var(--vera-chip-bg);
-                border: 1px solid var(--vera-chip-border);
+            border-bottom: 1px solid #eadff6;
+        }
 
         .logo {
-                background: #efe7ff;
-                border-color: var(--vera-accent);
+            display: flex;
+            align-items: center;
             gap: 12px;
             margin-bottom: 8px;
         }
-                background: rgba(60, 40, 96, 0.8);
+
         .orb {
             width: 32px;
             height: 32px;
@@ -119,7 +108,7 @@
             animation: breathe 4s ease-in-out infinite;
             position: relative;
             overflow: hidden;
-                background: rgba(60, 40, 96, 0.08);
+        }
 
         .orb::before {
             content: '';
@@ -128,11 +117,11 @@
             left: 25%;
             width: 50%;
             height: 50%;
-                background: rgba(124, 93, 201, 0.14);
-                border: 2px solid var(--vera-primary);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
             animation: breatheGlow 4s ease-in-out infinite;
         }
-                background: linear-gradient(135deg, var(--vera-primary-2) 0%, var(--vera-primary) 100%);
+
         @keyframes breathe {
             0%, 100% { 
                 transform: scale(1);
@@ -143,15 +132,15 @@
                 transform: scale(1.03);
                 opacity: 1;
                 box-shadow: 0 0 16px rgba(100, 120, 156, 0.4);
-                background: linear-gradient(135deg, var(--vera-primary-2) 0%, var(--vera-primary) 100%);
+            }
         }
-                border-color: var(--vera-primary);
+
         @keyframes breatheGlow {
             0%, 100% { 
                 opacity: 0.2;
                 transform: scale(1);
             }
-                background: linear-gradient(135deg, var(--vera-primary-2) 0%, var(--vera-primary) 100%);
+            50% { 
                 opacity: 0.4;
                 transform: scale(1.1);
             }
@@ -354,8 +343,8 @@
         /* Header */
         .header {
             height: 60px;
-            background: var(--vera-surface);
-            border-bottom: 1px solid var(--vera-border);
+            background: #fbf9fe;
+            border-bottom: 1px solid #ede7f5;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -449,9 +438,9 @@
         }
 
         .message.vera .message-bubble {
-            background: rgba(124, 93, 201, 0.10);
-            border: 1px solid rgba(124, 93, 201, 0.25);
-            color: #2b2340;
+            background: rgba(181, 122, 188, 0.1);
+            border: 1px solid rgba(181, 122, 188, 0.2);
+            color: #333;
         }
 
         .message.user .message-bubble {
@@ -519,26 +508,26 @@
         }
         .copilot-chip {
             padding: 6px 12px;
-            background: var(--vera-chip-bg);
-            border: 1px solid var(--vera-chip-border);
+            background: rgba(181, 122, 188, 0.1);
+            border: 1px solid rgba(181, 122, 188, 0.25);
             border-radius: 16px;
-            color: var(--vera-primary);
+            color: #b57abc;
             font-size: 12px;
             white-space: nowrap;
             cursor: pointer;
             transition: background 0.2s, border-color 0.2s;
         }
         .copilot-chip:hover {
-            background: rgba(124, 93, 201, 0.18);
-            border-color: rgba(124, 93, 201, 0.40);
+            background: rgba(181, 122, 188, 0.2);
+            border-color: rgba(181, 122, 188, 0.4);
         }
 
         .input-container {
             display: flex;
             align-items: end;
             gap: 12px;
-            background: rgba(124, 93, 201, 0.10);
-            border: 1px solid rgba(124, 93, 201, 0.20);
+            background: rgba(181, 122, 188, 0.1);
+            border: 1px solid rgba(181, 122, 188, 0.2);
             border-radius: 12px;
             padding: 12px;
         }
@@ -567,7 +556,7 @@
             width: 40px;
             height: 40px;
             border-radius: 8px;
-            background: linear-gradient(135deg, var(--vera-primary-2) 0%, var(--vera-primary) 100%);
+            background: linear-gradient(135deg, #b57abc 0%, #9b7cb8 100%);
             border: none;
             color: white;
             cursor: pointer;
@@ -858,8 +847,8 @@
         }
 
         .quick-start-card {
-            background: var(--vera-surface);
-            border: 1px solid var(--vera-border);
+            background: #fbf9fe;
+            border: 1px solid #e5dcf3;
             border-radius: 8px;
             padding: 12px 14px;
             cursor: pointer;
@@ -965,16 +954,16 @@
         }
 
         .tts-btn.active {
-            background: linear-gradient(135deg, var(--vera-primary-2) 0%, var(--vera-primary) 100%);
+            background: linear-gradient(135deg, #b57abc 0%, #9b7cb8 100%);
             color: white;
-            border-color: var(--vera-primary);
+            border-color: #b57abc;
         }
 
         .tts-orb {
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--vera-primary-2) 0%, var(--vera-primary) 100%);
+            background: linear-gradient(135deg, #b57abc 0%, #9b7cb8 100%);
             opacity: 0.7;
             transition: all 0.3s ease;
         }
@@ -1019,7 +1008,27 @@
                 </div>
             </div>
 
-            <!-- Core Workflows removed to avoid duplication; use Copilot Dock chips below input -->
+            <div class="nav-section">
+                <div class="nav-title">Core Workflows</div>
+                <div class="nav-item" onclick="quickMessage('Help me build and track the VERA Neural launch plan. Start with phases, milestones, owners, risks, and first next actions for today.')">
+                    <span>Neural Launch Plan</span>
+                </div>
+                <div class="nav-item" onclick="quickMessage('Create a focused 7-day learning path for Taylor to master VERA Neural, co-regulation, and AI content craft. Include daily practice and small wins.')">
+                    <span>Learning Path</span>
+                </div>
+                <div class="nav-item" onclick="quickMessage('Draft emails I can send today about VERA Neural: outreach, stakeholder update, and follow-up. Use a calm, clear tone.')">
+                    <span>Email Support</span>
+                </div>
+                <div class="nav-item" onclick="quickMessage('Prepare a concise decision brief with options, pros/cons, recommendation, and next steps for our VERA Neural launch choices.')">
+                    <span>Decision Briefs</span>
+                </div>
+                <div class="nav-item" onclick="quickMessage('Help me frame and draft a clear update for Julija about VERA Neural progress, decisions needed, and how best to collaborate.')">
+                    <span>Comms with Julija</span>
+                </div>
+                <div class="nav-item" onclick="quickMessage('Help me draft a clear, respectful update for Eva about VERA Neural progress, product decisions, and where I need her guidance.')">
+                    <span>Comms with Eva</span>
+                </div>
+            </div>
 
             <div class="voice-settings-panel" style="display: none;">
                 <div class="wellness-title">Voice Settings</div>
