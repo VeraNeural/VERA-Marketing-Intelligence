@@ -1169,6 +1169,11 @@
                             <input id="settingsUseMemory" type="checkbox" checked />
                             <span>Apply account memory to chat (private, not echoed)</span>
                         </label>
+
+                        <hr style="border:none;border-top:1px solid #eadff6;margin:8px 0;">
+                        <div class="wellness-title" style="margin:0 0 6px 0;">Voice (TTS)</div>
+                        <label class="form-label">ElevenLabs Voice ID</label>
+                        <input id="settingsVoiceId" type="text" class="form-input" placeholder="EXAVITQu4vr4xnSDxMaL" />
                     </div>
                     <div class="modal-footer">
                         <button class="primary-btn" onclick="saveSettings()">Save</button>
@@ -1859,6 +1864,8 @@
             if (!engineSelect) return; // Safety check
             
             voiceEngine = engineSelect.value;
+            settings.voiceEngine = voiceEngine;
+            localStorage.setItem('veraSettings', JSON.stringify(settings));
             console.log('Voice engine switched to:', voiceEngine);
         }
 
@@ -1975,6 +1982,13 @@
             if (!settings.mission) settings.mission = 'Grow VERA Neural calmly and decisively.';
             if (!settings.julijaName) settings.julijaName = 'Julija';
             if (!settings.evaName) settings.evaName = 'Eva';
+            if (!settings.voiceId) settings.voiceId = 'EXAVITQu4vr4xnSDxMaL';
+            if (!settings.voiceEngine) settings.voiceEngine = 'elevenlabs';
+            // Apply voice defaults to runtime and controls
+            selectedVoiceId = settings.voiceId;
+            voiceEngine = settings.voiceEngine;
+            const veSel = document.getElementById('voiceEngine');
+            if (veSel) veSel.value = voiceEngine;
             localStorage.setItem('veraSettings', JSON.stringify(settings));
         });
 
@@ -1988,6 +2002,8 @@
             document.getElementById('settingsMission').value = settings.mission || '';
             document.getElementById('settingsJulija').value = settings.julijaName || '';
             document.getElementById('settingsEva').value = settings.evaName || '';
+            const voiceInput = document.getElementById('settingsVoiceId');
+            if (voiceInput) voiceInput.value = settings.voiceId || '';
             modal.style.display = 'block';
             // Allow escape to close
             document.addEventListener('keydown', escCloseSettings);
@@ -2008,6 +2024,11 @@
             settings.mission = document.getElementById('settingsMission').value.trim() || settings.mission;
             settings.julijaName = document.getElementById('settingsJulija').value.trim() || settings.julijaName;
             settings.evaName = document.getElementById('settingsEva').value.trim() || settings.evaName;
+            const newVoiceId = (document.getElementById('settingsVoiceId')?.value || '').trim();
+            if (newVoiceId) {
+                settings.voiceId = newVoiceId;
+                selectedVoiceId = newVoiceId;
+            }
             localStorage.setItem('veraSettings', JSON.stringify(settings));
             closeSettings();
             addMessage('Settings saved. Autosave is ' + (settings.autosaveChats ? 'enabled' : 'disabled') + '.', 'vera');
