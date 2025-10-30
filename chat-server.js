@@ -34,6 +34,10 @@ const QWEN_API_URL = process.env.QWEN_API_URL || 'http://localhost:11434/api/cha
 const QWEN_MODEL = process.env.QWEN_MODEL || 'qwen2.5:latest';
 const QWEN_TRAINING_MODE = process.env.QWEN_TRAINING_MODE === 'true';
 
+// ElevenLabs Configuration
+const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
+const ELEVENLABS_VOICE_ID = process.env.ELEVENLABS_VOICE_ID;
+
 // Initialize AI clients
 const anthropic = ANTHROPIC_API_KEY ? new Anthropic({
   apiKey: ANTHROPIC_API_KEY,
@@ -54,14 +58,19 @@ console.log('QWEN_API_URL:', QWEN_API_URL);
 console.log('QWEN_TRAINING_MODE:', QWEN_TRAINING_MODE);
 console.log('==========================');
 
-// Root route - redirect to workspace interface
+// Root route - redirect to executive interface
 app.get('/', (req, res) => {
-  res.redirect('/workspace.html');
+  res.redirect('/executive.html');
 });
 
-// Chat route - redirect to workspace  
+// Chat route - redirect to executive interface  
 app.get('/chat', (req, res) => {
-  res.redirect('/workspace.html');
+  res.redirect('/executive.html');
+});
+
+// Workspace route - redirect to executive interface
+app.get('/workspace', (req, res) => {
+  res.redirect('/executive.html');
 });
 
 // Health check endpoint
@@ -531,6 +540,155 @@ ${baseAnalysis}
 *Let's chat about your marketing goals and refine this together!*`;
   }
 }
+
+// ElevenLabs Voice API endpoint
+app.post('/api/voice/synthesize', async (req, res) => {
+  try {
+    const { text } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: 'Text is required for voice synthesis' });
+    }
+
+    if (!ELEVENLABS_API_KEY) {
+      return res.status(503).json({ error: 'ElevenLabs API key not configured' });
+    }
+
+    // ElevenLabs API call (placeholder - needs actual implementation)
+    const voiceResponse = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVENLABS_VOICE_ID}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'audio/mpeg',
+        'Content-Type': 'application/json',
+        'xi-api-key': ELEVENLABS_API_KEY
+      },
+      body: JSON.stringify({
+        text: text,
+        model_id: 'eleven_monolingual_v1',
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 0.5
+        }
+      })
+    });
+
+    if (!voiceResponse.ok) {
+      throw new Error(`ElevenLabs API error: ${voiceResponse.status}`);
+    }
+
+    const audioBuffer = await voiceResponse.arrayBuffer();
+    
+    res.setHeader('Content-Type', 'audio/mpeg');
+    res.send(Buffer.from(audioBuffer));
+
+  } catch (error) {
+    console.error('Voice synthesis error:', error);
+    res.status(500).json({ error: 'Voice synthesis failed', details: error.message });
+  }
+});
+
+// Calendar API endpoint
+app.get('/api/calendar/events', async (req, res) => {
+  try {
+    // Mock calendar events - integrate with actual calendar API
+    const mockEvents = [
+      {
+        id: 1,
+        title: 'VERA Neural Strategy Review',
+        date: '2025-10-31',
+        time: '09:00',
+        type: 'meeting',
+        priority: 'high'
+      },
+      {
+        id: 2,
+        title: 'Marketing Campaign Launch',
+        date: '2025-11-01',
+        time: '14:00',
+        type: 'deadline',
+        priority: 'medium'
+      },
+      {
+        id: 3,
+        title: 'Board Presentation Prep',
+        date: '2025-11-02',
+        time: '10:30',
+        type: 'task',
+        priority: 'high'
+      }
+    ];
+
+    res.json({ events: mockEvents });
+  } catch (error) {
+    console.error('Calendar error:', error);
+    res.status(500).json({ error: 'Calendar service unavailable' });
+  }
+});
+
+// Email Intelligence endpoint
+app.get('/api/email/priority', async (req, res) => {
+  try {
+    // Mock priority emails - integrate with actual email API
+    const mockEmails = [
+      {
+        id: 1,
+        from: 'julija@veraneural.com',
+        subject: 'Q1 Strategy Review',
+        preview: 'VERA Neural positioning needs refinement before board presentation...',
+        priority: 'urgent',
+        timestamp: new Date().toISOString()
+      },
+      {
+        id: 2,
+        from: 'marketing-team@veraneural.com',
+        subject: 'Campaign Assets Ready',
+        preview: 'Creative assets ready for approval. Luxury aesthetic achieved...',
+        priority: 'normal',
+        timestamp: new Date().toISOString()
+      }
+    ];
+
+    res.json({ emails: mockEmails });
+  } catch (error) {
+    console.error('Email intelligence error:', error);
+    res.status(500).json({ error: 'Email intelligence service unavailable' });
+  }
+});
+
+// Decision Support endpoint
+app.post('/api/decision/analyze', async (req, res) => {
+  try {
+    const { decision, options } = req.body;
+
+    if (!decision || !options) {
+      return res.status(400).json({ error: 'Decision and options are required' });
+    }
+
+    // Mock decision analysis - integrate with AI for real analysis
+    const analysis = options.map((option, index) => ({
+      option: option,
+      score: Math.floor(Math.random() * 30) + 70, // Mock score 70-100
+      factors: [
+        'Market timing',
+        'Resource allocation',
+        'Risk assessment',
+        'Strategic alignment'
+      ],
+      recommendation: index === 0 ? 'Recommended' : 'Consider'
+    }));
+
+    res.json({ 
+      decision: decision,
+      analysis: analysis,
+      confidence: '87%',
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('Decision analysis error:', error);
+    res.status(500).json({ error: 'Decision analysis failed' });
+  }
+});
 
 // Start server
 app.listen(port, () => {

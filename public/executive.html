@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VERA Neural — Marketing Intelligence Command Center</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+            font-weight: 300;
+        }
+
+        /* Luxury Header Bar */
+        .executive-header {
+            height: 80px;
+            background: rgba(15, 15, 15, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .brand-identity {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .vera-neural-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(200, 200, 255, 0.8) 30%,
+                rgba(150, 180, 255, 0.6) 70%,
+                rgba(100, 150, 255, 0.4) 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vera-neural-icon::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            border-radius: 10px;
+        }
+
+        .vera-neural-icon::after {
+            content: 'V';
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            z-index: 1;
+        }
+
+        .brand-text h1 {
+            font-size: 1.5rem;
+            font-weight: 200;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0ff 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-text p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2px;
+            letter-spacing: 0.02em;
+        }
+
+        .executive-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .status-panel {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            font-size: 0.8rem;
+        }
+
+        .neural-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: luxuryPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes luxuryPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 15px #00ff88; }
+        }
+
+        .taylor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            color: white;
+        }
+
+        /* Main Dashboard */
+        .command-center {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+
+        /* Sidebar Navigation */
+        .intelligence-sidebar {
+            width: 280px;
+            background: rgba(20, 20, 20, 0.8);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .workspace-nav {
+            padding: 1.5rem 1rem;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+        }
+
+        .nav-icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content Area */
+        .central-workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(10, 10, 10, 0.4);
+        }
+
+        /* Marketing Command Bar */
+        .marketing-commands {
+            padding: 1rem 1.5rem;
+            background: rgba(25, 25, 25, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            overflow-x: auto;
+        }
+
+        .command-chip {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 400;
+        }
+
+        .command-chip:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .command-chip.active {
+            background: rgba(100, 150, 255, 0.15);
+            border-color: rgba(100, 150, 255, 0.3);
+            color: #ffffff;
+        }
+
+        /* Conversation Workspace */
+        .conversation-workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .conversation-flow {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .executive-message {
+            display: flex;
+            gap: 1rem;
+            max-width: 75%;
+            animation: elegantSlide 0.4s ease-out;
+        }
+
+        @keyframes elegantSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .executive-message.taylor {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .executive-message.vera {
+            align-self: flex-start;
+        }
+
+        .executive-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .executive-message.taylor .executive-avatar {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+
+        .executive-message.vera .executive-avatar {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(200, 200, 255, 0.06) 100%);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .executive-bubble {
+            padding: 1.2rem 1.5rem;
+            border-radius: 16px;
+            line-height: 1.6;
+            position: relative;
+            font-weight: 300;
+        }
+
+        .executive-message.taylor .executive-bubble {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(139, 92, 246, 0.08) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-bottom-right-radius: 4px;
+        }
+
+        .executive-message.vera .executive-bubble {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(200, 200, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-metadata {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .metadata-dot {
+            width: 2px;
+            height: 2px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Executive Input */
+        .executive-input {
+            padding: 1.5rem;
+            background: rgba(15, 15, 15, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+        }
+
+        .input-assembly {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+            position: relative;
+        }
+
+        .voice-control {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .voice-control:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .executive-textarea {
+            flex: 1;
+            min-height: 44px;
+            max-height: 120px;
+            padding: 0.8rem 1.2rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            resize: none;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .executive-textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.03);
+        }
+
+        .executive-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+        }
+
+        .send-control {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(200, 200, 255, 0.06) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .send-control:hover:not(:disabled) {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(200, 200, 255, 0.08) 100%);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .send-control:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Processing Indicator */
+        .neural-processing {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(200, 200, 255, 0.02) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .processing-visual {
+            display: flex;
+            gap: 3px;
+        }
+
+        .processing-node {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            animation: neuralThink 1.6s ease-in-out infinite;
+        }
+
+        .processing-node:nth-child(2) { animation-delay: 0.2s; }
+        .processing-node:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes neuralThink {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        .processing-text {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        /* Right Panel */
+        .intelligence-panel {
+            width: 320px;
+            background: rgba(20, 20, 20, 0.8);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-section {
+            padding: 1.5rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .panel-title {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .calendar-widget {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.2rem;
+            font-size: 0.75rem;
+        }
+
+        .calendar-day {
+            padding: 0.4rem;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .calendar-day:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .calendar-day.today {
+            background: rgba(100, 150, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .email-item {
+            display: flex;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            margin-bottom: 0.6rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .email-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .email-priority {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ff6b6b;
+            margin-top: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .email-content h4 {
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
+            font-weight: 400;
+        }
+
+        .email-content p {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.4;
+        }
+
+        .decision-helper {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .decision-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem;
+            margin-bottom: 0.4rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .decision-option:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .decision-score {
+            font-size: 0.7rem;
+            color: rgba(100, 255, 150, 0.8);
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .intelligence-panel {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 968px) {
+            .intelligence-sidebar {
+                width: 240px;
+            }
+            
+            .intelligence-panel {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .intelligence-sidebar {
+                display: none;
+            }
+            
+            .executive-header {
+                padding: 0 1rem;
+            }
+            
+            .conversation-flow {
+                padding: 1rem;
+            }
+            
+            .executive-message {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="executive-header">
+        <div class="brand-identity">
+            <div class="vera-neural-icon"></div>
+            <div class="brand-text">
+                <h1>VERA Neural</h1>
+                <p>Marketing Intelligence Command Center</p>
+            </div>
+        </div>
+        <div class="executive-controls">
+            <div class="status-panel">
+                <div class="neural-pulse"></div>
+                <span>Neural Link Active</span>
+            </div>
+            <div class="status-panel">
+                <span>🎓 Training Mode</span>
+            </div>
+            <div class="taylor-avatar">T</div>
+        </div>
+    </div>
+
+    <div class="command-center">
+        <div class="intelligence-sidebar">
+            <div class="workspace-nav">
+                <div class="nav-section">
+                    <div class="nav-label">Intelligence</div>
+                    <div class="nav-item active" data-mode="conversation">
+                        <span class="nav-icon">💬</span>
+                        <span>Conversation</span>
+                    </div>
+                    <div class="nav-item" data-mode="analytics">
+                        <span class="nav-icon">📊</span>
+                        <span>Analytics</span>
+                    </div>
+                    <div class="nav-item" data-mode="campaigns">
+                        <span class="nav-icon">🚀</span>
+                        <span>Campaigns</span>
+                    </div>
+                    <div class="nav-item" data-mode="content">
+                        <span class="nav-icon">✍️</span>
+                        <span>Content Strategy</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-label">Executive Tools</div>
+                    <div class="nav-item" data-mode="calendar">
+                        <span class="nav-icon">📅</span>
+                        <span>Calendar</span>
+                    </div>
+                    <div class="nav-item" data-mode="email">
+                        <span class="nav-icon">✉️</span>
+                        <span>Email Intelligence</span>
+                    </div>
+                    <div class="nav-item" data-mode="decisions">
+                        <span class="nav-icon">🎯</span>
+                        <span>Decision Support</span>
+                    </div>
+                    <div class="nav-item" data-mode="voice">
+                        <span class="nav-icon">🎙️</span>
+                        <span>Voice AI (ElevenLabs)</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-label">Workspace</div>
+                    <div class="nav-item" data-mode="settings">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Settings</span>
+                    </div>
+                    <div class="nav-item" data-mode="help">
+                        <span class="nav-icon">❓</span>
+                        <span>Help</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="central-workspace">
+            <div class="marketing-commands">
+                <div class="command-chip active" data-action="strategy">
+                    <span>🎯</span>
+                    <span>Strategy</span>
+                </div>
+                <div class="command-chip" data-action="campaign">
+                    <span>🚀</span>
+                    <span>Campaign Launch</span>
+                </div>
+                <div class="command-chip" data-action="content">
+                    <span>✍️</span>
+                    <span>Content Creation</span>
+                </div>
+                <div class="command-chip" data-action="analysis">
+                    <span>📊</span>
+                    <span>Market Analysis</span>
+                </div>
+                <div class="command-chip" data-action="positioning">
+                    <span>💎</span>
+                    <span>Brand Positioning</span>
+                </div>
+                <div class="command-chip" data-action="competitive">
+                    <span>🔍</span>
+                    <span>Competitive Intel</span>
+                </div>
+                <div class="command-chip" data-action="presentation">
+                    <span>📝</span>
+                    <span>Executive Brief</span>
+                </div>
+            </div>
+
+            <div class="conversation-workspace">
+                <div class="conversation-flow" id="conversationFlow">
+                    <!-- Welcome Message -->
+                    <div class="executive-message vera">
+                        <div class="executive-avatar">V</div>
+                        <div class="executive-bubble">
+                            <div>Good morning, Taylor. I've analyzed overnight market movements and prepared strategic insights for today's VERA Neural initiatives. What executive priority shall we address first?</div>
+                            <div class="message-metadata">
+                                <span>Now</span>
+                                <div class="metadata-dot"></div>
+                                <span>Neural Intelligence</span>
+                                <div class="metadata-dot"></div>
+                                <span>Executive Mode</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="executive-input">
+                    <div class="input-assembly">
+                        <div class="voice-control" id="voiceControl" title="Voice Input (ElevenLabs)">
+                            🎙️
+                        </div>
+                        <textarea 
+                            class="executive-textarea" 
+                            id="executiveInput" 
+                            placeholder="Enter executive directive or marketing intelligence request..."
+                            rows="1"></textarea>
+                        <div class="send-control" id="sendControl">
+                            →
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="intelligence-panel">
+            <div class="panel-section">
+                <div class="panel-title">Marketing Calendar</div>
+                <div class="calendar-widget">
+                    <div class="calendar-header">
+                        <span>October 2025</span>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <div class="panel-title">Priority Communications</div>
+                <div class="email-item">
+                    <div class="email-priority"></div>
+                    <div class="email-content">
+                        <h4>Julija - Q1 Strategy Review</h4>
+                        <p>VERA Neural positioning needs refinement before board presentation...</p>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <div class="email-priority" style="background: #ffa726;"></div>
+                    <div class="email-content">
+                        <h4>Marketing Team - Campaign Assets</h4>
+                        <p>Creative assets ready for approval. Luxury aesthetic achieved...</p>
+                    </div>
+                </div>
+                <div class="email-item">
+                    <div class="email-priority" style="background: #66bb6a;"></div>
+                    <div class="email-content">
+                        <h4>PR Agency - Media Strategy</h4>
+                        <p>Tier-1 media outlets confirmed for VERA Neural launch coverage...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <div class="panel-title">Decision Intelligence</div>
+                <div class="decision-helper">
+                    <div class="decision-option">
+                        <span>Launch Q1 vs Q2</span>
+                        <span class="decision-score">87%</span>
+                    </div>
+                    <div class="decision-option">
+                        <span>Premium vs Freemium</span>
+                        <span class="decision-score">92%</span>
+                    </div>
+                    <div class="decision-option">
+                        <span>B2B vs B2C Focus</span>
+                        <span class="decision-score">78%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let conversationHistory = [];
+        let currentMode = 'conversation';
+        const conversationFlow = document.getElementById('conversationFlow');
+        const executiveInput = document.getElementById('executiveInput');
+        const sendControl = document.getElementById('sendControl');
+        const voiceControl = document.getElementById('voiceControl');
+
+        // Initialize calendar
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            const daysInMonth = 31;
+            const startDay = 2; // October 1st starts on Tuesday
+            
+            // Day headers
+            const dayHeaders = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            dayHeaders.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.textContent = day;
+                dayHeader.style.color = 'rgba(255, 255, 255, 0.4)';
+                dayHeader.style.fontWeight = '500';
+                calendarGrid.appendChild(dayHeader);
+            });
+            
+            // Empty cells for offset
+            for (let i = 0; i < startDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                calendarGrid.appendChild(emptyDay);
+            }
+            
+            // Days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                
+                if (day === 30) { // Today
+                    dayElement.classList.add('today');
+                }
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        // Auto-resize textarea
+        executiveInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = this.scrollHeight + 'px';
+        });
+
+        // Command chip actions
+        document.querySelectorAll('.command-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                // Remove active from all chips
+                document.querySelectorAll('.command-chip').forEach(c => c.classList.remove('active'));
+                // Add active to clicked chip
+                this.classList.add('active');
+                
+                const action = this.dataset.action;
+                suggestExecutiveAction(action);
+            });
+        });
+
+        // Executive action suggestions
+        function suggestExecutiveAction(type) {
+            const suggestions = {
+                strategy: "I need a comprehensive strategic framework for VERA Neural's market positioning. How do we establish dominance in the luxury AI consciousness segment?",
+                campaign: "Design an executive-level campaign strategy for VERA Neural's Q1 launch. Focus on tier-1 enterprise clients and luxury market penetration.",
+                content: "Create a content strategy that positions VERA Neural as the definitive AI consciousness platform for discerning executives. What's our narrative architecture?",
+                analysis: "Provide deep market intelligence on the AI consciousness landscape. Where are the whitespace opportunities for VERA Neural's premium positioning?",
+                positioning: "How do we position VERA Neural as the 'Hermès of AI consciousness' while maintaining accessibility to serious enterprise clients?",
+                competitive: "Analyze competitive threats to VERA Neural and develop defensive strategies. What are our sustainable competitive advantages?",
+                presentation: "Help me create a compelling board presentation for VERA Neural's strategic direction and market opportunity assessment."
+            };
+            
+            executiveInput.value = suggestions[type];
+            executiveInput.focus();
+            executiveInput.style.height = 'auto';
+            executiveInput.style.height = executiveInput.scrollHeight + 'px';
+        }
+
+        // Navigation handling
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active from all nav items
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                // Add active to clicked item
+                this.classList.add('active');
+                
+                currentMode = this.dataset.mode;
+                console.log('Switched to mode:', currentMode);
+                
+                // Handle special modes
+                if (currentMode === 'voice') {
+                    handleVoiceMode();
+                } else if (currentMode === 'email') {
+                    handleEmailMode();
+                } else if (currentMode === 'decisions') {
+                    handleDecisionMode();
+                }
+            });
+        });
+
+        // Voice AI integration (ElevenLabs placeholder)
+        voiceControl.addEventListener('click', function() {
+            console.log('Voice input activated - ElevenLabs integration needed');
+            // Placeholder for ElevenLabs integration
+            alert('Voice AI (ElevenLabs) integration will be implemented here');
+        });
+
+        function handleVoiceMode() {
+            addExecutiveMessage("Voice AI mode activated. ElevenLabs integration will enable natural voice conversations with VERA Neural's marketing intelligence.", 'vera');
+        }
+
+        function handleEmailMode() {
+            addExecutiveMessage("Email Intelligence mode activated. I can help you craft executive communications, analyze marketing emails, and prioritize stakeholder correspondence.", 'vera');
+        }
+
+        function handleDecisionMode() {
+            addExecutiveMessage("Decision Intelligence mode activated. I'll provide data-driven recommendations for your marketing strategy decisions with confidence scores and risk analysis.", 'vera');
+        }
+
+        // Send message function
+        async function sendExecutiveMessage() {
+            const message = executiveInput.value.trim();
+            if (!message) return;
+
+            // Add Taylor's message
+            addExecutiveMessage(message, 'taylor');
+            executiveInput.value = '';
+            executiveInput.style.height = 'auto';
+
+            // Show processing indicator
+            showNeuralProcessing();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationHistory: conversationHistory,
+                        mode: currentMode
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                // Remove processing indicator
+                hideNeuralProcessing();
+                
+                // Add VERA's response
+                const veraMessage = result.response?.message?.content || result.response?.message || 'Neural processing encountered an anomaly. Recalibrating intelligence systems...';
+                addExecutiveMessage(veraMessage, 'vera');
+
+                // Update conversation history
+                conversationHistory.push(
+                    { role: 'user', content: message },
+                    { role: 'assistant', content: veraMessage }
+                );
+                
+                // Keep last 40 exchanges
+                if (conversationHistory.length > 80) {
+                    conversationHistory = conversationHistory.slice(-80);
+                }
+
+            } catch (error) {
+                console.error('Executive communication error:', error);
+                hideNeuralProcessing();
+                addExecutiveMessage(`Executive system alert: ${error.message}. Neural pathways are being re-established...`, 'vera', true);
+            }
+        }
+
+        // Add executive message
+        function addExecutiveMessage(content, speaker, isError = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `executive-message ${speaker}`;
+            
+            const avatar = speaker === 'taylor' ? 'T' : 'V';
+            const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const context = speaker === 'taylor' ? 'Marketing Director' : 'Neural Intelligence';
+            const mode = currentMode.charAt(0).toUpperCase() + currentMode.slice(1) + ' Mode';
+            
+            messageDiv.innerHTML = `
+                <div class="executive-avatar">${avatar}</div>
+                <div class="executive-bubble" ${isError ? 'style="border-color: #ff6b6b; background: rgba(255, 107, 107, 0.08);"' : ''}>
+                    <div>${formatExecutiveMessage(content)}</div>
+                    <div class="message-metadata">
+                        <span>${time}</span>
+                        <div class="metadata-dot"></div>
+                        <span>${context}</span>
+                        <div class="metadata-dot"></div>
+                        <span>${mode}</span>
+                    </div>
+                </div>
+            `;
+            
+            conversationFlow.appendChild(messageDiv);
+            conversationFlow.scrollTop = conversationFlow.scrollHeight;
+        }
+
+        // Format executive message content
+        function formatExecutiveMessage(content) {
+            // Convert **bold** to <strong>
+            content = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            // Convert *italic* to <em>
+            content = content.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            // Convert line breaks
+            content = content.replace(/\n/g, '<br>');
+            return content;
+        }
+
+        // Neural processing indicator
+        function showNeuralProcessing() {
+            const processingDiv = document.createElement('div');
+            processingDiv.id = 'neuralProcessing';
+            processingDiv.className = 'executive-message vera';
+            processingDiv.innerHTML = `
+                <div class="executive-avatar">V</div>
+                <div class="neural-processing">
+                    <div class="processing-visual">
+                        <div class="processing-node"></div>
+                        <div class="processing-node"></div>
+                        <div class="processing-node"></div>
+                    </div>
+                    <span class="processing-text">Processing executive intelligence...</span>
+                </div>
+            `;
+            conversationFlow.appendChild(processingDiv);
+            conversationFlow.scrollTop = conversationFlow.scrollHeight;
+        }
+
+        function hideNeuralProcessing() {
+            const processingIndicator = document.getElementById('neuralProcessing');
+            if (processingIndicator) {
+                processingIndicator.remove();
+            }
+        }
+
+        // Event listeners
+        sendControl.addEventListener('click', sendExecutiveMessage);
+
+        executiveInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendExecutiveMessage();
+            }
+        });
+
+        // Initialize
+        generateCalendar();
+        console.log('🎯 VERA Neural Marketing Intelligence Command Center Ready');
+        console.log('Executive Mode: Julija-inspired luxury aesthetic activated');
+    </script>
+</body>
+</html>
