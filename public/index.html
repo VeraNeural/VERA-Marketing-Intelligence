@@ -1639,7 +1639,7 @@
             
             // Apply voice defaults to runtime and controls - FORCE YOUR VOICE ID
             selectedVoiceId = 'eL7xfWghif0oJwtmX2qs'; // HARDCODED TO YOUR VOICE
-            voiceEngine = settings.voiceEngine;
+            voiceEngine = 'elevenlabs'; // FORCE ELEVENLABS ENGINE
             
             // Initialize voice status indicator as active
             const voiceStatusIndicator = document.querySelector('.voice-status-indicator');
@@ -1801,6 +1801,8 @@
                 return;
             }
             
+            console.log('🎙️ CHECKING VOICE ENGINE - Current value:', voiceEngine);
+            
             // Stop any current audio
             if (currentAudio) {
                 currentAudio.pause();
@@ -1821,6 +1823,7 @@
             } else if (voiceEngine === 'elevenlabs') {
                 // Use ElevenLabs TTS with selected voice
                 console.log('🎙️ Using ElevenLabs with voice ID:', selectedVoiceId);
+                console.log('🎙️ Making API call to /api/voice/synthesize');
                 fetch('/api/voice/synthesize', {
                     method: 'POST',
                     headers: {
@@ -1852,7 +1855,8 @@
                     });
                 })
                 .catch(error => {
-                    console.warn('ElevenLabs TTS failed:', error);
+                    console.error('🚨 ElevenLabs TTS API FAILED:', error);
+                    console.error('🚨 Falling back to browser TTS (this is why you hear default voice!)');
                     // Fallback to browser TTS
                     fallbackToWebSpeech(cleanText);
                 });
