@@ -4,6 +4,8 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import Anthropic from '@anthropic-ai/sdk';
+import OpenAI from 'openai';
 
 // Load environment variables
 dotenv.config();
@@ -26,6 +28,15 @@ const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
 const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
+
+// Initialize AI clients
+const anthropic = ANTHROPIC_API_KEY ? new Anthropic({
+  apiKey: ANTHROPIC_API_KEY,
+}) : null;
+
+const openai = OPENAI_API_KEY ? new OpenAI({
+  apiKey: OPENAI_API_KEY,
+}) : null;
 
 // Debug API keys on startup
 console.log('=== VERA API Key Check ===');
@@ -81,7 +92,7 @@ async function callAI(prompt, conversationHistory = []) {
 
 // Claude API integration
 async function callClaude(prompt, conversationHistory) {
-  if (!ANTHROPIC_API_KEY) return null;
+  if (!anthropic) return null;
   
   const messages = [
     ...conversationHistory.map(msg => ({
@@ -114,32 +125,33 @@ VERA Neural positioning: "The Hermès of AI consciousness - where intelligence m
 
 You help create content that soothes rather than startles nervous systems while building luxury brand positioning. Keep responses conversational, strategic, and supportive without emojis or icons. Focus on psychological safety, co-regulation, and authentic connection in marketing.`;
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
+  try {
+    console.log('📞 Calling Claude API...');
+    console.log('Model:', CLAUDE_MODEL);
+    console.log('Messages count:', messages.length);
+    
+    const response = await anthropic.messages.create({
       model: CLAUDE_MODEL,
       max_tokens: 2000,
       system: systemPrompt,
       messages: messages
-    })
-  });
+    });
 
-  if (!response.ok) {
-    throw new Error(`Claude API error: ${response.status}`);
+    console.log('✅ Claude API Success');
+    return response.content[0].text;
+  } catch (error) {
+    console.error('❌ Claude API Error Details:');
+    console.error('Error Type:', error.constructor.name);
+    console.error('Error Message:', error.message);
+    console.error('Error Status:', error.status);
+    console.error('Full Error:', error);
+    throw new Error(`Claude API error: ${error.status || error.message}`);
   }
-
-  const data = await response.json();
-  return data.content[0].text;
 }
 
 // OpenAI API integration  
 async function callOpenAI(prompt, conversationHistory) {
-  if (!OPENAI_API_KEY) return null;
+  if (!openai) return null;
 
   const messages = [
     {
@@ -173,26 +185,19 @@ You help create content that soothes rather than startles nervous systems while 
     { role: 'user', content: prompt }
   ];
 
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`
-    },
-    body: JSON.stringify({
+  try {
+    const response = await openai.chat.completions.create({
       model: OPENAI_MODEL,
       messages: messages,
       max_tokens: 2000,
       temperature: 0.7
-    })
-  });
+    });
 
-  if (!response.ok) {
-    throw new Error(`OpenAI API error: ${response.status}`);
+    return response.choices[0].message.content;
+  } catch (error) {
+    console.error('OpenAI API Error:', error);
+    throw new Error(`OpenAI API error: ${error.message}`);
   }
-
-  const data = await response.json();
-  return data.choices[0].message.content;
 }
 
 // VERA Chat endpoint - main conversational interface
