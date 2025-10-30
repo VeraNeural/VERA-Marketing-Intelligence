@@ -376,15 +376,15 @@
             color: #fbbf24;
         }
 
-        /* Voice Settings Panel */
-        .voice-settings-panel {
+        /* Wellness Insights Panel */
+        .wellness-insights-panel {
             background: rgba(100, 120, 156, 0.1);
             border-radius: 8px;
             padding: 16px;
             margin-top: 16px;
         }
 
-        .voice-setting {
+        .wellness-metric {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -392,47 +392,50 @@
             border-bottom: 1px solid rgba(100, 120, 156, 0.1);
         }
 
-        .voice-setting:last-child {
+        .wellness-metric:last-child {
             border-bottom: none;
         }
 
-        .voice-select {
-            background: rgba(10, 10, 15, 0.8);
-            border: 1px solid rgba(100, 120, 156, 0.3);
-            border-radius: 4px;
-            color: #b57abc;
-            padding: 4px 8px;
+        .metric-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            flex: 1;
+        }
+
+        .metric-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4ade80;
+            margin-right: 12px;
+        }
+
+        .metric-trend {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: right;
+            flex: 1;
+        }
+
+        .wellness-recommendations {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(100, 120, 156, 0.2);
+        }
+
+        .wellness-subtitle {
             font-size: 12px;
-            width: 140px;
-            outline: none;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
         }
 
-        .voice-select:focus {
-            border-color: #b57abc;
-        }
-
-        .voice-select option {
-            background: rgba(10, 10, 15, 0.95);
-            color: #b57abc;
-        }
-
-        .voice-input {
-            background: rgba(10, 10, 15, 0.8);
-            border: 1px solid rgba(100, 120, 156, 0.3);
-            border-radius: 4px;
-            color: #b57abc;
-            padding: 4px 8px;
+        .recommendation {
             font-size: 12px;
-            width: 140px;
-            outline: none;
-        }
-
-        .voice-input:focus {
-            border-color: #b57abc;
-        }
-
-        .voice-input::placeholder {
-            color: rgba(181, 122, 188, 0.5);
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 4px;
+            line-height: 1.4;
         }
 
         /* Chat History Panel */
@@ -1184,102 +1187,6 @@
             padding: 20px 0;
         }
 
-        /* TTS Controls */
-        .tts-controls {
-            position: fixed;
-            bottom: 100px;
-            right: 30px;
-            z-index: 1000;
-        }
-
-        .tts-btn {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, rgba(181, 122, 188, 0.1) 0%, rgba(155, 124, 184, 0.15) 100%);
-            border: 2px solid rgba(181, 122, 188, 0.3);
-            color: #b57abc;
-            font-size: 22px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(181, 122, 188, 0.15);
-        }
-
-        .tts-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle, rgba(181, 122, 188, 0.2) 0%, transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .tts-btn:hover {
-            background: linear-gradient(135deg, rgba(181, 122, 188, 0.2) 0%, rgba(155, 124, 184, 0.25) 100%);
-            border-color: rgba(181, 122, 188, 0.6);
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(181, 122, 188, 0.3);
-        }
-
-        .tts-btn:hover::before {
-            opacity: 1;
-        }
-
-        .tts-btn.active {
-            background: linear-gradient(135deg, #b57abc 0%, #9b7cb8 100%);
-            color: white;
-            border-color: #b57abc;
-            box-shadow: 0 6px 20px rgba(181, 122, 188, 0.4);
-        }
-
-        .tts-btn:active {
-            transform: scale(0.95);
-            transition: all 0.2s ease;
-        }
-
-        .tts-orb {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #b57abc 0%, #9b7cb8 100%);
-            opacity: 0.8;
-            transition: all 0.4s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        .tts-btn:hover .tts-orb {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        .tts-btn.active .tts-orb {
-            opacity: 1;
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-            animation: tts-pulse 2s infinite;
-        }
-
-        @keyframes tts-pulse {
-            0%, 100% { 
-                transform: scale(1);
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-            }
-            50% { 
-                transform: scale(1.15);
-                box-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 40px rgba(181, 122, 188, 0.6);
-            }
-        }
-
         /* Settings Modal */
         .modal {
             position: fixed;
@@ -1399,19 +1306,32 @@
                 </div>
             </div>
 
-            <div id="wellnessPanel" class="voice-settings-panel" style="display: none;">
-                <div class="wellness-title">Voice Settings</div>
-                <div class="voice-setting">
-                    <span class="wellness-label">TTS Engine</span>
-                    <select id="voiceEngine" class="voice-select" onchange="updateVoiceEngine()">
-                        <option value="disabled">Disabled</option>
-                        <option value="elevenlabs">ElevenLabs</option>
-                        <option value="browser">Browser</option>
-                    </select>
+            <div id="wellnessPanel" class="wellness-insights-panel" style="display: none;">
+                <div class="wellness-title">Wellness Insights</div>
+                
+                <div class="wellness-metric">
+                    <div class="metric-label">Energy Level</div>
+                    <div class="metric-value" id="energyLevel">82%</div>
+                    <div class="metric-trend">↗ +5% from yesterday</div>
                 </div>
-                <div class="voice-setting" id="voiceIdSetting" style="display: none;">
-                    <span class="wellness-label">Voice ID</span>
-                    <input id="wellnessVoiceId" type="text" class="voice-input" placeholder="EXAVITQu4vr4xnSDxMaL" onchange="updateWellnessVoiceId()" />
+                
+                <div class="wellness-metric">
+                    <div class="metric-label">Focus Score</div>
+                    <div class="metric-value" id="focusScore">74%</div>
+                    <div class="metric-trend">→ Steady</div>
+                </div>
+                
+                <div class="wellness-metric">
+                    <div class="metric-label">Stress Index</div>
+                    <div class="metric-value" id="stressIndex">28%</div>
+                    <div class="metric-trend">↘ -12% (improving)</div>
+                </div>
+                
+                <div class="wellness-recommendations">
+                    <div class="wellness-subtitle">Today's Recommendations</div>
+                    <div class="recommendation">• Take a 10-minute mindful break</div>
+                    <div class="recommendation">• Stay hydrated - aim for 6 more glasses</div>
+                    <div class="recommendation">• Consider a brief walk after your next meeting</div>
                 </div>
             </div>
         </div>
@@ -1506,10 +1426,6 @@
                             <span>Apply account memory to chat (private, not echoed)</span>
                         </label>
 
-                        <hr style="border:none;border-top:1px solid #eadff6;margin:8px 0;">
-                        <div class="wellness-title" style="margin:0 0 6px 0;">Voice (TTS)</div>
-                        <label class="form-label">ElevenLabs Voice ID</label>
-                        <input id="settingsVoiceId" type="text" class="form-input" placeholder="EXAVITQu4vr4xnSDxMaL" />
                     </div>
                     <div class="modal-footer">
                         <button class="primary-btn" onclick="saveSettings()">Save</button>
@@ -1596,13 +1512,6 @@
             </div>
         </div>
 
-        <!-- TTS Controls -->
-        <div class="tts-controls">
-            <button id="ttsBtn" class="tts-btn" onclick="toggleTTS()" title="Toggle Text-to-Speech">
-                <div class="tts-orb"></div>
-            </button>
-        </div>
-
         <div class="input-area">
             <div class="input-container">
                 <textarea 
@@ -1642,7 +1551,46 @@
             generateCalendar();
             console.log('🚀VERA Executive Marketing Intelligence Ready');
             
+            // Initialize settings defaults
+            if (!settings || typeof settings !== 'object') settings = {};
+            if (settings.autosaveChats === undefined) settings.autosaveChats = true;
+            if (!settings.displayName) settings.displayName = 'Taylor';
+            if (settings.useMemory === undefined) settings.useMemory = true;
+            if (!settings.mission) settings.mission = 'Grow VERA Neural calmly and decisively.';
+            if (!settings.julijaName) settings.julijaName = 'Julija';
+            if (!settings.evaName) settings.evaName = 'Eva';
+            if (!settings.voiceId) settings.voiceId = 'EXAVITQu4vr4xnSDxMaL';
+            
+            // FORCE ElevenLabs to be enabled - override any previous disabled setting
+            settings.voiceEngine = 'elevenlabs';
+            
+            // FORCE TTS to be enabled
+            ttsEnabled = true;
+            
+            console.log('🎙️ FORCED SETTINGS - Voice Engine:', settings.voiceEngine, 'TTS Enabled:', ttsEnabled);
+            
+            // Apply voice defaults to runtime and controls
+            selectedVoiceId = settings.voiceId;
+            voiceEngine = settings.voiceEngine;
+            
+            // Initialize voice status indicator as active
+            const voiceStatusIndicator = document.querySelector('.voice-status-indicator');
+            const voiceStatusText = document.getElementById('voiceStatusText');
+            if (voiceStatusIndicator) {
+                voiceStatusIndicator.classList.add('active');
+            }
+            if (voiceStatusText) {
+                voiceStatusText.textContent = 'Voice On';
+            }
+            
+            const voiceChip = document.getElementById('voiceChip');
+            if (voiceChip) {
+                voiceChip.textContent = 'Voice On';
+            }
+            
+            
             // Start wellness metrics updates
+            updateWellnessMetrics();
             setInterval(updateWellnessMetrics, 30000);
             
             // Initialize TTS
@@ -1650,8 +1598,9 @@
                 console.log('TTS Available');
             } else {
                 console.log('TTS Not Available');
-                ttsBtn.style.display = 'none';
             }
+            
+            console.log('✅ VERA initialized with ElevenLabs TTS enabled');
         });
 
         // Quick Start Functions
@@ -2210,42 +2159,6 @@
         }
 
         // Voice Settings Functions
-        function updateVoiceEngine() {
-            const engineSelect = document.getElementById('voiceEngine');
-            if (!engineSelect) return; // Safety check
-            
-            voiceEngine = engineSelect.value;
-            settings.voiceEngine = voiceEngine;
-            localStorage.setItem('veraSettings', JSON.stringify(settings));
-            console.log('Voice engine switched to:', voiceEngine);
-            
-            // Show/hide voice ID setting based on selected engine
-            const voiceIdSetting = document.getElementById('voiceIdSetting');
-            if (voiceIdSetting) {
-                voiceIdSetting.style.display = voiceEngine === 'elevenlabs' ? 'flex' : 'none';
-            }
-        }
-
-        function updateWellnessVoiceId() {
-            const voiceInput = document.getElementById('wellnessVoiceId');
-            if (!voiceInput) return;
-            
-            const newVoiceId = voiceInput.value.trim();
-            if (newVoiceId) {
-                selectedVoiceId = newVoiceId;
-                settings.voiceId = newVoiceId;
-                localStorage.setItem('veraSettings', JSON.stringify(settings));
-                
-                // Also update the settings modal input if it exists
-                const settingsVoiceInput = document.getElementById('settingsVoiceId');
-                if (settingsVoiceInput) {
-                    settingsVoiceInput.value = newVoiceId;
-                }
-                
-                console.log('Voice ID updated to:', newVoiceId);
-            }
-        }
-
         function updateVoice() {
             const voiceSelect = document.getElementById('aiVoiceSelect');
             selectedVoiceId = voiceSelect.value;
@@ -2374,67 +2287,6 @@
         }
 
         // Initialize voice settings on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            updateWellnessMetrics();
-            setInterval(updateWellnessMetrics, 30000);
-            
-            // Initialize voice engine display
-            updateVoiceEngine();
-
-            // Initialize settings defaults
-            if (!settings || typeof settings !== 'object') settings = {};
-            if (settings.autosaveChats === undefined) settings.autosaveChats = true;
-            if (!settings.displayName) settings.displayName = 'Taylor';
-            if (settings.useMemory === undefined) settings.useMemory = true;
-            if (!settings.mission) settings.mission = 'Grow VERA Neural calmly and decisively.';
-            if (!settings.julijaName) settings.julijaName = 'Julija';
-            if (!settings.evaName) settings.evaName = 'Eva';
-            if (!settings.voiceId) settings.voiceId = 'EXAVITQu4vr4xnSDxMaL';
-            
-            // FORCE ElevenLabs to be enabled - override any previous disabled setting
-            settings.voiceEngine = 'elevenlabs';
-            
-            // FORCE TTS to be enabled
-            ttsEnabled = true;
-            
-            console.log('🎙️ FORCED SETTINGS - Voice Engine:', settings.voiceEngine, 'TTS Enabled:', ttsEnabled);
-            
-            // Apply voice defaults to runtime and controls
-            selectedVoiceId = settings.voiceId;
-            voiceEngine = settings.voiceEngine;
-            const veSel = document.getElementById('voiceEngine');
-            if (veSel) veSel.value = voiceEngine;
-            
-            // Initialize TTS button and voice status as active
-            const ttsBtn = document.getElementById('ttsBtn');
-            if (ttsBtn) {
-                ttsBtn.classList.add('active');
-            }
-            
-            const voiceStatusIndicator = document.querySelector('.voice-status-indicator');
-            const voiceStatusText = document.getElementById('voiceStatusText');
-            if (voiceStatusIndicator) {
-                voiceStatusIndicator.classList.add('active');
-            }
-            if (voiceStatusText) {
-                voiceStatusText.textContent = 'Voice On';
-            }
-            
-            // Sync wellness panel voice ID input
-            const wellnessVoiceInput = document.getElementById('wellnessVoiceId');
-            if (wellnessVoiceInput) wellnessVoiceInput.value = settings.voiceId || '';
-            
-            // Show/hide voice ID setting based on current engine
-            const voiceIdSetting = document.getElementById('voiceIdSetting');
-            if (voiceIdSetting) {
-                voiceIdSetting.style.display = voiceEngine === 'elevenlabs' ? 'flex' : 'none';
-            }
-            
-            localStorage.setItem('veraSettings', JSON.stringify(settings));
-            
-            console.log('✅ Settings saved to localStorage with ElevenLabs enabled');
-        });
-
         // Settings panel functions
         function openSettings() {
             const modal = document.getElementById('settingsModal');
@@ -2445,8 +2297,6 @@
             document.getElementById('settingsMission').value = settings.mission || '';
             document.getElementById('settingsJulija').value = settings.julijaName || '';
             document.getElementById('settingsEva').value = settings.evaName || '';
-            const voiceInput = document.getElementById('settingsVoiceId');
-            if (voiceInput) voiceInput.value = settings.voiceId || '';
             modal.style.display = 'block';
             // Allow escape to close
             document.addEventListener('keydown', escCloseSettings);
@@ -2467,11 +2317,6 @@
             settings.mission = document.getElementById('settingsMission').value.trim() || settings.mission;
             settings.julijaName = document.getElementById('settingsJulija').value.trim() || settings.julijaName;
             settings.evaName = document.getElementById('settingsEva').value.trim() || settings.evaName;
-            const newVoiceId = (document.getElementById('settingsVoiceId')?.value || '').trim();
-            if (newVoiceId) {
-                settings.voiceId = newVoiceId;
-                selectedVoiceId = newVoiceId;
-            }
             localStorage.setItem('veraSettings', JSON.stringify(settings));
             closeSettings();
             addMessage('Settings saved. Autosave is ' + (settings.autosaveChats ? 'enabled' : 'disabled') + '.', 'vera');
