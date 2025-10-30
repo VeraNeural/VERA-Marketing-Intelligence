@@ -1866,6 +1866,12 @@
             const container = document.getElementById('chatMessages');
             container.appendChild(messageDiv);
             scrollToBottom();
+            
+            // 🎙️ AUTO-SPEAK VERA MESSAGES WHEN VOICE IS ENABLED
+            if (sender === 'vera' && ttsEnabled) {
+                console.log('🎙️ Auto-speaking VERA message with voice ID:', selectedVoiceId);
+                speakText(content);
+            }
         }
 
         // Auto-resize textarea and update input handling
