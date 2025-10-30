@@ -317,149 +317,7 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Right Panel */
-        .right-panel {
-            width: 320px;
-            background: rgba(10, 10, 15, 0.95);
-            backdrop-filter: blur(20px);
-            border-left: 1px solid rgba(100, 120, 156, 0.2);
-            position: fixed;
-            right: -320px;
-            top: 0;
-            bottom: 0;
-            z-index: 1001;
-            transition: right 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 
-                0 0 50px rgba(100, 120, 156, 0.1),
-                inset -1px 0 0 rgba(100, 120, 156, 0.15);
-        }
-
-        .right-panel.open {
-            right: 0;
-        }
-
-        .right-panel-header {
-            padding: 20px;
-            border-bottom: 1px solid rgba(100, 120, 156, 0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .right-panel-header h3 {
-            margin: 0;
-            color: #b57abc;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .close-right-panel {
-            background: none;
-            border: none;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 20px;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        .close-right-panel:hover {
-            background: rgba(100, 120, 156, 0.2);
-            color: #b57abc;
-        }
-
-        .right-panel-content {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        /* Executive Calendar in Right Panel */
-        .executive-calendar {
-            background: rgba(100, 120, 156, 0.1);
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .calendar-title {
-            color: #b57abc;
-            font-weight: 600;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-
-        .calendar-event {
-            background: rgba(10, 10, 15, 0.8);
-            border: 1px solid rgba(100, 120, 156, 0.3);
-            border-radius: 6px;
-            padding: 10px;
-            margin-bottom: 8px;
-        }
-
-        .event-time {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 11px;
-            margin-bottom: 4px;
-        }
-
-        .event-title {
-            color: white;
-            font-weight: 500;
-            font-size: 13px;
-        }
-
-        /* Quick Actions in Right Panel */
-        .quick-actions {
-            background: rgba(100, 120, 156, 0.1);
-            border-radius: 8px;
-            padding: 16px;
-        }
-
-        .action-button {
-            width: 100%;
-            background: rgba(100, 120, 156, 0.2);
-            border: 1px solid rgba(100, 120, 156, 0.3);
-            border-radius: 6px;
-            color: #b57abc;
-            padding: 10px;
-            margin-bottom: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 13px;
-        }
-
-        .action-button:hover {
-            background: rgba(100, 120, 156, 0.3);
-            border-color: #b57abc;
-        }
-
-        /* Metrics Display */
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(100, 120, 156, 0.2);
-        }
-
-        .metric-item:last-child {
-            border-bottom: none;
-        }
-
-        .metric-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 12px;
-        }
-
-        .metric-value {
-            color: #4ade80;
-            font-weight: 600;
-            font-size: 13px;
-        }
+        /* Removed right-side tool panel styles to reduce surface area and simplify UI */
 
         /* Main Content */
         .main-content {
@@ -502,26 +360,7 @@
             flex: 1;
         }
 
-        .header-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .header-action-btn {
-            background: rgba(100, 120, 156, 0.2);
-            border: 1px solid rgba(100, 120, 156, 0.3);
-            border-radius: 6px;
-            color: #b57abc;
-            padding: 8px 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 14px;
-        }
-
-        .header-action-btn:hover {
-            background: rgba(100, 120, 156, 0.3);
-            border-color: #b57abc;
-        }
+        /* Header actions removed to avoid non-functional/duplicative controls */
 
         .status-indicator {
             display: flex;
@@ -548,36 +387,7 @@
             flex-direction: column;
         }
 
-        /* Quick Actions */
-        .quick-actions-bar {
-            padding: 15px 30px;
-            background: rgba(42, 26, 74, 0.3);
-            border-bottom: 1px solid rgba(181, 122, 188, 0.1);
-        }
-
-        .quick-actions {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-        }
-
-        .quick-btn {
-            padding: 10px 20px;
-            background: #f8f9fa;
-            border: 1px solid #6c757d;
-            border-radius: 6px;
-            color: #212529;
-            font-size: 13px;
-            font-weight: 500;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .quick-btn:hover {
-            background: #e9ecef;
-            border-color: #495057;
-        }
+        /* Removed the top quick actions bar to reduce clutter */
 
         /* Chat Area */
         .chat-area {
@@ -686,6 +496,29 @@
             backdrop-filter: blur(20px);
             border-top: 1px solid rgba(100, 120, 156, 0.2);
             padding: 20px 30px;
+        }
+
+        /* Copilot Dock */
+        .copilot-dock {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+        }
+        .copilot-chip {
+            padding: 6px 12px;
+            background: rgba(181, 122, 188, 0.1);
+            border: 1px solid rgba(181, 122, 188, 0.25);
+            border-radius: 16px;
+            color: #b57abc;
+            font-size: 12px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .copilot-chip:hover {
+            background: rgba(181, 122, 188, 0.2);
+            border-color: rgba(181, 122, 188, 0.4);
         }
 
         .input-container {
@@ -1175,21 +1008,21 @@
             </div>
 
             <div class="nav-section">
-                <div class="nav-title">Marketing Intelligence</div>
-                <div class="nav-item" onclick="quickMessage('Show me today\'s marketing performance metrics and key insights')">
-                    <span>Performance Dashboard</span>
+                <div class="nav-title">Core Workflows</div>
+                <div class="nav-item" onclick="quickMessage('Help me build and track the VERA Neural launch plan. Start with phases, milestones, owners, risks, and first next actions for today.')">
+                    <span>Neural Launch Plan</span>
                 </div>
-                <div class="nav-item" onclick="quickMessage('Generate executive marketing report for this week')">
-                    <span>Weekly Reports</span>
+                <div class="nav-item" onclick="quickMessage('Create a focused 7-day learning path for Taylor to master VERA Neural, co-regulation, and AI content craft. Include daily practice and small wins.')">
+                    <span>Learning Path</span>
                 </div>
-                <div class="nav-item" onclick="quickMessage('Show campaign status and upcoming deadlines')">
-                    <span>Campaign Calendar</span>
+                <div class="nav-item" onclick="quickMessage('Draft emails I can send today about VERA Neural: outreach, stakeholder update, and follow-up. Use a calm, clear tone.')">
+                    <span>Email Support</span>
                 </div>
-                <div class="nav-item" onclick="quickMessage('Analyze lead pipeline and conversion opportunities')">
-                    <span>Lead Intelligence</span>
+                <div class="nav-item" onclick="quickMessage('Prepare a concise decision brief with options, pros/cons, recommendation, and next steps for our VERA Neural launch choices.')">
+                    <span>Decision Briefs</span>
                 </div>
-                <div class="nav-item" onclick="quickMessage('Review competitor analysis and market positioning')">
-                    <span>Market Analysis</span>
+                <div class="nav-item" onclick="quickMessage('Help me frame and draft a clear update for Julija about VERA Neural progress, decisions needed, and how best to collaborate.')">
+                    <span>Comms with Julija</span>
                 </div>
             </div>
 
@@ -1207,44 +1040,18 @@
         </div>
     </div>
 
-    <!-- Right Panel for Tools/Calendar -->
-    <div class="right-panel" id="rightPanel">
-        <div class="right-panel-header">
-            <h3>Executive Tools</h3>
-            <button class="close-right-panel" onclick="toggleRightPanel()">×</button>
-        </div>
-        <div class="right-panel-content" id="rightPanelContent">
-            <!-- Content will be dynamically loaded -->
-        </div>
-    </div>
+    <!-- Right panel removed (was unused/non-essential) -->
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
             <button class="mobile-menu-btn" onclick="toggleSidePanel()">Menu</button>
-            <div class="header-title">VERA Executive Interface</div>
-            <div class="header-actions">
-                <button class="header-action-btn" onclick="openCalendar()" title="Calendar">
-                    Calendar
-                </button>
-                <button class="header-action-btn" onclick="openDashboard()" title="Dashboard">
-                    Dashboard
-                </button>
-                <button class="header-action-btn" onclick="openReports()" title="Reports">
-                    Reports
-                </button>
-            </div>
+            <div class="header-title">VERA Neural Launch Workspace</div>
+            <!-- Action buttons removed to minimize non-functional controls -->
         </div>
 
         <div class="container">
-            <div class="quick-actions-bar">
-                <div class="quick-actions">
-                    <div class="quick-btn" onclick="quickMessage('What are my top 3 strategic priorities this week?')">Weekly Priorities</div>
-                    <div class="quick-btn" onclick="quickMessage('Analyze competitor intelligence and market positioning')">Market Position</div>
-                    <div class="quick-btn" onclick="quickMessage('Review campaign performance and optimization opportunities')">Performance Review</div>
-                    <div class="quick-btn" onclick="quickMessage('Generate executive summary of marketing metrics')">Executive Summary</div>
-                </div>
-            </div>
+            <!-- Quick actions bar removed -->
 
             <!-- Chat View -->
             <div id="chatView" class="chat-area">
@@ -1256,20 +1063,17 @@
                     </div>
                     
                     <div class="quick-start-grid">
-                        <div class="quick-start-card" onclick="quickStart('morning-briefing')">
-                            <h3 class="quick-start-card-title">Morning Marketing Briefing</h3>
+                        <div class="quick-start-card" onclick="quickStart('neural-launch')">
+                            <h3 class="quick-start-card-title">Neural Launch Plan</h3>
                         </div>
-                        
-                        <div class="quick-start-card" onclick="quickStart('strategic-planning')">
-                            <h3 class="quick-start-card-title">Strategic Planning Session</h3>
+                        <div class="quick-start-card" onclick="quickStart('learning-path')">
+                            <h3 class="quick-start-card-title">Learning Path (7 days)</h3>
                         </div>
-                        
-                        <div class="quick-start-card" onclick="quickStart('performance-review')">
-                            <h3 class="quick-start-card-title">Performance Review</h3>
+                        <div class="quick-start-card" onclick="quickStart('email-support')">
+                            <h3 class="quick-start-card-title">Email Support</h3>
                         </div>
-                        
-                        <div class="quick-start-card" onclick="quickStart('team-coordination')">
-                            <h3 class="quick-start-card-title">Team Coordination</h3>
+                        <div class="quick-start-card" onclick="quickStart('julija-comm')">
+                            <h3 class="quick-start-card-title">Comms with Julija</h3>
                         </div>
                     </div>
                     
@@ -1369,6 +1173,12 @@
         </div>
 
         <div class="input-area">
+            <div class="copilot-dock" aria-label="Copilot suggestions">
+                <button class="copilot-chip" type="button" onclick="quickMessage('What is my next best step for the VERA Neural launch today?')" aria-label="Next launch step">Next Launch Step</button>
+                <button class="copilot-chip" type="button" onclick="quickMessage('Draft an email I can send about VERA Neural. Keep it calm, clear, and specific.')" aria-label="Draft email">Draft Email</button>
+                <button class="copilot-chip" type="button" onclick="quickMessage('Create a concise decision brief: options, pros/cons, recommendation, next steps.')" aria-label="Decision brief">Decision Brief</button>
+                <button class="copilot-chip" type="button" onclick="quickMessage('Help me write a short, clear update for Julija with progress and asks.')" aria-label="Update Julija">Update Julija</button>
+            </div>
             <div class="input-container">
                 <textarea 
                     id="messageInput" 
@@ -1429,17 +1239,17 @@
             
             let message = '';
             switch(type) {
-                case 'morning-briefing':
-                    message = "Good morning, VERA! Please give me my comprehensive morning marketing briefing with today's key metrics, campaign updates, and priority actions.";
+                case 'neural-launch':
+                    message = "Let's draft the VERA Neural launch plan. Outline phases, milestones, owners, risks, and today's next 3 actions.";
                     break;
-                case 'strategic-planning':
-                    message = "Let's start a strategic planning session. I need deep insights on campaign strategy, market analysis, and competitive positioning for this week.";
+                case 'learning-path':
+                    message = "Design a 7-day learning path for Taylor to master VERA Neural, co-regulation, and AI content craft with small daily wins.";
                     break;
-                case 'performance-review':
-                    message = "I'd like a thorough performance review of all our marketing campaigns, ROI metrics, and optimization opportunities across channels.";
+                case 'email-support':
+                    message = "Draft three emails: outreach about VERA Neural, a stakeholder update, and a follow-up—calm, clear, co-regulated.";
                     break;
-                case 'team-coordination':
-                    message = "Help me coordinate the team today. Show me workload distribution, project timelines, and resource allocation recommendations.";
+                case 'julija-comm':
+                    message = "Help me write a concise update for Julija: progress on VERA Neural, decisions needed, and how to collaborate.";
                     break;
             }
             
@@ -1458,6 +1268,13 @@
             messageInput.focus();
         }
 
+        // Show the quick start tiles and hide chat messages
+        function showQuickStart() {
+            quickStartActive = true;
+            if (quickStartSection) quickStartSection.style.display = 'block';
+            if (chatMessages) chatMessages.style.display = 'none';
+        }
+
         function processQuickStartResponse(type) {
             showTyping();
             
@@ -1466,17 +1283,17 @@
                 let response = '';
                 
                 switch(type) {
-                    case 'morning-briefing':
-                        response = "**📊 Marketing Briefing**\n\n**Key Metrics:**\n• Website Traffic: 2,347 visitors (+12%)\n• Lead Generation: 23 new qualified leads\n• Email Performance: 31.2% open rate\n• Social Engagement: 156 interactions (+18%)\n\n**Campaign Updates:**\n• Q4 Product Launch: 82% completion\n• Demo Campaign: 47 scheduled demos this week\n• Content Performance: Strong engagement across channels\n\n**Priority Actions:**\n1. Review hot leads (12 prospects ready)\n2. Approve holiday campaign creative\n3. Plan next week's content calendar\n\nWhat specific area would you like to dive deeper into?";
+                    case 'neural-launch':
+                        response = "**� VERA Neural Launch Plan (Draft)**\n\n**Phases:**\n1) Strategy & Positioning\n2) Content & Enablement\n3) Outreach & Pilots\n4) Launch & Amplify\n\n**This Week Milestones:**\n• Define 3 positioning pillars\n• Publish 2 AI content pieces\n• Line up 3 pilot conversations\n\n**Owners:** Taylor (content/ops), VERA (copilot), You (approvals)\n\n**Top Risks:** scope creep, unclear asks, too much motion\n\n**Today’s Next 3 Actions:**\n1) Draft email to pilot candidates\n2) Decision brief: pricing approach\n3) Update to Julija (progress/asks)\n\nSay “expand phase 1” or “create tasks for this week”.";
                         break;
-                    case 'strategic-planning':
-                        response = "**🎯Strategic Planning Session Initiated**\n\n**Market Intelligence Summary:**\n• **AI Marketing Adoption**: Accelerating 340% annually in our target market\n• **Competitive Landscape**: VERA Neural's co-regulation approach is unique differentiator\n• **Customer Demand**: 89% of prospects request advanced automation capabilities\n\n**Campaign Strategy Analysis:**\n• **High-Performing Channels**: LinkedIn (31% of leads), Content Marketing (67% attribution)\n• **Emerging Opportunities**: Partnership ecosystem (45% growth potential)\n• **Optimization Areas**: Demo-to-close process (current 89% close rate)\n\n**Strategic Recommendations:**\n1. **Scale VERA Demo Capacity** - 40% pipeline increase opportunity\n2. **Launch Executive Thought Leadership** - C-suite engagement strategy\n3. **Develop Partnership Program** - $500K+ revenue opportunity\n4. **Advanced Content Strategy** - Technical deep-dives for enterprise\n\n**Competitive Positioning:**\n• **Unique Value**: Neural marketing intelligence with co-regulation\n• **Market Timing**: Perfect alignment with AI adoption curve\n• **Differentiation**: 94% of competitors lack our advanced capabilities\n\nWhat strategic priority would you like to deep-dive into first?";
+                    case 'learning-path':
+                        response = "**📚 Taylor’s 7‑Day Learning Path**\n\nEach day: 30–45min. Output-focused, co‑regulated.\n\nDay 1: VERA Neural overview → 5‑bullet explain like I’m busy\nDay 2: Co‑regulation for AI content → rewrite 1 email calmly\nDay 3: Positioning pillars → 3 options + example copy\nDay 4: Decision briefs → fill a one‑pager template\nDay 5: Email system → 3 reusable skeletons (outreach, update, follow‑up)\nDay 6: Launch messaging → 2 short posts + 1 long form outline\nDay 7: Review + demo → summarize learnings and gaps\n\nSay “start Day 1” or “give me the Day 5 templates”.";
                         break;
-                    case 'performance-review':
-                        response = "**📈Comprehensive Performance Review**\n\n**Revenue Attribution (30 Days):**\n• **Total Marketing Revenue**: $127,890 (+34% MoM)\n• **Marketing ROI**: 312% (Best performance ever!)\n• **Cost per Acquisition**: $89 (67% below industry average)\n• **Pipeline Value**: $2.3M (89% VERA Neural attributed)\n\n**Channel Performance Deep-Dive:**\n• **Content Marketing**: 67% lead source, 234% ROI, $48K revenue\n• **LinkedIn Strategy**: 31% qualified leads, 24% engagement rate\n• **Email Automation**: 4.2% conversion, $34K monthly revenue\n• **VERA Demos**: 89% close rate, $1.2M active pipeline\n\n**Campaign Analysis:**\n• **Q4 Product Launch**: 78% completion, $45K invested, 284% ROI\n• **Thought Leadership**: 18% engagement, 156 shares, 23 leads\n• **Partnership Outreach**: 12% response rate, 34 qualified opportunities\n\n**Optimization Opportunities:**\n• **Email Subject Lines**: A/B testing shows 15% improvement potential\n• **Landing Page Conversion**: 2.1% → 3.5% achievable with optimization\n• **Social Media Timing**: Best performance at 9 AM and 2 PM\n\n**Next Actions:**\n1. Implement email optimization recommendations\n2. Scale highest-performing content themes\n3. Expand partnership channel investment\n4. Accelerate VERA demo scheduling capacity\n\nWhich performance area would you like to optimize first?";
+                    case 'email-support':
+                        response = "**✉️ Email Support (Drafts)**\n\n1) Outreach (pilot invite)\nSubject: Exploring VERA Neural for [Company]\nBody: 3‑sentence calm invite + value + simple ask.\n\n2) Stakeholder Update\nSubject: VERA Neural – weekly progress\nBody: progress, decisions needed, next steps (bulleted).\n\n3) Follow‑up\nSubject: Quick follow‑up on VERA Neural\nBody: gentle nudge, restate value, one clear CTA.\n\nSay “fill with details for [Company]” or “tone: warmer/shorter”.";
                         break;
-                    case 'team-coordination':
-                        response = "**👥Team Coordination Intelligence Center**\n\n**Team Performance Dashboard:**\n• **Content Team**: Sarah, Mike - 12 pieces published, 234% engagement increase\n• **Design Team**: Lisa, James - 8 assets delivered, 2.3x faster with VERA insights\n• **Paid Media**: Alex - 5 campaigns optimized, 67% efficiency gain\n• **Partnership Team**: Jordan - 3 new alliances, $450K pipeline\n\n**Today's Workload Distribution:**\n• **Content**: 45% capacity (scaling opportunity)\n• **Design**: 78% utilized (balanced workload)\n• **Paid Media**: 92% capacity (consider support)\n• **Partnerships**: 67% capacity (expansion ready)\n\n**Project Timeline Status:**\n• **Q4 Campaign Launch**: On track, final creative review today\n• **VERA Neural Showcase**: 89% complete, demo prep this afternoon\n• **Holiday Email Series**: Content approved, scheduling in progress\n• **Partnership Deck**: Awaiting your final review\n\n**Resource Optimization:**\n• **Immediate Need**: Design support for holiday campaign\n• **Skill Development**: Advanced AI marketing training (100% team participation)\n• **Automation Opportunity**: 30% of manual tasks can be streamlined\n\n**Team Wellness:**\n• **Satisfaction Score**: 94% (industry-leading)\n• **Productivity**: +67% since VERA Neural integration\n• **Innovation**: Every team member contributed VERA improvements\n\n**Today's Priorities:**\n1. **Creative Review Session** - Holiday campaign finals (10 AM)\n2. **Partnership Presentation** - TechCorp deck refinement (11 AM)\n3. **Team Standup** - Weekly coordination (3 PM)\n4. **VERA Training** - Advanced features workshop (4 PM)\n\nHow would you like to support the team today?";
+                    case 'julija-comm':
+                        response = "**🤝 Update for Julija (Template)**\n\n1) Progress: 3 bullets\n2) Decisions needed: 1–2 with options\n3) Next 5 days: who/what/when\n4) Risks + mitigation (brief)\n5) Ask: what you need from Julija\n\nSay “draft it now with today’s details” to get a ready message.";
                         break;
                 }
                 
@@ -1600,27 +1417,18 @@
             speechSynthesis.speak(utterance);
         }
 
-        // Enhanced message formatting and display
+        // Single addMessage implementation (de-duplicated)
         function addMessage(content, sender) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
-            
             const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
             messageDiv.innerHTML = `
                 <div class="message-bubble">
                     ${formatMessage(content)}
                     <div class="message-time">${time}</div>
                 </div>
             `;
-            
-            // Add to the correct container
-            if (quickStartActive) {
-                chatMessages.appendChild(messageDiv);
-            } else {
-                chatMessages.appendChild(messageDiv);
-            }
-            
+            chatMessages.appendChild(messageDiv);
             scrollToBottom();
         }
 
@@ -1975,137 +1783,16 @@
         let currentChatId = null;
         let rightPanelOpen = false;
 
-        function toggleRightPanel() {
-            const rightPanel = document.getElementById('rightPanel');
-            const mainContent = document.querySelector('.main-content');
-            
-            rightPanelOpen = !rightPanelOpen;
-            
-            if (rightPanelOpen) {
-                rightPanel.classList.add('open');
-                mainContent.classList.add('right-panel-open');
-            } else {
-                rightPanel.classList.remove('open');
-                mainContent.classList.remove('right-panel-open');
-            }
-        }
+        // Right panel removed: related functions deleted for simplicity
 
-        function openCalendar() {
-            const content = `
-                <div class="executive-calendar">
-                    <div class="calendar-title">Today's Schedule</div>
-                    <div class="calendar-event">
-                        <div class="event-time">9:00 AM - 10:00 AM</div>
-                        <div class="event-title">Strategy Review</div>
-                    </div>
-                    <div class="calendar-event">
-                        <div class="event-time">2:00 PM - 3:00 PM</div>
-                        <div class="event-title">Campaign Planning</div>
-                    </div>
-                    <div class="calendar-event">
-                        <div class="event-time">4:00 PM - 5:00 PM</div>
-                        <div class="event-title">Performance Analysis</div>
-                    </div>
-                </div>
-                <div class="quick-actions">
-                    <div class="calendar-title">Quick Actions</div>
-                    <button class="action-button" onclick="scheduleReview()">Schedule Review</button>
-                    <button class="action-button" onclick="blockTime()">Block Time</button>
-                    <button class="action-button" onclick="setReminder()">Set Reminder</button>
-                </div>
-            `;
-            showRightPanel('Executive Calendar', content);
-        }
+        // Removed openCalendar/openDashboard/openReports/showRightPanel as the right panel was removed
 
-        function openDashboard() {
-            const content = `
-                <div class="executive-calendar">
-                    <div class="calendar-title">Key Metrics</div>
-                    <div class="metric-item">
-                        <div class="metric-label">Leads Generated</div>
-                        <div class="metric-value">247 (+12%)</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-label">Conversion Rate</div>
-                        <div class="metric-value">23.4% (+2.1%)</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-label">Revenue Attribution</div>
-                        <div class="metric-value">$127,890 (+8%)</div>
-                    </div>
-                </div>
-                <div class="quick-actions">
-                    <div class="calendar-title">Dashboard Actions</div>
-                    <button class="action-button" onclick="refreshData()">Refresh Data</button>
-                    <button class="action-button" onclick="exportReport()">Export Report</button>
-                    <button class="action-button" onclick="scheduleReport()">Schedule Report</button>
-                </div>
-            `;
-            showRightPanel('Executive Dashboard', content);
-        }
-
-        function openReports() {
-            const content = `
-                <div class="executive-calendar">
-                    <div class="calendar-title">Available Reports</div>
-                    <div class="calendar-event">
-                        <div class="event-time">Daily</div>
-                        <div class="event-title">Performance Summary</div>
-                    </div>
-                    <div class="calendar-event">
-                        <div class="event-time">Weekly</div>
-                        <div class="event-title">Campaign Analysis</div>
-                    </div>
-                    <div class="calendar-event">
-                        <div class="event-time">Monthly</div>
-                        <div class="event-title">Strategic Review</div>
-                    </div>
-                </div>
-                <div class="quick-actions">
-                    <div class="calendar-title">Report Actions</div>
-                    <button class="action-button" onclick="generateReport()">Generate Report</button>
-                    <button class="action-button" onclick="customReport()">Custom Report</button>
-                    <button class="action-button" onclick="shareReport()">Share Report</button>
-                </div>
-            `;
-            showRightPanel('Intelligence Reports', content);
-        }
-
-        function showRightPanel(title, content) {
-            const rightPanel = document.getElementById('rightPanel');
-            const rightPanelContent = document.getElementById('rightPanelContent');
-            const headerTitle = rightPanel.querySelector('.right-panel-header h3');
-            
-            headerTitle.textContent = title;
-            rightPanelContent.innerHTML = content;
-            
-            if (!rightPanelOpen) {
-                toggleRightPanel();
-            }
-        }
-
+        // Keep newChat simple and event-agnostic
         function newChat() {
-            // Save current chat if it has messages
-            if (conversationHistory.length > 0 && currentChatId) {
-                saveCurrentChat();
-            }
-            
-            // Clear current conversation
             conversationHistory = [];
-            currentChatId = Date.now().toString();
-            
-            // Clear chat area
-            const chatMessages = document.getElementById('chatMessages');
             chatMessages.innerHTML = '';
-            
-            // Show a simpler welcome message
-            addMessage("Hello! I'm Taylor, Marketing Director at Veraneraul. Working with VERA intelligence to help you with marketing strategy and insights. How can I assist you today?", 'vera');
-            
-            // Update navigation
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            event.target.closest('.nav-item').classList.add('active');
+            quickStartActive = true;
+            showQuickStart();
         }
 
         function saveCurrentChat() {
@@ -2140,15 +1827,14 @@
         }
 
         function showChatHistory() {
-            // Simple chat history display
+            // Simple chat history display (remains functional)
             const historyHtml = savedChats.map(chat => {
                 const date = new Date(chat.timestamp).toLocaleDateString();
-                return `<div class="chat-history-item" onclick="loadChat('${chat.id}')">
-                    <div class="chat-title">${chat.title}</div>
-                    <div class="chat-date">${date}</div>
-                </div>`;
+                return `<div class="chat-history-item" onclick=\"loadChat('${chat.id}')\">`
+                    + `<div class=\"chat-title\">${chat.title}</div>`
+                    + `<div class=\"chat-date\">${date}</div>`
+                    + `</div>`;
             }).join('');
-            
             addMessage(`**📋 Chat History**\n\n${historyHtml || 'No saved chats yet.'}`, 'vera');
         }
 
