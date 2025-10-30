@@ -500,28 +500,7 @@
             backdrop-filter: none;
         }
 
-        /* Copilot Dock */
-        .copilot-dock {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            margin-bottom: 10px;
-        }
-        .copilot-chip {
-            padding: 6px 12px;
-            background: #f2e9f5; /* lighter chip */
-            border: 1px solid #e3d3ea;
-            border-radius: 16px;
-            color: #6f5a8e;
-            font-size: 12px;
-            white-space: nowrap;
-            cursor: pointer;
-            transition: background 0.2s, border-color 0.2s;
-        }
-        .copilot-chip:hover {
-            background: #ece0f0;
-            border-color: #d6c6de;
-        }
+        /* Copilot Dock removed to avoid duplication */
 
         .input-container {
             display: flex;
@@ -905,10 +884,10 @@
         }
 
         .skip-quick-start {
-            background: rgba(181, 122, 188, 0.1);
-            border: 1px solid rgba(181, 122, 188, 0.3);
+            background: #f3eaf6; /* light blush */
+            border: 1px solid #e2d4ea;
             border-radius: 8px;
-            color: rgba(255, 255, 255, 0.7);
+            color: #6f5a8e; /* readable on light bg */
             padding: 12px 24px;
             font-size: 14px;
             cursor: pointer;
@@ -916,8 +895,9 @@
         }
 
         .skip-quick-start:hover {
-            background: rgba(181, 122, 188, 0.2);
-            color: #333;
+            background: #ece1f2;
+            color: #4b3f66;
+            border-color: #d2c4dc;
         }
 
         .chat-messages {
@@ -1011,23 +991,11 @@
 
             <div class="nav-section">
                 <div class="nav-title">Weekly Agenda</div>
-                <div class="nav-item" onclick="quickMessage('Help me build and track the VERA Neural launch plan. Start with phases, milestones, owners, risks, and first next actions for today.')">
-                    <span>Neural Launch Plan</span>
-                </div>
-                <div class="nav-item" onclick="quickMessage('Create a focused 7-day learning path for Taylor to master VERA Neural, co-regulation, and AI content craft. Include daily practice and small wins.')">
-                    <span>Learning Path</span>
-                </div>
                 <div class="nav-item" onclick="quickMessage('Draft emails I can send today about VERA Neural: outreach, stakeholder update, and follow-up. Use a calm, clear tone.')">
                     <span>Email Support</span>
                 </div>
                 <div class="nav-item" onclick="quickMessage('Prepare a concise decision brief with options, pros/cons, recommendation, and next steps for our VERA Neural launch choices.')">
                     <span>Decision Briefs</span>
-                </div>
-                <div class="nav-item" onclick="quickMessage('Help me frame and draft a clear update for Julija about VERA Neural progress, decisions needed, and how best to collaborate.')">
-                    <span>Comms with Julija</span>
-                </div>
-                <div class="nav-item" onclick="quickMessage('Help me draft a clear, respectful update for Eva about VERA Neural progress, product decisions, and where I need her guidance.')">
-                    <span>Comms with Eva</span>
                 </div>
             </div>
 
@@ -1178,14 +1146,6 @@
         </div>
 
         <div class="input-area">
-            <div class="copilot-dock" aria-label="Copilot suggestions">
-                <button class="copilot-chip" type="button" onclick="quickMessage('What is my next best step for the VERA Neural launch today?')" aria-label="Next launch step">Next Launch Step</button>
-                <button class="copilot-chip" type="button" onclick="quickMessage('Draft an email I can send about VERA Neural. Keep it calm, clear, and specific.')" aria-label="Draft email">Draft Email</button>
-                <button class="copilot-chip" type="button" onclick="quickMessage('Create a concise decision brief: options, pros/cons, recommendation, next steps.')" aria-label="Decision brief">Decision Brief</button>
-                <button class="copilot-chip" type="button" onclick="quickMessage('Help me write a short, clear update for Julija with progress and asks.')" aria-label="Update Julija">Update Julija</button>
-                <button class="copilot-chip" type="button" onclick="quickMessage('Help me write a short, clear update for Eva about VERA Neural progress, decisions, and asks.')" aria-label="Update Eva">Update Eva</button>
-                <button id="voiceChip" class="copilot-chip" type="button" onclick="toggleTTS()" aria-label="Toggle voice">Voice</button>
-            </div>
             <div class="input-container">
                 <textarea 
                     id="messageInput" 
