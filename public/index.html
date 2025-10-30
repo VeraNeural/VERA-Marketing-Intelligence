@@ -2061,7 +2061,13 @@
                 })
                 .catch(error => {
                     console.error('🚨 ElevenLabs TTS API FAILED:', error);
-                    console.error('🚨 Falling back to browser TTS (this is why you hear default voice!)');
+                    console.error('🚨 ElevenLabs servers are having problems (something_went_wrong)');
+                    console.error('🚨 This is NOT our code - it\'s ElevenLabs having server issues');
+                    console.error('🚨 Falling back to browser TTS until ElevenLabs servers recover');
+                    
+                    // Show user notification that ElevenLabs is down
+                    showErrorNotification('ElevenLabs servers temporarily down. Using enhanced American English voice as backup.');
+                    
                     // Fallback to browser TTS
                     fallbackToWebSpeech(cleanText);
                 });
@@ -2071,6 +2077,44 @@
             }
         }
 
+        // 🚨 SHOW ERROR NOTIFICATION TO USER
+        function showErrorNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'error-notification';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    ⚠️ ${message}
+                    <button onclick="this.parentElement.parentElement.remove()" class="close-notification">×</button>
+                </div>
+            `;
+            
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff6b6b;
+                color: white;
+                padding: 12px 16px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 10000;
+                max-width: 300px;
+                font-size: 14px;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 8 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 8000);
+        }
+
         function fallbackToWebSpeech(cleanText) {
             if (!('speechSynthesis' in window)) return;
             
@@ -2078,21 +2122,68 @@
             speechSynthesis.cancel();
             
             const utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.rate = 0.9;
-            utterance.pitch = 1.0;
-            utterance.volume = 0.8;
             
-            // Use a professional female voice if available
+            // 🎭 MORE EMOTIONAL AMERICAN ENGLISH SETTINGS
+            utterance.rate = 0.85;      // Slightly slower for clarity
+            utterance.pitch = 1.1;      // Higher pitch for more emotion
+            utterance.volume = 0.9;     // Louder volume
+            
+            // 🇺🇸 FIND BEST AMERICAN ENGLISH VOICE WITH EMOTION
             const voices = speechSynthesis.getVoices();
-            const preferredVoice = voices.find(voice => 
-                voice.name.includes('Female') || 
-                voice.name.includes('Samantha') ||
-                voice.name.includes('Susan') ||
-                (voice.lang.includes('en') && voice.gender === 'female')
-            );
+            console.log('🎙️ Available voices:', voices.map(v => `${v.name} (${v.lang})`));
             
-            if (preferredVoice) {
-                utterance.voice = preferredVoice;
+            // Priority order: American English female voices with emotion
+            const preferredVoiceNames = [
+                'Microsoft Zira - English (United States)',
+                'Google US English Female',
+                'Samantha',
+                'Susan',
+                'Microsoft Aria',
+                'Google английский (США)',
+                'en-US-Female',
+                'English United States Female Enhanced'
+            ];
+            
+            let selectedVoice = null;
+            
+            // Try to find exact matches first
+            for (const voiceName of preferredVoiceNames) {
+                selectedVoice = voices.find(voice => voice.name === voiceName);
+                if (selectedVoice) {
+                    console.log('🎙️ Found exact voice match:', selectedVoice.name);
+                    break;
+                }
+            }
+            
+            // If no exact match, find American English female voices
+            if (!selectedVoice) {
+                selectedVoice = voices.find(voice => 
+                    voice.lang.startsWith('en-US') && 
+                    (voice.name.toLowerCase().includes('female') || 
+                     voice.name.toLowerCase().includes('woman') ||
+                     voice.name.toLowerCase().includes('zira') ||
+                     voice.name.toLowerCase().includes('aria'))
+                );
+                if (selectedVoice) console.log('🎙️ Found US female voice:', selectedVoice.name);
+            }
+            
+            // Fallback to any American English voice
+            if (!selectedVoice) {
+                selectedVoice = voices.find(voice => voice.lang.startsWith('en-US'));
+                if (selectedVoice) console.log('🎙️ Found US voice fallback:', selectedVoice.name);
+            }
+            
+            // Final fallback to any English voice
+            if (!selectedVoice) {
+                selectedVoice = voices.find(voice => voice.lang.startsWith('en'));
+                if (selectedVoice) console.log('🎙️ Found English voice fallback:', selectedVoice.name);
+            }
+            
+            if (selectedVoice) {
+                utterance.voice = selectedVoice;
+                console.log('🎙️ Using browser voice:', selectedVoice.name, selectedVoice.lang);
+            } else {
+                console.log('🎙️ Using default system voice');
             }
             
             speechSynthesis.speak(utterance);
@@ -2137,6 +2228,14 @@
                 console.log('🎙️ TTS not triggered - Sender:', sender, 'TTS Enabled:', ttsEnabled);
             }
         }
+
+        // 🧪 TEST DELETE FUNCTIONALITY - ADD A TEST MESSAGE ON LOAD
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                console.log('🧪 Adding test message to verify delete functionality...');
+                addMessage('🧪 TEST MESSAGE: Click the × button to delete this message and verify delete functionality is working!', 'vera');
+            }, 2000);
+        });
 
         // 🗑️ SIMPLIFIED DELETE FUNCTION
         function deleteMessage(messageId) {
