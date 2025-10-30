@@ -15,7 +15,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 8080;
+// Use Railway's provided PORT or default to 8080 locally
+const port = process.env.PORT || 8080;
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
@@ -58,9 +59,9 @@ console.log('QWEN_API_URL:', QWEN_API_URL);
 console.log('QWEN_TRAINING_MODE:', QWEN_TRAINING_MODE);
 console.log('==========================');
 
-// Root route - ONE VERA interface
+// Root route - serve the main desktop workspace by default
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // All other routes redirect to main interface
@@ -68,20 +69,9 @@ app.get('/mobile', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
 });
 
-app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
-});
-
-app.get('/executive', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
-});
-
-app.get('/chat', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
-});
-
-app.get('/workspace', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
+// Desktop routes map to the main workspace
+app.get(['/dashboard', '/executive', '/chat', '/workspace'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Health check endpoint
@@ -912,7 +902,7 @@ app.post('/api/tasks/automation', async (req, res) => {
 
 // Start server
 app.listen(port, () => {
-  console.log(`🧠 VERA Chat Interface running on http://localhost:${port}`);
+  console.log(`🧠 VERA Chat Interface running on http://0.0.0.0:${port}`);
   console.log(`💬 Navigate to http://localhost:${port} for the chat interface`);
   console.log(`🔗 Health check: http://localhost:${port}/health`);
 });
