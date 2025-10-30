@@ -1596,13 +1596,16 @@
             // FORCE ElevenLabs to be enabled - override any previous disabled setting
             settings.voiceEngine = 'elevenlabs';
             
+            // FORCE YOUR CORRECT VOICE ID - OVERRIDE ANY STORED SETTINGS
+            settings.voiceId = 'eL7xfWghif0oJwtmX2qs';
+            
             // FORCE TTS to be enabled
             ttsEnabled = true;
             
             console.log('🎙️ FORCED SETTINGS - Voice Engine:', settings.voiceEngine, 'TTS Enabled:', ttsEnabled);
             
-            // Apply voice defaults to runtime and controls
-            selectedVoiceId = settings.voiceId;
+            // Apply voice defaults to runtime and controls - FORCE YOUR VOICE ID
+            selectedVoiceId = 'eL7xfWghif0oJwtmX2qs'; // HARDCODED TO YOUR VOICE
             voiceEngine = settings.voiceEngine;
             
             // Initialize voice status indicator as active
@@ -2202,6 +2205,11 @@
         let savedChats = JSON.parse(localStorage.getItem('veraChats') || '[]');
         let currentChatId = null;
         let settings = JSON.parse(localStorage.getItem('veraSettings') || '{}');
+        
+        // 🎯 FORCE YOUR VOICE ID - OVERRIDE ANY SAVED SETTINGS
+        settings.voiceId = 'eL7xfWghif0oJwtmX2qs';
+        settings.voiceEngine = 'elevenlabs';
+        console.log('🎙️ FORCED Voice ID override:', settings.voiceId);
 
         function ensureChatId() {
             if (!currentChatId) {
