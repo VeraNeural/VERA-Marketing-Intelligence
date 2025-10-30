@@ -4,9 +4,573 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#1a1a2a">
-    <title>VERA • Marketing Partner</title>
+    <meta name="theme-color" content="#2a1a4a">
+    <title>VERA • Marketing Intelligence</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(180deg, #1a0f2e 0%, #2a1a4a 50%, #1a0f2e 100%);
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(42, 26, 74, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(160, 200, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .orb {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #a0c8ff 0%, #7890ff 100%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Main Container */
+        .container {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Quick Panel */
+        .quick-panel {
+            padding: 15px;
+            background: rgba(42, 26, 74, 0.5);
+            border-bottom: 1px solid rgba(160, 200, 255, 0.1);
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .quick-btn {
+            padding: 8px 16px;
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            border-radius: 20px;
+            color: #a0c8ff;
+            font-size: 13px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: rgba(160, 200, 255, 0.2);
+        }
+
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-bubble {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message.vera .message-bubble {
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .message.user .message-bubble {
+            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
+            color: #1a0f2e;
+            font-weight: 500;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .message.vera .message-time {
+            text-align: left;
+        }
+
+        /* Typing Indicator */
+        .typing {
+            display: none;
+            padding: 12px 16px;
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            border-radius: 18px;
+            max-width: 80%;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #a0c8ff;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+
+        /* Input Area */
+        .input-area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(42, 26, 74, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(160, 200, 255, 0.2);
+            padding: 15px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: end;
+            gap: 10px;
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            border-radius: 24px;
+            padding: 8px;
+        }
+
+        .message-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            padding: 8px 12px;
+            resize: none;
+            max-height: 100px;
+            font-family: inherit;
+        }
+
+        .message-input:focus {
+            outline: none;
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .send-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a0c8ff 0%, #7890ff 100%);
+            border: none;
+            color: #1a0f2e;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:active {
+            transform: scale(0.95);
+        }
+
+        .send-btn:disabled {
+            background: rgba(160, 200, 255, 0.3);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Features Panel */
+        .features-panel {
+            padding: 15px;
+            background: rgba(42, 26, 74, 0.3);
+            border-bottom: 1px solid rgba(160, 200, 255, 0.1);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .feature-card {
+            background: rgba(160, 200, 255, 0.1);
+            border: 1px solid rgba(160, 200, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .feature-card:active {
+            transform: scale(0.98);
+            background: rgba(160, 200, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 12px;
+            color: #a0c8ff;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 375px) {
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="orb"></div>
+            <div class="title">VERA</div>
+        </div>
+        <div class="status">Online</div>
+    </div>
+
+    <div class="container">
+        <div class="quick-panel">
+            <div class="quick-actions">
+                <div class="quick-btn" onclick="quickMessage('What should I focus on today?')">Daily Focus</div>
+                <div class="quick-btn" onclick="quickMessage('Give me the latest market intelligence')">Market Intel</div>
+                <div class="quick-btn" onclick="quickMessage('Help me brainstorm campaign ideas')">Campaign Ideas</div>
+                <div class="quick-btn" onclick="quickMessage('Review my content performance')">Performance</div>
+            </div>
+        </div>
+
+        <div class="features-panel">
+            <div class="feature-grid">
+                <div class="feature-card" onclick="toggleTTS()">
+                    <span class="feature-icon">🔊</span>
+                    <div class="feature-title">Voice TTS</div>
+                </div>
+                <div class="feature-card" onclick="viewCalendar()">
+                    <span class="feature-icon">📅</span>
+                    <div class="feature-title">Calendar</div>
+                </div>
+                <div class="feature-card" onclick="emailAutomation()">
+                    <span class="feature-icon">📧</span>
+                    <div class="feature-title">Email Auto</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-area" id="chatArea">
+            <div class="message vera">
+                <div class="message-bubble">
+                    Hey Taylor! 👋 Ready to tackle your marketing goals today? I've got your back for strategy, content, and insights.
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="typing" id="typingIndicator">
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-area">
+        <div class="input-container">
+            <textarea 
+                id="messageInput" 
+                class="message-input" 
+                placeholder="Message VERA..."
+                rows="1"></textarea>
+            <button id="sendBtn" class="send-btn" onclick="sendMessage()" disabled>→</button>
+        </div>
+    </div>
+
+    <script>
+        let ttsEnabled = false;
+        let conversationHistory = [];
+
+        // Auto-resize textarea
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatArea = document.getElementById('chatArea');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+            sendBtn.disabled = !this.value.trim();
+        });
+
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Quick message
+        function quickMessage(text) {
+            messageInput.value = text;
+            messageInput.style.height = 'auto';
+            messageInput.style.height = Math.min(messageInput.scrollHeight, 100) + 'px';
+            sendBtn.disabled = false;
+            messageInput.focus();
+        }
+
+        // Send message
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            
+            // Clear input
+            messageInput.value = '';
+            messageInput.style.height = 'auto';
+            sendBtn.disabled = true;
+
+            // Show typing
+            showTyping();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        conversationHistory: conversationHistory,
+                        mobileMode: true
+                    })
+                });
+
+                const result = await response.json();
+                hideTyping();
+                
+                const veraMessage = result.response?.message?.content || result.response?.message || 'Sorry, having trouble with that. Try again?';
+                addMessage(veraMessage, 'vera');
+
+                // Update history
+                conversationHistory.push(
+                    { role: 'user', content: message },
+                    { role: 'assistant', content: veraMessage }
+                );
+                
+                // Keep history manageable
+                if (conversationHistory.length > 20) {
+                    conversationHistory = conversationHistory.slice(-20);
+                }
+
+                // TTS if enabled
+                if (ttsEnabled) {
+                    speakText(veraMessage);
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                hideTyping();
+                addMessage('Sorry, I had trouble connecting. Please try again.', 'vera');
+            }
+        }
+
+        // Add message to chat
+        function addMessage(content, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            messageDiv.innerHTML = `
+                <div class="message-bubble">
+                    ${formatMessage(content)}
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            
+            chatArea.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        // Format message
+        function formatMessage(content) {
+            return content
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/\n/g, '<br>');
+        }
+
+        // Typing indicator
+        function showTyping() {
+            typingIndicator.style.display = 'block';
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+        }
+
+        // Scroll to bottom
+        function scrollToBottom() {
+            setTimeout(() => {
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 100);
+        }
+
+        // Feature functions
+        function toggleTTS() {
+            ttsEnabled = !ttsEnabled;
+            const card = event.target.closest('.feature-card');
+            card.style.background = ttsEnabled ? 'rgba(160, 200, 255, 0.3)' : 'rgba(160, 200, 255, 0.1)';
+            addMessage(`TTS ${ttsEnabled ? 'enabled' : 'disabled'}! ${ttsEnabled ? 'I\'ll speak my responses.' : ''}`, 'vera');
+        }
+
+        async function speakText(text) {
+            try {
+                const response = await fetch('/api/tts/speak', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text.replace(/<[^>]*>/g, '') })
+                });
+                
+                if (response.ok) {
+                    console.log('TTS request sent');
+                    // In real implementation, play audio
+                }
+            } catch (error) {
+                console.error('TTS error:', error);
+            }
+        }
+
+        async function viewCalendar() {
+            try {
+                const response = await fetch('/api/calendar/today');
+                const data = await response.json();
+                
+                let calendarText = `📅 **Today's Schedule:**\n\n`;
+                data.events.forEach(event => {
+                    calendarText += `• **${event.time}** - ${event.title}\n`;
+                });
+                
+                addMessage(calendarText, 'vera');
+            } catch (error) {
+                addMessage('Calendar integration coming soon!', 'vera');
+            }
+        }
+
+        async function emailAutomation() {
+            try {
+                const response = await fetch('/api/email/automation', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'list' })
+                });
+                
+                const data = await response.json();
+                
+                let automationText = `📧 **Email Automation Status:**\n\n`;
+                data.automations.forEach(auto => {
+                    automationText += `• **${auto.name}** - ${auto.status}\n`;
+                });
+                
+                addMessage(automationText, 'vera');
+            } catch (error) {
+                addMessage('Email automation dashboard ready!', 'vera');
+            }
+        }
+
+        // Initialize
+        console.log('VERA Marketing Intelligence Ready');
+        messageInput.focus();
+    </script>
+</body>
+</html>
     <style>
         * {
             margin: 0;

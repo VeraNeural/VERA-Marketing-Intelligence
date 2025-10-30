@@ -58,34 +58,30 @@ console.log('QWEN_API_URL:', QWEN_API_URL);
 console.log('QWEN_TRAINING_MODE:', QWEN_TRAINING_MODE);
 console.log('==========================');
 
-// Root route - redirect to VERA mobile dashboard
+// Root route - ONE VERA interface
 app.get('/', (req, res) => {
-  res.redirect('/dashboard');
+  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
 });
 
-// VERA Mobile Dashboard - MAIN INTERFACE
-app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'vera-mobile.html'));
-});
-
-// Mobile chat interface - conversational view
+// All other routes redirect to main interface
 app.get('/mobile', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
 });
 
-// Executive interface (structural) - SECONDARY
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
+});
+
 app.get('/executive', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'executive.html'));
+  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
 });
 
-// Chat route - redirect to mobile interface  
 app.get('/chat', (req, res) => {
-  res.redirect('/mobile');
+  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
 });
 
-// Workspace route - redirect to dashboard
 app.get('/workspace', (req, res) => {
-  res.redirect('/dashboard');
+  res.sendFile(path.join(__dirname, 'public', 'mobile.html'));
 });
 
 // Health check endpoint
@@ -718,6 +714,194 @@ app.post('/api/decision/analyze', async (req, res) => {
   } catch (error) {
     console.error('Decision analysis error:', error);
     res.status(500).json({ error: 'Decision analysis failed' });
+  }
+});
+
+// TTS (Text-to-Speech) endpoint
+app.post('/api/tts/speak', async (req, res) => {
+  try {
+    const { text, voice = 'vera' } = req.body;
+
+    if (!text) {
+      return res.status(400).json({ error: 'Text is required for TTS' });
+    }
+
+    // Mock TTS response - integrate with ElevenLabs for real TTS
+    const audioUrl = `data:audio/mp3;base64,${Buffer.from('mock-audio-data').toString('base64')}`;
+    
+    res.json({
+      success: true,
+      audioUrl: audioUrl,
+      text: text,
+      voice: voice,
+      duration: text.length * 0.1, // Estimated duration
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('TTS error:', error);
+    res.status(500).json({ error: 'Text-to-speech failed' });
+  }
+});
+
+// Email automation endpoint
+app.post('/api/email/automation', async (req, res) => {
+  try {
+    const { action, campaign, settings } = req.body;
+
+    const mockAutomations = {
+      'lead-nurturing': {
+        name: 'VERA Neural Lead Nurturing',
+        status: 'active',
+        emails: 5,
+        openRate: '42%',
+        clickRate: '8.5%'
+      },
+      'partnership-outreach': {
+        name: 'Partnership Outreach Sequence',
+        status: 'paused',
+        emails: 3,
+        openRate: '38%',
+        clickRate: '12%'
+      },
+      'launch-announcement': {
+        name: 'VERA Neural Launch Sequence',
+        status: 'draft',
+        emails: 7,
+        openRate: 'N/A',
+        clickRate: 'N/A'
+      }
+    };
+
+    if (action === 'list') {
+      res.json({
+        automations: Object.entries(mockAutomations).map(([key, value]) => ({
+          id: key,
+          ...value
+        }))
+      });
+    } else if (action === 'toggle') {
+      const automation = mockAutomations[campaign];
+      if (automation) {
+        automation.status = automation.status === 'active' ? 'paused' : 'active';
+        res.json({ success: true, automation: { id: campaign, ...automation } });
+      } else {
+        res.status(404).json({ error: 'Automation not found' });
+      }
+    } else {
+      res.status(400).json({ error: 'Invalid action' });
+    }
+
+  } catch (error) {
+    console.error('Email automation error:', error);
+    res.status(500).json({ error: 'Email automation failed' });
+  }
+});
+
+// Calendar integration endpoint
+app.get('/api/calendar/today', async (req, res) => {
+  try {
+    const mockEvents = [
+      {
+        id: '1',
+        title: 'VERA Neural Strategy Meeting',
+        time: '9:00 AM',
+        duration: '1 hour',
+        attendees: ['Julija Sukan', 'Alex Chen'],
+        location: 'Conference Room A',
+        priority: 'high'
+      },
+      {
+        id: '2',
+        title: 'Content Review Session',
+        time: '11:00 AM',
+        duration: '30 minutes',
+        attendees: ['Marketing Team'],
+        location: 'Virtual',
+        priority: 'medium'
+      },
+      {
+        id: '3',
+        title: 'Partnership Call with TechCorp',
+        time: '2:00 PM',
+        duration: '45 minutes',
+        attendees: ['Alex Chen', 'TechCorp Team'],
+        location: 'Zoom',
+        priority: 'high'
+      },
+      {
+        id: '4',
+        title: 'Q4 Performance Review',
+        time: '4:00 PM',
+        duration: '1 hour',
+        attendees: ['Julija Sukan'],
+        location: 'Office',
+        priority: 'medium'
+      }
+    ];
+
+    res.json({
+      date: new Date().toISOString().split('T')[0],
+      events: mockEvents,
+      totalEvents: mockEvents.length,
+      highPriority: mockEvents.filter(e => e.priority === 'high').length
+    });
+
+  } catch (error) {
+    console.error('Calendar error:', error);
+    res.status(500).json({ error: 'Calendar integration failed' });
+  }
+});
+
+// Task automation endpoint
+app.post('/api/tasks/automation', async (req, res) => {
+  try {
+    const { action, taskId, automation } = req.body;
+
+    const mockTasks = [
+      {
+        id: 'social-media',
+        name: 'Social Media Posting',
+        description: 'VERA Neural teaser content',
+        status: 'active',
+        schedule: 'Daily at 9:00 AM',
+        lastRun: '2025-10-30T09:00:00Z'
+      },
+      {
+        id: 'analytics-report',
+        name: 'Weekly Analytics Report',
+        description: 'Campaign performance summary',
+        status: 'active',
+        schedule: 'Mondays at 8:00 AM',
+        lastRun: '2025-10-28T08:00:00Z'
+      },
+      {
+        id: 'competitor-tracking',
+        name: 'Competitor Intelligence',
+        description: 'Track competitor mentions and campaigns',
+        status: 'paused',
+        schedule: 'Daily at 6:00 AM',
+        lastRun: '2025-10-29T06:00:00Z'
+      }
+    ];
+
+    if (action === 'list') {
+      res.json({ tasks: mockTasks });
+    } else if (action === 'toggle') {
+      const task = mockTasks.find(t => t.id === taskId);
+      if (task) {
+        task.status = task.status === 'active' ? 'paused' : 'active';
+        res.json({ success: true, task });
+      } else {
+        res.status(404).json({ error: 'Task not found' });
+      }
+    } else {
+      res.status(400).json({ error: 'Invalid action' });
+    }
+
+  } catch (error) {
+    console.error('Task automation error:', error);
+    res.status(500).json({ error: 'Task automation failed' });
   }
 });
 
