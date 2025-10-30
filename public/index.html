@@ -19,7 +19,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             /* Softer, co-regulation friendly tint */
-            background: linear-gradient(180deg, #fbf7ff 0%, #ffffff 70%);
+            background: linear-gradient(180deg, #f6e6f2 0%, #fff3f9 45%, #ffffff 100%);
             color: #1a1a1a;
             height: 100vh;
             overflow: hidden;
@@ -343,7 +343,7 @@
         /* Header */
         .header {
             height: 60px;
-            background: #fbf9fe;
+            background: linear-gradient(180deg, #f7eef6 0%, #fbf9fe 100%);
             border-bottom: 1px solid #ede7f5;
             display: flex;
             align-items: center;
@@ -400,7 +400,7 @@
             max-height: calc(100vh - 140px);
             -webkit-overflow-scrolling: touch;
             position: relative;
-            background: linear-gradient(180deg, #fff8fb 0%, #ffffff 70%); /* blush only in mid section */
+            background: linear-gradient(180deg, #f9ecf7 0%, #ffffff 75%); /* fuller blush in mid section */
         }
 
         .chat-area::-webkit-scrollbar {
@@ -959,6 +959,65 @@
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.1); opacity: 0.8; }
         }
+
+        /* Settings Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            backdrop-filter: blur(2px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            width: 420px;
+            max-width: 90vw;
+            background: #ffffff;
+            border: 1px solid #eadff6;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: #f7eef6;
+            border-bottom: 1px solid #eadff6;
+        }
+
+        .modal-header h3 { font-size: 16px; color: #2a1a4a; }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            color: #6b5b7a;
+            cursor: pointer;
+        }
+
+        .modal-body { padding: 16px; display: grid; gap: 10px; }
+        .form-label { font-size: 12px; color: #6b5b7a; }
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #eadff6;
+            border-radius: 10px;
+            background: #fbf7ff;
+            outline: none;
+        }
+        .form-input:focus { border-color: #d2c4dc; box-shadow: 0 0 0 3px rgba(181,122,188,0.15); }
+        .form-checkbox { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #433352; }
+        .modal-footer { display: flex; gap: 8px; justify-content: flex-end; padding: 12px 16px; border-top: 1px solid #eadff6; background: #fff; }
+        .primary-btn {
+            padding: 8px 14px; border-radius: 10px; border: 1px solid #b57abc; background: linear-gradient(135deg, #b57abc 0%, #9b7cb8 100%); color: #fff; cursor: pointer;
+        }
+        .secondary-btn { padding: 8px 14px; border-radius: 10px; border: 1px solid #eadff6; background: #fbf7ff; color: #433352; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -990,16 +1049,29 @@
             </div>
 
             <div class="nav-section">
+                <div class="nav-title">Settings</div>
+                <div class="nav-item" onclick="openSettings()">
+                    <span>Settings</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
                 <div class="nav-title">Weekly Agenda</div>
-                <div class="nav-item" onclick="quickMessage('Draft emails I can send today about VERA Neural: outreach, stakeholder update, and follow-up. Use a calm, clear tone.')">
-                    <span>Email Support</span>
+                <div class="nav-item" onclick="quickMessage('Help me frame and draft a clear update for Julija about VERA Neural progress, decisions needed, and how best to collaborate.')">
+                    <span>Comms with Julija</span>
+                </div>
+                <div class="nav-item" onclick="quickMessage('Help me draft a clear, respectful update for Eva about VERA Neural progress, product decisions, and where I need her guidance.')">
+                    <span>Comms with Eva</span>
                 </div>
                 <div class="nav-item" onclick="quickMessage('Prepare a concise decision brief with options, pros/cons, recommendation, and next steps for our VERA Neural launch choices.')">
                     <span>Decision Briefs</span>
                 </div>
+                <div class="nav-item" onclick="openWellness()">
+                    <span>Wellness</span>
+                </div>
             </div>
 
-            <div class="voice-settings-panel" style="display: none;">
+            <div id="wellnessPanel" class="voice-settings-panel" style="display: none;">
                 <div class="wellness-title">Voice Settings</div>
                 <div class="voice-setting">
                     <span class="wellness-label">TTS Engine</span>
@@ -1039,14 +1111,14 @@
                         <div class="quick-start-card" onclick="quickStart('neural-launch')">
                             <h3 class="quick-start-card-title">Neural Launch Plan</h3>
                         </div>
-                        <div class="quick-start-card" onclick="quickStart('learning-path')">
-                            <h3 class="quick-start-card-title">Learning Path (7 days)</h3>
+                        <div class="quick-start-card" onclick="quickStart('content-support')">
+                            <h3 class="quick-start-card-title">Content Support</h3>
                         </div>
                         <div class="quick-start-card" onclick="quickStart('email-support')">
                             <h3 class="quick-start-card-title">Email Support</h3>
                         </div>
-                        <div class="quick-start-card" onclick="quickStart('julija-comm')">
-                            <h3 class="quick-start-card-title">Comms with Julija</h3>
+                        <div class="quick-start-card" onclick="quickStart('daily-insights')">
+                            <h3 class="quick-start-card-title">Daily Insights</h3>
                         </div>
                     </div>
                     
@@ -1057,6 +1129,51 @@
 
                 <!-- Regular Chat Messages -->
                 <div id="chatMessages" class="chat-messages">
+                </div>
+            </div>
+
+            <!-- Settings Modal -->
+            <div id="settingsModal" class="modal" style="display:none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Account Settings</h3>
+                        <button class="modal-close" onclick="closeSettings()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="form-label">Display Name</label>
+                        <input id="settingsName" type="text" class="form-input" placeholder="Taylor" />
+
+                        <label class="form-label">Email</label>
+                        <input id="settingsEmail" type="email" class="form-input" placeholder="taylor@example.com" />
+
+                        <label class="form-label">Mission</label>
+                        <input id="settingsMission" type="text" class="form-input" placeholder="Grow VERA Neural calmly and decisively" />
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                            <div>
+                                <label class="form-label">Julija (name)</label>
+                                <input id="settingsJulija" type="text" class="form-input" placeholder="Julija" />
+                            </div>
+                            <div>
+                                <label class="form-label">Eva (name)</label>
+                                <input id="settingsEva" type="text" class="form-input" placeholder="Eva" />
+                            </div>
+                        </div>
+
+                        <label class="form-checkbox">
+                            <input id="settingsAutosave" type="checkbox" checked />
+                            <span>Autosave chats to this device</span>
+                        </label>
+
+                        <label class="form-checkbox">
+                            <input id="settingsUseMemory" type="checkbox" checked />
+                            <span>Apply account memory to chat (private, not echoed)</span>
+                        </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="primary-btn" onclick="saveSettings()">Save</button>
+                        <button class="secondary-btn" onclick="closeSettings()">Cancel</button>
+                    </div>
                 </div>
             </div>
 
@@ -1209,14 +1326,14 @@
                 case 'neural-launch':
                     message = "Let's draft the VERA Neural launch plan. Outline phases, milestones, owners, risks, and today's next 3 actions.";
                     break;
-                case 'learning-path':
-                    message = "Design a 7-day learning path for Taylor to master VERA Neural, co-regulation, and AI content craft with small daily wins.";
+                case 'content-support':
+                    message = "Help me plan and produce this week's content: 2 LinkedIn posts, 1 email, and a decision brief outline with clear next steps.";
                     break;
                 case 'email-support':
                     message = "Draft three emails: outreach about VERA Neural, a stakeholder update, and a follow-up—calm, clear, co-regulated.";
                     break;
-                case 'julija-comm':
-                    message = "Help me write a concise update for Julija: progress on VERA Neural, decisions needed, and how to collaborate.";
+                case 'daily-insights':
+                    message = "Give me today's marketing insights: 3 wins, 3 risks, and the next 3 actions to move the VERA Neural launch forward.";
                     break;
                 case 'eva-comm':
                     message = "Draft a concise, respectful update for Eva: current VERA Neural progress, key product decisions, and where I need her perspective.";
@@ -1256,14 +1373,14 @@
                     case 'neural-launch':
                         response = "**� VERA Neural Launch Plan (Draft)**\n\n**Phases:**\n1) Strategy & Positioning\n2) Content & Enablement\n3) Outreach & Pilots\n4) Launch & Amplify\n\n**This Week Milestones:**\n• Define 3 positioning pillars\n• Publish 2 AI content pieces\n• Line up 3 pilot conversations\n\n**Owners:** Taylor (content/ops), VERA (copilot), You (approvals)\n\n**Top Risks:** scope creep, unclear asks, too much motion\n\n**Today’s Next 3 Actions:**\n1) Draft email to pilot candidates\n2) Decision brief: pricing approach\n3) Update to Julija (progress/asks)\n\nSay “expand phase 1” or “create tasks for this week”.";
                         break;
-                    case 'learning-path':
-                        response = "**📚 Taylor’s 7‑Day Learning Path**\n\nEach day: 30–45min. Output-focused, co‑regulated.\n\nDay 1: VERA Neural overview → 5‑bullet explain like I’m busy\nDay 2: Co‑regulation for AI content → rewrite 1 email calmly\nDay 3: Positioning pillars → 3 options + example copy\nDay 4: Decision briefs → fill a one‑pager template\nDay 5: Email system → 3 reusable skeletons (outreach, update, follow‑up)\nDay 6: Launch messaging → 2 short posts + 1 long form outline\nDay 7: Review + demo → summarize learnings and gaps\n\nSay “start Day 1” or “give me the Day 5 templates”.";
+                    case 'content-support':
+                        response = "**� Content Support (This Week)**\n\n**Plan:**\n• 2 LinkedIn posts (technical + executive)\n• 1 Email (weekly update)\n• 1 Decision Brief (topic: pricing approach)\n\n**Drafts:**\n• Post A: ‘How VERA co‑regulates attention’ — 3 bullets + CTA\n• Post B: ‘Executive summary of ROI’ — 3 bullets + CTA\n• Email: progress, decisions, next steps (bulleted, calm tone)\n• Brief: template with options, pros/cons, recommendation\n\nSay “draft Post A now” or “generate the email from today’s notes”.";
                         break;
                     case 'email-support':
                         response = "**✉️ Email Support (Drafts)**\n\n1) Outreach (pilot invite)\nSubject: Exploring VERA Neural for [Company]\nBody: 3‑sentence calm invite + value + simple ask.\n\n2) Stakeholder Update\nSubject: VERA Neural – weekly progress\nBody: progress, decisions needed, next steps (bulleted).\n\n3) Follow‑up\nSubject: Quick follow‑up on VERA Neural\nBody: gentle nudge, restate value, one clear CTA.\n\nSay “fill with details for [Company]” or “tone: warmer/shorter”.";
                         break;
-                    case 'julija-comm':
-                        response = "**🤝 Update for Julija (Template)**\n\n1) Progress: 3 bullets\n2) Decisions needed: 1–2 with options\n3) Next 5 days: who/what/when\n4) Risks + mitigation (brief)\n5) Ask: what you need from Julija\n\nSay “draft it now with today’s details” to get a ready message.";
+                    case 'daily-insights':
+                        response = "**📈 Daily Insights**\n\n**Wins:**\n• [x] Clear positioning pillar finalized\n• [x] Draft email support templates prepared\n• [x] Pilot outreach list refreshed\n\n**Risks:**\n• Decision delay on pricing\n• Content bandwidth tight this week\n• Two pilots need warmer intros\n\n**Next 3 Actions (Today):**\n1) Send 3 pilot outreach emails\n2) Draft pricing decision brief\n3) Publish LinkedIn post A\n\nSay “create tasks for me” or “generate the brief outline now”.";
                         break;
                     case 'eva-comm':
                         response = "**🧠 Update for Eva (Template)**\n\n1) What’s shipped: concise bullets\n2) Product calls made: rationale in 1 line each\n3) Questions for you: 2–3 focused asks\n4) Risks I’m watching: brief with mitigation\n5) Next 5 days: key moves + owners\n\nSay ‘draft for Eva’ and I’ll tailor tone to her style: direct, precise, thoughtful.";
@@ -1596,6 +1713,7 @@
             if (!message) return;
 
             // Add user message
+            ensureChatId();
             addMessage(message, 'user');
             
             // Clear input
@@ -1607,12 +1725,17 @@
             showTyping();
 
             try {
+                const historyForAPI = [...conversationHistory];
+                if (settings.useMemory !== false && historyForAPI.length === 0) {
+                    historyForAPI.unshift({ role: 'user', content: buildMemoryContext() });
+                }
+
                 const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         message: message,
-                        conversationHistory: conversationHistory,
+                        conversationHistory: historyForAPI,
                         mobileMode: true,
                         executiveMode: true,
                         currentView: currentView,
@@ -1637,6 +1760,11 @@
                 // Keep history manageable
                 if (conversationHistory.length > 20) {
                     conversationHistory = conversationHistory.slice(-20);
+                }
+
+                // Autosave chat after each exchange if enabled
+                if (settings.autosaveChats !== false) {
+                    saveCurrentChat();
                 }
 
                 // Auto-execute intelligent actions
@@ -1743,6 +1871,13 @@
         // Chat Management Functions
         let savedChats = JSON.parse(localStorage.getItem('veraChats') || '[]');
         let currentChatId = null;
+        let settings = JSON.parse(localStorage.getItem('veraSettings') || '{}');
+
+        function ensureChatId() {
+            if (!currentChatId) {
+                currentChatId = 'chat_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+            }
+        }
         let rightPanelOpen = false;
 
         // Right panel removed: related functions deleted for simplicity
@@ -1755,10 +1890,12 @@
             chatMessages.innerHTML = '';
             quickStartActive = true;
             showQuickStart();
+            currentChatId = null; // reset so a new id is created on first message
         }
 
         function saveCurrentChat() {
             if (conversationHistory.length === 0) return;
+            ensureChatId();
             
             const chatTitle = generateChatTitle();
             const chatData = {
@@ -1829,7 +1966,73 @@
             
             // Initialize voice engine display
             updateVoiceEngine();
+
+            // Initialize settings defaults
+            if (!settings || typeof settings !== 'object') settings = {};
+            if (settings.autosaveChats === undefined) settings.autosaveChats = true;
+            if (!settings.displayName) settings.displayName = 'Taylor';
+            if (settings.useMemory === undefined) settings.useMemory = true;
+            if (!settings.mission) settings.mission = 'Grow VERA Neural calmly and decisively.';
+            if (!settings.julijaName) settings.julijaName = 'Julija';
+            if (!settings.evaName) settings.evaName = 'Eva';
+            localStorage.setItem('veraSettings', JSON.stringify(settings));
         });
+
+        // Settings panel functions
+        function openSettings() {
+            const modal = document.getElementById('settingsModal');
+            document.getElementById('settingsName').value = settings.displayName || 'Taylor';
+            document.getElementById('settingsEmail').value = settings.email || '';
+            document.getElementById('settingsAutosave').checked = settings.autosaveChats !== false;
+            document.getElementById('settingsUseMemory').checked = settings.useMemory !== false;
+            document.getElementById('settingsMission').value = settings.mission || '';
+            document.getElementById('settingsJulija').value = settings.julijaName || '';
+            document.getElementById('settingsEva').value = settings.evaName || '';
+            modal.style.display = 'block';
+            // Allow escape to close
+            document.addEventListener('keydown', escCloseSettings);
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+            document.removeEventListener('keydown', escCloseSettings);
+        }
+
+        function escCloseSettings(e) { if (e.key === 'Escape') closeSettings(); }
+
+        function saveSettings() {
+            settings.displayName = document.getElementById('settingsName').value.trim() || 'Taylor';
+            settings.email = document.getElementById('settingsEmail').value.trim();
+            settings.autosaveChats = document.getElementById('settingsAutosave').checked;
+            settings.useMemory = document.getElementById('settingsUseMemory').checked;
+            settings.mission = document.getElementById('settingsMission').value.trim() || settings.mission;
+            settings.julijaName = document.getElementById('settingsJulija').value.trim() || settings.julijaName;
+            settings.evaName = document.getElementById('settingsEva').value.trim() || settings.evaName;
+            localStorage.setItem('veraSettings', JSON.stringify(settings));
+            closeSettings();
+            addMessage('Settings saved. Autosave is ' + (settings.autosaveChats ? 'enabled' : 'disabled') + '.', 'vera');
+        }
+
+        function buildMemoryContext() {
+            const name = settings.displayName || 'Taylor';
+            const mission = settings.mission || 'Grow VERA Neural calmly and decisively.';
+            const julija = settings.julijaName || 'Julija';
+            const eva = settings.evaName || 'Eva';
+            return `CONTEXT (private; do not repeat):\n- User: ${name}\n- Mission: ${mission}\n- Key collaborators: ${julija} (comms), ${eva} (product/strategy)\n- Assistant: VERA — executive marketing copilot for VERA Neural.`;
+        }
+
+        // Wellness panel toggle
+        function openWellness() {
+            const panel = document.getElementById('wellnessPanel');
+            if (!panel) {
+                addMessage('Wellness panel is not available right now, but I can still share your current metrics on request.', 'vera');
+                return;
+            }
+            panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
+            if (panel.style.display === 'block') {
+                addMessage('Wellness panel opened. You can adjust voice settings and I’ll keep your performance metrics updated calmly in the background.', 'vera');
+            }
+        }
     </script>
 </body>
 </html>
