@@ -334,113 +334,6 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
-        /* Wellness Panel */
-        .wellness-panel {
-            padding: 20px;
-            background: rgba(181, 122, 188, 0.05);
-        }
-
-        .wellness-title {
-            font-size: 11px;
-            color: rgba(255, 255, 255, 0.5);
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .wellness-metric {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(181, 122, 188, 0.1);
-        }
-
-        .wellness-metric:last-child {
-            border-bottom: none;
-        }
-
-        .wellness-label {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .wellness-value {
-            font-size: 13px;
-            font-weight: 600;
-            color: #4ade80;
-        }
-
-        .wellness-value.warning {
-            color: #fbbf24;
-        }
-
-        /* Wellness Insights Panel */
-        .wellness-insights-panel {
-            background: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(181, 122, 188, 0.2);
-            border-radius: 8px;
-            padding: 16px;
-            margin-top: 16px;
-            backdrop-filter: blur(10px);
-        }
-
-        .wellness-metric {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(100, 120, 156, 0.1);
-        }
-
-        .wellness-metric:last-child {
-            border-bottom: none;
-        }
-
-        .metric-label {
-            font-size: 13px;
-            color: #2d3748;
-            flex: 1;
-            font-weight: 500;
-        }
-
-        .metric-value {
-            font-size: 14px;
-            font-weight: 600;
-            color: #4ade80;
-            margin-right: 12px;
-        }
-
-        .metric-trend {
-            font-size: 11px;
-            color: #4a5568;
-            text-align: right;
-            flex: 1;
-        }
-
-        .wellness-recommendations {
-            margin-top: 16px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(100, 120, 156, 0.2);
-        }
-
-        .wellness-subtitle {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .recommendation {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 4px;
-            line-height: 1.4;
-        }
-
         /* Chat History Panel */
         .chat-history-panel {
             background: rgba(100, 120, 156, 0.1);
@@ -539,86 +432,9 @@
 
         /* Header actions removed to avoid non-functional/duplicative controls */
 
-        .voice-status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
-            border: 2px solid rgba(181, 122, 188, 0.3);
-            border-radius: 30px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 4px 15px rgba(181, 122, 188, 0.15);
-            font-weight: 600;
-            font-size: 14px;
-            color: #4a5568;
-            min-width: 100px;
-            justify-content: center;
-        }
+        .header-title {
 
-        .voice-status-indicator:hover {
-            background: linear-gradient(135deg, rgba(181, 122, 188, 0.1) 0%, rgba(155, 124, 184, 0.15) 100%);
-            border-color: rgba(181, 122, 188, 0.5);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(181, 122, 188, 0.25);
-            color: #2d3748;
-        }
 
-        .voice-status-indicator.active {
-            background: linear-gradient(135deg, #b57abc 0%, #9b7cb8 100%);
-            border-color: #b57abc;
-            color: white;
-            box-shadow: 0 6px 25px rgba(181, 122, 188, 0.4);
-        }
-
-        .voice-status-indicator.active:hover {
-            background: linear-gradient(135deg, #a569ab 0%, #8a6ba7 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(181, 122, 188, 0.5);
-        }
-
-        .voice-icon {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: currentColor;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .voice-icon::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: white;
-            transition: all 0.3s ease;
-        }
-
-        .voice-status-indicator.active .voice-icon {
-            animation: voice-pulse 2s infinite;
-            background: white;
-        }
-
-        .voice-status-indicator.active .voice-icon::before {
-            background: #b57abc;
-        }
-
-        @keyframes voice-pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        #voiceStatusText {
-            font-size: 12px;
-            font-weight: 600;
-        }
 
         .status-indicator {
             display: flex;
@@ -904,11 +720,6 @@
                 padding: 14px 18px;
                 font-size: 15px;
             }
-            
-            .wellness-insights-panel {
-                width: 300px;
-                right: 10px;
-            }
         }
 
         /* Mobile */
@@ -1038,14 +849,6 @@
                 font-size: 12px;
             }
             
-            .wellness-insights-panel {
-                width: calc(100vw - 20px);
-                height: calc(100vh - 100px);
-                right: 10px;
-                top: 50px;
-                border-radius: 12px;
-            }
-            
             .quick-start-section {
                 padding: 15px;
                 gap: 10px;
@@ -1075,11 +878,6 @@
             .mobile-menu-btn {
                 padding: 6px 10px;
                 font-size: 14px;
-            }
-            
-            .wellness-insights-panel {
-                width: calc(100vw - 10px);
-                right: 5px;
             }
             
             .quick-start-btn {
@@ -1561,39 +1359,8 @@
                 <div class="nav-item" onclick="quickMessage('Prepare a concise decision brief with options, pros/cons, recommendation, and next steps for our VERA Neural launch choices.')">
                     <span>Decision Briefs</span>
                 </div>
-                <div class="nav-item" onclick="openWellness()">
-                    <span>Wellness</span>
-                </div>
             </div>
 
-            <div id="wellnessPanel" class="wellness-insights-panel" style="display: none;">
-                <div class="wellness-title">Wellness Insights</div>
-                
-                <div class="wellness-metric">
-                    <div class="metric-label">Energy Level</div>
-                    <div class="metric-value" id="energyLevel">82%</div>
-                    <div class="metric-trend">↗ +5% from yesterday</div>
-                </div>
-                
-                <div class="wellness-metric">
-                    <div class="metric-label">Focus Score</div>
-                    <div class="metric-value" id="focusScore">74%</div>
-                    <div class="metric-trend">→ Steady</div>
-                </div>
-                
-                <div class="wellness-metric">
-                    <div class="metric-label">Stress Index</div>
-                    <div class="metric-value" id="stressIndex">28%</div>
-                    <div class="metric-trend">↘ -12% (improving)</div>
-                </div>
-                
-                <div class="wellness-recommendations">
-                    <div class="wellness-subtitle">Today's Recommendations</div>
-                    <div class="recommendation">• Take a 10-minute mindful break</div>
-                    <div class="recommendation">• Stay hydrated - aim for 6 more glasses</div>
-                    <div class="recommendation">• Consider a brief walk after your next meeting</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -1607,10 +1374,6 @@
         <div class="header">
             <button class="mobile-menu-btn" onclick="toggleSidePanel()">Menu</button>
             <div class="header-title">VERA Neural Launch Workspace</div>
-            <div class="voice-status-indicator" onclick="toggleTTS()">
-                <div class="voice-icon"></div>
-                <span id="voiceStatusText">Voice Off</span>
-            </div>
             <!-- Action buttons removed to minimize non-functional controls -->
         </div>
 
@@ -1788,13 +1551,6 @@
     </div>
 
     <script>
-        // 🎯 TAYLOR'S VOICE PROTECTION - FIRST LINE OF DEFENSE
-        console.log('🎯 LOADING VERA - Protecting Taylor\'s voice ID: eL7xfWghif0oJwtmX2qs');
-        
-        let ttsEnabled = true; // Enable TTS by default so VERA can speak
-        let currentAudio = null; // Track current ElevenLabs audio
-        let voiceEngine = 'elevenlabs'; // Default to ElevenLabs for VERA's voice
-        let selectedVoiceId = 'eL7xfWghif0oJwtmX2qs'; // Use your selected voice from .env
         let conversationHistory = [];
         let currentView = 'chat';
         let currentMonth = 10; // November (0-indexed)
@@ -1825,42 +1581,12 @@
             if (!settings.mission) settings.mission = 'Grow VERA Neural calmly and decisively.';
             if (!settings.julijaName) settings.julijaName = 'Julija';
             if (!settings.evaName) settings.evaName = 'Eva';
-            if (!settings.voiceId) settings.voiceId = 'eL7xfWghif0oJwtmX2qs';
-            
-            // FORCE ElevenLabs to be enabled - override any previous disabled setting
-            settings.voiceEngine = 'elevenlabs';
-            
-            // FORCE YOUR CORRECT VOICE ID - OVERRIDE ANY STORED SETTINGS
-            settings.voiceId = 'eL7xfWghif0oJwtmX2qs';
-            
-            // FORCE TTS to be enabled
-            ttsEnabled = true;
-            
-            console.log('🎙️ FORCED SETTINGS - Voice Engine:', settings.voiceEngine, 'TTS Enabled:', ttsEnabled);
-            
-            // Apply voice defaults to runtime and controls - FORCE YOUR VOICE ID
-            selectedVoiceId = 'eL7xfWghif0oJwtmX2qs'; // HARDCODED TO YOUR VOICE
-            voiceEngine = 'elevenlabs'; // FORCE ELEVENLABS ENGINE
-            
-            // Initialize voice status indicator as active
-            const voiceStatusIndicator = document.querySelector('.voice-status-indicator');
-            const voiceStatusText = document.getElementById('voiceStatusText');
-            if (voiceStatusIndicator) {
-                voiceStatusIndicator.classList.add('active');
-            }
-            if (voiceStatusText) {
-                voiceStatusText.textContent = 'Voice On';
-            }
             
             const voiceChip = document.getElementById('voiceChip');
             if (voiceChip) {
                 voiceChip.textContent = 'Voice On';
             }
             
-            
-            // Start wellness metrics updates
-            updateWellnessMetrics();
-            setInterval(updateWellnessMetrics, 30000);
             
             // Initialize TTS
             if ('speechSynthesis' in window) {
@@ -2218,15 +1944,6 @@
             
             console.log('✅ Message added to DOM with inline delete button');
             scrollToBottom();
-            
-            // 🎙️ AUTO-SPEAK VERA MESSAGES WHEN VOICE IS ENABLED
-            console.log('🎙️ TTS Debug - Sender:', sender, 'TTS Enabled:', ttsEnabled, 'Voice ID:', selectedVoiceId);
-            if (sender === 'vera' && ttsEnabled) {
-                console.log('🎙️ Auto-speaking VERA message with voice ID:', selectedVoiceId);
-                speakText(content);
-            } else {
-                console.log('🎙️ TTS not triggered - Sender:', sender, 'TTS Enabled:', ttsEnabled);
-            }
         }
 
         // 🧪 TEST DELETE FUNCTIONALITY - ADD A TEST MESSAGE ON LOAD
@@ -2658,20 +2375,6 @@
             }, 100);
         }
 
-        // Update wellness metrics with marketing intelligence
-        function updateWellnessMetrics() {
-            const responseTime = (Math.random() * 0.3 + 0.2).toFixed(1);
-            const automationHealth = (Math.random() * 1.5 + 98).toFixed(1);
-            const trustScore = (Math.random() * 2 + 94).toFixed(1);
-            
-            const wellnessValues = document.querySelectorAll('.wellness-value');
-            if (wellnessValues.length >= 4) {
-                wellnessValues[0].textContent = responseTime + 's';
-                wellnessValues[2].textContent = automationHealth + '%';
-                wellnessValues[3].textContent = trustScore + '%';
-            }
-        }
-
         // Voice Settings Functions
         // 🚫 VOICE SELECTION DISABLED - TAYLOR'S VOICE IS LOCKED
         function updateVoice() {
@@ -2854,24 +2557,6 @@
             const julija = settings.julijaName || 'Julija';
             const eva = settings.evaName || 'Eva';
             return `CONTEXT (private; do not repeat):\n- User: ${name}\n- Mission: ${mission}\n- Key collaborators: ${julija} (comms), ${eva} (product/strategy)\n- Assistant: VERA — executive marketing copilot for VERA Neural.`;
-        }
-
-        // Wellness panel toggle
-        function openWellness() {
-            const panel = document.getElementById('wellnessPanel');
-            if (!panel) {
-                addMessage("Let's do a quick wellness check, Taylor. How are you feeling today? Are you managing stress well, staying hydrated, and taking breaks? I can help you assess your current state and suggest adjustments for better productivity and well-being.", 'vera');
-                
-                // Auto-enable TTS for wellness check if configured
-                if (ttsEnabled) {
-                    speakText("Let's do a quick wellness check, Taylor. How are you feeling today? Are you managing stress well, staying hydrated, and taking breaks? I can help you assess your current state and suggest adjustments for better productivity and well-being.");
-                }
-                return;
-            }
-            panel.style.display = (panel.style.display === 'none' || panel.style.display === '') ? 'block' : 'none';
-            if (panel.style.display === 'block') {
-                // WELLNESS MESSAGE REMOVED PER USER REQUEST
-            }
         }
     </script>
 </body>
